@@ -1,3 +1,14 @@
-const bodyElement = document.querySelector(`body`);
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/app/app';
 
-bodyElement.textContent = `Hello, world!`;
+const Setting = {
+  PLACES: [1, 2, 3, 4, 5]
+};
+
+ReactDOM.render(
+    <App
+      places={Setting.PLACES}
+    />,
+    document.querySelector(`#root`)
+);
