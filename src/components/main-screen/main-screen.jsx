@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card';
 
-const MainPage = (props) => {
+const MainScreen = (props) => {
   const {places} = props;
 
   return (
     <div className="page page--gray page--main">
+
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -29,6 +30,7 @@ const MainPage = (props) => {
           </div>
         </div>
       </header>
+
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
@@ -97,12 +99,13 @@ const MainPage = (props) => {
           </div>
         </div>
       </main>
+
     </div>
   );
 };
 
-MainPage.propTypes = {
-  places: PropTypes.array.isRequired,
+MainScreen.propTypes = {
+  places: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
-export default MainPage;
+export default MainScreen;
