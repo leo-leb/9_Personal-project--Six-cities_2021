@@ -6,25 +6,19 @@ import SignInScreen from '../sign-in-screen/sign-in-screen';
 import FavoritesScreen from '../favorites-screen/favorites-screen';
 import RoomScreen from '../room-screen/room-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-
-const Routes = {
-  MAIN: `/`,
-  FAVORITES: `/favorites`,
-  SIGNIN: `/login`,
-  ROOM: `/offer/:id?`
-};
+import Routes from '../../consts';
 
 const App = (props) => {
-  const {places} = props;
+  const {offers} = props;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={Routes.MAIN}>
-          <MainScreen places={places}/>
+          <MainScreen offers={offers}/>
         </Route>
         <Route exact path={Routes.FAVORITES}>
-          <FavoritesScreen />
+          <FavoritesScreen offers={offers}/>
         </Route>
         <Route exact path={Routes.SIGNIN}>
           <SignInScreen />
@@ -41,7 +35,17 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  places: PropTypes.arrayOf(PropTypes.number).isRequired,
+  offers: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    mark: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    rate: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    city: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired
+  })).isRequired
 };
 
 export default App;

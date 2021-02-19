@@ -1,14 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-
-const Setting = {
-  PLACES: [1, 2, 3, 4, 5]
-};
+import Offers from './mocks/offers';
 
 ReactDOM.render(
     <App
-      places={Setting.PLACES}
+      offers={Offers}
     />,
     document.querySelector(`#root`)
 );

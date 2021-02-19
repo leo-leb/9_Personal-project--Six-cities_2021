@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlaceCard from '../place-card/place-card';
+import OffersList from '../offers-list/offers-list';
+import {Link} from 'react-router-dom';
+import Routes from '../../consts';
 
 const MainScreen = (props) => {
-  const {places} = props;
+  const {offers} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -22,7 +24,9 @@ const MainScreen = (props) => {
                   <a className="header__nav-link header__nav-link--profile" href="#">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                    <Link className="header__user-name user__name" to={Routes.FAVORITES}>
+                      Oliver.conner@gmail.com
+                    </Link>
                   </a>
                 </li>
               </ul>
@@ -82,7 +86,7 @@ const MainScreen = (props) => {
                     <use xlinkHref="#icon-arrow-select"></use>
                   </svg>
                 </span>
-                <ul className="places__options places__options--custom places__options--opened">
+                <ul className="places__options places__options--custom">
                   <li className="places__option places__option--active" tabIndex="0">Popular</li>
                   <li className="places__option" tabIndex="0">Price: low to high</li>
                   <li className="places__option" tabIndex="0">Price: high to low</li>
@@ -90,7 +94,7 @@ const MainScreen = (props) => {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {places.map((place, i) => <PlaceCard key={place + i}/>)}
+                <OffersList offers={offers}/>
               </div>
             </section>
             <div className="cities__right-section">
@@ -105,7 +109,17 @@ const MainScreen = (props) => {
 };
 
 MainScreen.propTypes = {
-  places: PropTypes.arrayOf(PropTypes.number).isRequired,
+  offers: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    mark: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    rate: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    city: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired
+  })).isRequired
 };
 
 export default MainScreen;
