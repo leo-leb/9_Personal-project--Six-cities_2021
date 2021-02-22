@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+import Types from '../../types';
 
 const OfferCard = (props) => {
   const {offer} = props;
@@ -10,7 +10,7 @@ const OfferCard = (props) => {
     <article
       className="cities__place-card place-card"
       onMouseEnter={() => {
-        setActiveOffer(offer.id);
+        setActiveOffer({activeOffer: offer.id});
       }}
     >
       {offer.mark ? <div className="place-card__mark"><span>{mark}</span></div> : null}
@@ -48,15 +48,7 @@ const OfferCard = (props) => {
 };
 
 OfferCard.propTypes = {
-  offer: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    mark: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    rate: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired
-  }).isRequired
+  offer: Types.OFFER
 };
 
 export default OfferCard;

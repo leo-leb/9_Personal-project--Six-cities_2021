@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import Routes from '../../consts';
+import {Routes} from '../../consts';
 
 const SignInScreen = () => {
   return (

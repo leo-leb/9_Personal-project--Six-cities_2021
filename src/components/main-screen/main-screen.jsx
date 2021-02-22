@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import OffersList from '../offers-list/offers-list';
 import {Link} from 'react-router-dom';
-import Routes from '../../consts';
+import {Routes} from '../../consts';
+import Types from '../../types';
 
 const MainScreen = (props) => {
   const {offers} = props;
@@ -21,13 +21,11 @@ const MainScreen = (props) => {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
+                  <Link className="header__nav-link header__nav-link--profile" to={Routes.FAVORITES}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <Link className="header__user-name user__name" to={Routes.FAVORITES}>
-                      Oliver.conner@gmail.com
-                    </Link>
-                  </a>
+                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -109,17 +107,7 @@ const MainScreen = (props) => {
 };
 
 MainScreen.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    mark: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    rate: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    city: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired
-  })).isRequired
+  offers: Types.OFFERS
 };
 
 export default MainScreen;

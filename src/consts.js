@@ -5,4 +5,6 @@ const Routes = {
   ROOM: `/offer/:id?`
 };
 
-export default Routes;
+const stars = [`5`, `4`, `3`, `2`, `1`];
+
+export {Routes, stars};

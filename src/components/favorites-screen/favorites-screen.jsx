@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import Routes from '../../consts';
+import {Routes} from '../../consts';
+import Types from '../../types';
 
 const FavoritesScreen = (props) => {
   const {offers} = props;
@@ -9,6 +9,7 @@ const FavoritesScreen = (props) => {
 
   return (
     <div className="page">
+
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -31,6 +32,7 @@ const FavoritesScreen = (props) => {
           </div>
         </div>
       </header>
+
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
@@ -86,22 +88,13 @@ const FavoritesScreen = (props) => {
           </section>
         </div>
       </main>
+
     </div>
   );
 };
 
 FavoritesScreen.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    mark: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    rate: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    city: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired
-  })).isRequired
+  offers: Types.OFFERS
 };
 
 export default FavoritesScreen;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import ReviewForm from '../review-form/review-form';
-import Routes from '../../consts';
+import {Routes} from '../../consts';
 
 const RoomScreen = () => {
   return (
@@ -18,13 +18,11 @@ const RoomScreen = () => {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
+                  <Link className="header__nav-link header__nav-link--profile" to={Routes.FAVORITES}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <Link className="header__user-name user__name" to={Routes.FAVORITES}>
-                      Oliver.conner@gmail.com
-                    </Link>
-                  </a>
+                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                  </Link>
                 </li>
               </ul>
             </nav>
