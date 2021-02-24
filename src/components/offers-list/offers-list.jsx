@@ -1,6 +1,7 @@
 import React from 'react';
 import OfferCard from '../offer-card/offer-card';
 import Types from '../../types';
+import PropTypes from 'prop-types';
 
 const OffersList = (props) => {
   const {offers} = props;
@@ -11,7 +12,7 @@ const OffersList = (props) => {
 };
 
 OffersList.propTypes = {
-  offers: Types.OFFERS
+  offers: PropTypes.arrayOf(Types.OFFER)
 };
 
 export default OffersList;

@@ -1,8 +1,10 @@
 import React from 'react';
 import OffersList from '../offers-list/offers-list';
 import {Link} from 'react-router-dom';
-import {Routes} from '../../consts';
+import {Routes, city} from '../../consts';
 import Types from '../../types';
+import Map from '../map/map';
+import PropTypes from 'prop-types';
 
 const MainScreen = (props) => {
   const {offers} = props;
@@ -96,7 +98,10 @@ const MainScreen = (props) => {
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map
+                city={city}
+                offers={offers}
+              />
             </div>
           </div>
         </div>
@@ -107,7 +112,7 @@ const MainScreen = (props) => {
 };
 
 MainScreen.propTypes = {
-  offers: Types.OFFERS
+  offers: PropTypes.arrayOf(Types.OFFER)
 };
 
 export default MainScreen;

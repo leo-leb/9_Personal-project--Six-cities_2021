@@ -8,7 +8,11 @@ const offers = [
     name: `Beautiful &amp; luxurious apartment at great location`,
     type: `Apartment`,
     city: `Amsterdam`,
-    status: `favorite`
+    status: `favorite`,
+    location: {
+      lat: 52.3909553943508,
+      lng: 4.85309666406198
+    }
   },
   {
     id: 2,
@@ -18,8 +22,12 @@ const offers = [
     rate: `80%`,
     name: `Wood and stone place`,
     type: `Private room`,
-    city: `Cologne`,
-    status: `favorite`
+    city: `Amsterdam`,
+    status: `favorite`,
+    location: {
+      lat: 52.369553943508,
+      lng: 4.85309666406198
+    }
   },
   {
     id: 3,
@@ -30,7 +38,11 @@ const offers = [
     name: `Canal View Prinsengracht`,
     type: `Apartment`,
     city: `Amsterdam`,
-    status: `favorite`
+    status: `favorite`,
+    location: {
+      lat: 52.3909553943508,
+      lng: 4.929309666406198
+    }
   },
   {
     id: 4,
@@ -40,8 +52,12 @@ const offers = [
     rate: `100%`,
     name: `Nice, cozy, warm big bed apartment`,
     type: `Apartment`,
-    city: `Cologne`,
-    status: ``
+    city: `Amsterdam`,
+    status: ``,
+    location: {
+      lat: 52.3809553943508,
+      lng: 4.939309666406198
+    }
   }
 ];
 

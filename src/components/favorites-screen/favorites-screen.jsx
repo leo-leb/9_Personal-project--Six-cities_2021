@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {Routes} from '../../consts';
 import Types from '../../types';
+import PropTypes from 'prop-types';
 
 const FavoritesScreen = (props) => {
   const {offers} = props;
@@ -94,7 +95,7 @@ const FavoritesScreen = (props) => {
 };
 
 FavoritesScreen.propTypes = {
-  offers: Types.OFFERS
+  offers: PropTypes.arrayOf(Types.OFFER)
 };
 
 export default FavoritesScreen;

@@ -7,6 +7,7 @@ import RoomScreen from '../room-screen/room-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {Routes} from '../../consts';
 import Types from '../../types';
+import PropTypes from 'prop-types';
 
 const App = (props) => {
   const {offers} = props;
@@ -35,7 +36,7 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  offers: Types.OFFERS
+  offers: PropTypes.arrayOf(Types.OFFER)
 };
 
 export default App;
