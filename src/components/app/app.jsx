@@ -10,22 +10,22 @@ import Types from '../../types';
 import PropTypes from 'prop-types';
 
 const App = (props) => {
-  const {offers} = props;
+  const {offers, reviews} = props;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={Routes.MAIN}>
-          <MainScreen offers={offers}/>
+          <MainScreen offers={offers.forMainScreen}/>
         </Route>
         <Route exact path={Routes.FAVORITES}>
-          <FavoritesScreen offers={offers}/>
+          <FavoritesScreen offers={offers.forMainScreen}/>
         </Route>
         <Route exact path={Routes.SIGNIN}>
           <SignInScreen />
         </Route>
         <Route exact path={Routes.ROOM}>
-          <RoomScreen />
+          <RoomScreen reviews={reviews} offers={offers.forRoomScreen}/>
         </Route>
         <Route>
           <NotFoundScreen />
@@ -36,7 +36,8 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  offers: PropTypes.arrayOf(Types.OFFER)
+  offers: PropTypes.objectOf(PropTypes.array),
+  reviews: PropTypes.arrayOf(Types.REVIEW)
 };
 
 export default App;

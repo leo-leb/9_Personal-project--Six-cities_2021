@@ -1,13 +1,14 @@
 import React from 'react';
 import OffersList from '../offers-list/offers-list';
 import {Link} from 'react-router-dom';
-import {Routes, city} from '../../consts';
+import {Routes, city, pages} from '../../consts';
 import Types from '../../types';
 import Map from '../map/map';
 import PropTypes from 'prop-types';
 
 const MainScreen = (props) => {
   const {offers} = props;
+  const screen = pages.MainScreen;
 
   return (
     <div className="page page--gray page--main">
@@ -94,14 +95,16 @@ const MainScreen = (props) => {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OffersList offers={offers}/>
+                <OffersList offers={offers} screen={screen}/>
               </div>
             </section>
             <div className="cities__right-section">
-              <Map
-                city={city}
-                offers={offers}
-              />
+              <section className="cities__map map">
+                <Map
+                  city={city}
+                  points={offers}
+                />
+              </section>
             </div>
           </div>
         </div>

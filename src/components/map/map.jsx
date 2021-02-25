@@ -6,7 +6,7 @@ import Types from '../../types';
 
 import "leaflet/dist/leaflet.css";
 
-const Map = ({city, offers}) => {
+const Map = ({city, points}) => {
   const mapRef = useRef();
 
   useEffect(() => {
@@ -26,21 +26,21 @@ const Map = ({city, offers}) => {
       })
       .addTo(mapRef.current);
 
-    offers.forEach((offer) => {
+    points.forEach((point) => {
       const customIcon = leaflet.icon({
         iconUrl: `img/pin.svg`,
         iconSize: [30, 30]
       });
 
       leaflet.marker({
-        lat: offer.location.lat,
-        lng: offer.location.lng
+        lat: point.location.lat,
+        lng: point.location.lng
       },
       {
         icon: customIcon
       })
       .addTo(mapRef.current)
-      .bindPopup(offer.type);
+      .bindPopup(point.type);
 
       return () => {
         mapRef.current.remove();
@@ -48,9 +48,9 @@ const Map = ({city, offers}) => {
     });
   }, []);
 
-  return (
-    <div className="cities__map map" id="map" style={{height: `500px`}} ref={mapRef}></div>
-  );
+  return <>
+    <div id="map" style={{width: `100%`, height: `100%`}} ref={mapRef}></div>
+  </>;
 };
 
 Map.propTypes = {
@@ -59,7 +59,7 @@ Map.propTypes = {
     lng: PropTypes.number.isRequired,
     zoom: PropTypes.number.isRequired,
   }),
-  offers: PropTypes.arrayOf(Types.OFFER)
+  points: PropTypes.arrayOf(Types.OFFER)
 };
 
 export default Map;

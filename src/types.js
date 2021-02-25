@@ -14,7 +14,18 @@ const Types = {
     location: PropTypes.shape({
       lat: PropTypes.number.isRequired,
       lng: PropTypes.number.isRequired
-    }),
+    })
+  }).isRequired,
+  REVIEW: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+    rate: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    date: PropTypes.shape({
+      day: PropTypes.number.isRequired,
+      month: PropTypes.number.isRequired,
+      year: PropTypes.number.isRequired
+    })
   }).isRequired
 };
 

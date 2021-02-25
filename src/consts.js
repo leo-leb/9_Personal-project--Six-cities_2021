@@ -11,6 +11,18 @@ const city = {
   zoom: 12
 };
 
+const cardsClass = {
+  MainScreen: `cities`,
+  RoomScreen: `near-places`,
+  FavoritesScreen: `favorites`
+};
+
+const pages = {
+  MainScreen: `main`,
+  RoomScreen: `room`,
+  FavoritesScreen: `favorites`,
+};
+
 const stars = [`5`, `4`, `3`, `2`, `1`];
 
-export {Routes, stars, city};
+export {Routes, stars, city, cardsClass, pages};

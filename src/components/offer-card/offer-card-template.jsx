@@ -1,20 +1,22 @@
 import React, {useState} from 'react';
 import Types from '../../types';
+import PropTypes from 'prop-types';
+import {cardsClass} from '../../consts';
 
-const OfferCard = (props) => {
-  const {offer} = props;
+const OfferCardTemplate = (props) => {
+  const {className, offer} = props;
   const {mark, image, price, rate, name, type} = offer;
   const [activeOffer, setActiveOffer] = useState(null);
 
   return (
     <article
-      className="cities__place-card place-card"
+      className={className === cardsClass.MainScreen ? `${className}__place-card place-card` : `${className}__card place-card`}
       onMouseEnter={() => {
         setActiveOffer({activeOffer: offer.id});
       }}
     >
-      {offer.mark ? <div className="place-card__mark"><span>{mark}</span></div> : null}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      {className !== cardsClass.MainScreen ? null : offer.mark && <div className="place-card__mark"><span>{mark}</span></div>}
+      <div className={`${className}__image-wrapper place-card__image-wrapper`}>
         <a href="#">
           <img className="place-card__image" src={image} width="260" height="200" alt="Place image" />
         </a>
@@ -47,8 +49,9 @@ const OfferCard = (props) => {
   );
 };
 
-OfferCard.propTypes = {
-  offer: Types.OFFER
+OfferCardTemplate.propTypes = {
+  offer: Types.OFFER,
+  className: PropTypes.string.isRequired
 };
 
-export default OfferCard;
+export default OfferCardTemplate;
