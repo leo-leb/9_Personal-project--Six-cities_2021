@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Routes, city, pages} from '../../consts';
+import {Routes, city, screenForCardClass, typeOfCards, sizesForImages} from '../../consts';
 import ReviewsList from '../reviews-list/reviews-list';
 import OffersList from '../offers-list/offers-list';
 import ReviewForm from '../review-form/review-form';
@@ -11,7 +11,10 @@ import Map from '../map/map';
 const RoomScreen = (props) => {
   const {offers} = props;
   const {reviews} = props;
-  const screen = pages.RoomScreen;
+
+  const screen = screenForCardClass.ROOM;
+  const card = typeOfCards.Card;
+  const image = sizesForImages.BIG;
 
   return (
     <div className="page">
@@ -172,7 +175,7 @@ const RoomScreen = (props) => {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <OffersList offers={offers} screen={screen}/>
+              <OffersList offers={offers} screen={screen} card={card} image={image}/>
             </div>
           </section>
         </div>

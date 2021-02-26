@@ -1,27 +1,34 @@
 import React, {useState} from 'react';
 import Types from '../../types';
 import PropTypes from 'prop-types';
-import {cardsClass} from '../../consts';
+import {screenForCardClass, sizesForImages} from '../../consts';
 
-const OfferCardTemplate = (props) => {
-  const {className, offer} = props;
-  const {mark, image, price, rate, name, type} = offer;
+const OfferCard = (props) => {
+  const {screen, offer, card, image} = props;
+  const {mark, smallImage, bigImage, price, rate, name, type} = offer;
   const [activeOffer, setActiveOffer] = useState(null);
 
   return (
     <article
-      className={className === cardsClass.MainScreen ? `${className}__place-card place-card` : `${className}__card place-card`}
+      className={screen + `__` + card + ` place-card`}
       onMouseEnter={() => {
         setActiveOffer({activeOffer: offer.id});
       }}
     >
-      {className !== cardsClass.MainScreen ? null : offer.mark && <div className="place-card__mark"><span>{mark}</span></div>}
-      <div className={`${className}__image-wrapper place-card__image-wrapper`}>
+      {screen === screenForCardClass.MAIN && offer.mark && <div className="place-card__mark"><span>{mark}</span></div>}
+      <div
+        className={screen + `__image-wrapper place-card__image-wrapper`}
+      >
         <a href="#">
-          <img className="place-card__image" src={image} width="260" height="200" alt="Place image" />
+          {image === sizesForImages.SMALL ?
+            <img className="place-card__image" src={smallImage} width={sizesForImages.SMALL.width} height={sizesForImages.SMALL.height} alt="Place image" /> :
+            <img className="place-card__image" src={bigImage} width={sizesForImages.BIG.width} height={sizesForImages.BIG.height} alt="Place image" />
+          }
         </a>
       </div>
-      <div className="place-card__info">
+      <div
+        className={screen !== screenForCardClass.FAVORITES ? `place-card__info` : screenForCardClass.FAVORITES + `__card-info place-card__info`}
+      >
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
@@ -49,9 +56,11 @@ const OfferCardTemplate = (props) => {
   );
 };
 
-OfferCardTemplate.propTypes = {
+OfferCard.propTypes = {
   offer: Types.OFFER,
-  className: PropTypes.string.isRequired
+  screen: PropTypes.string.isRequired,
+  card: PropTypes.string.isRequired,
+  image: Types.IMAGE
 };
 
-export default OfferCardTemplate;
+export default OfferCard;

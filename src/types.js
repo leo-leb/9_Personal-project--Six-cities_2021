@@ -4,7 +4,8 @@ const Types = {
   OFFER: PropTypes.shape({
     id: PropTypes.number.isRequired,
     mark: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
+    smallImage: PropTypes.string.isRequired,
+    bigImage: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     rate: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -26,7 +27,11 @@ const Types = {
       month: PropTypes.number.isRequired,
       year: PropTypes.number.isRequired
     })
-  }).isRequired
+  }).isRequired,
+  IMAGE: PropTypes.shape({
+    width: PropTypes.string.isRequired,
+    height: PropTypes.string.isRequired
+  })
 };
 
 export default Types;

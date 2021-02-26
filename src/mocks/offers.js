@@ -3,7 +3,8 @@ const offers = {
     {
       id: 1,
       mark: `Premium`,
-      image: `img/apartment-01.jpg`,
+      smallImage: `img/apartment-01.jpg`,
+      bigImage: `img/apartment-01.jpg`,
       price: 120,
       rate: `80%`,
       name: `Beautiful & luxurious apartment at great location`,
@@ -18,7 +19,8 @@ const offers = {
     {
       id: 2,
       mark: ``,
-      image: `img/room.jpg`,
+      smallImage: `img/room-small.jpg`,
+      bigImage: `img/room.jpg`,
       price: 80,
       rate: `80%`,
       name: `Wood and stone place`,
@@ -33,7 +35,8 @@ const offers = {
     {
       id: 3,
       mark: ``,
-      image: `img/apartment-02.jpg`,
+      smallImage: `img/apartment-02.jpg`,
+      bigImage: `img/apartment-02.jpg`,
       price: 132,
       rate: `80%`,
       name: `Canal View Prinsengracht`,
@@ -48,7 +51,8 @@ const offers = {
     {
       id: 4,
       mark: `Premium`,
-      image: `img/apartment-03.jpg`,
+      smallImage: `img/apartment-small-03.jpg`,
+      bigImage: `img/apartment-03.jpg`,
       price: 180,
       rate: `100%`,
       name: `Nice, cozy, warm big bed apartment`,
@@ -65,7 +69,8 @@ const offers = {
     {
       id: 1,
       mark: `Premium`,
-      image: `img/apartment-01.jpg`,
+      smallImage: `img/apartment-01.jpg`,
+      bigImage: `img/apartment-01.jpg`,
       price: 120,
       rate: `80%`,
       name: `Beautiful & luxurious apartment at great location`,
@@ -80,7 +85,8 @@ const offers = {
     {
       id: 2,
       mark: ``,
-      image: `img/room.jpg`,
+      smallImage: `img/room-small.jpg`,
+      bigImage: `img/room.jpg`,
       price: 80,
       rate: `80%`,
       name: `Wood and stone place`,
@@ -95,7 +101,8 @@ const offers = {
     {
       id: 3,
       mark: ``,
-      image: `img/apartment-02.jpg`,
+      smallImage: `img/apartment-02.jpg`,
+      bigImage: `img/apartment-02.jpg`,
       price: 132,
       rate: `80%`,
       name: `Canal View Prinsengracht`,
