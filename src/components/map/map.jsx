@@ -15,10 +15,16 @@ const Map = ({city, points}) => {
         lat: city.lat,
         lng: city.lng
       },
-      zoom: city.zoom,
+      zoom: 12,
       zoomControl: false,
       marker: true
     });
+
+    let container = leaflet.DomUtil.get(`map`);
+
+    if (container !== null) {
+      container._leaflet_id = null;
+    }
 
     leaflet
       .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
@@ -46,7 +52,7 @@ const Map = ({city, points}) => {
         mapRef.current.remove();
       };
     });
-  }, []);
+  }, [city]);
 
   return <>
     <div id="map" style={{width: `100%`, height: `100%`}} ref={mapRef}></div>
@@ -54,11 +60,7 @@ const Map = ({city, points}) => {
 };
 
 Map.propTypes = {
-  city: PropTypes.shape({
-    lat: PropTypes.number.isRequired,
-    lng: PropTypes.number.isRequired,
-    zoom: PropTypes.number.isRequired,
-  }),
+  city: Types.CITY,
   points: PropTypes.arrayOf(Types.OFFER)
 };
 

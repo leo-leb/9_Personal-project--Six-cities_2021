@@ -16,7 +16,7 @@ const App = (props) => {
     <BrowserRouter>
       <Switch>
         <Route exact path={Routes.MAIN}>
-          <MainScreen offers={offers.forMainScreen}/>
+          <MainScreen />
         </Route>
         <Route exact path={Routes.FAVORITES}>
           <FavoritesScreen offers={offers.forMainScreen}/>

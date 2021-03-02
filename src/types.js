@@ -31,7 +31,12 @@ const Types = {
   IMAGE: PropTypes.shape({
     width: PropTypes.string.isRequired,
     height: PropTypes.string.isRequired
-  })
+  }),
+  CITY: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    lat: PropTypes.number.isRequired,
+    lng: PropTypes.number.isRequired,
+  }),
 };
 
 export default Types;

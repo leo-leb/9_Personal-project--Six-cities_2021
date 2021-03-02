@@ -7,7 +7,7 @@ const OffersList = (props) => {
   const {offers, screen, card, image} = props;
 
   return <>
-    {offers.map((offer, i) => <OfferCard offer={offer} screen={screen} card={card} image={image} key={offer + i}/>)}
+    {offers.map((offer, i) => <OfferCard offer={offer} screen={screen} card={card} image={image} key={i}/>)}
   </>;
 };
 
@@ -15,7 +15,7 @@ OffersList.propTypes = {
   offers: PropTypes.arrayOf(Types.OFFER),
   screen: PropTypes.string.isRequired,
   card: PropTypes.string.isRequired,
-  image: Types.IMAGE
+  image: Types.IMAGE,
 };
 
 export default OffersList;
