@@ -110,10 +110,10 @@ const Map = ({city, points}) => {
 //     });
 //   }, [city]);
 
-  return <>
-    <div id="map" style={{width: `100%`, height: `100%`}} ref={mapRef}></div>
-  </>;
-};
+//   return <>
+//     <div id="map" style={{width: `100%`, height: `100%`}} ref={mapRef}></div>
+//   </>;
+// };
 
 Map.propTypes = {
   city: Types.CITY,
