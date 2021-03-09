@@ -4,6 +4,30 @@ const getFilteredOffersByCity = (offers, city) => {
   });
 };
 
+const getFilteredOffersById = (offers, id) => {
+  return offers.find((offer) => {
+    return offer.id === id;
+  });
+};
+
+const getFilteredOffersByPriceIncrease = (offers, city) => {
+  return getFilteredOffersByCity(offers, city).sort((a, b) => {
+    return a.price - b.price;
+  });
+};
+
+const getFilteredOffersByPriceReduce = (offers, city) => {
+  return getFilteredOffersByCity(offers, city).sort((a, b) => {
+    return b.price - a.price;
+  });
+};
+
+const getFilteredOffersByRate = (offers, city) => {
+  return getFilteredOffersByCity(offers, city).sort((a, b) => {
+    return b.rate - a.rate;
+  });
+};
+
 const getUpdatedOffer = (offers, id) => {
   return offers.find((offer) => {
     return offer.id === id;
@@ -36,4 +60,4 @@ const getCitiesListFromOffers = (offers) => {
   return cities;
 };
 
-export {getFilteredOffersByCity, getUpdatedOffer, getFilteredReviewsByOffer, getThreeNeighboringOffers, getCitiesListFromOffers};
+export {getFilteredOffersByCity, getFilteredOffersById, getFilteredOffersByPriceIncrease, getFilteredOffersByPriceReduce, getFilteredOffersByRate, getUpdatedOffer, getFilteredReviewsByOffer, getThreeNeighboringOffers, getCitiesListFromOffers};

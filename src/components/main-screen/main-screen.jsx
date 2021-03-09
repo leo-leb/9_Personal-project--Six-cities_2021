@@ -8,10 +8,11 @@ import {getFilteredOffersByCity} from '../../common';
 import Types from '../../types';
 import Map from '../map/map';
 import CitiesList from '../cities-list/cities-list';
+import SortForm from '../sort-form/sort-form';
 import PropTypes from 'prop-types';
 
 const MainScreen = (props) => {
-  const {city, onCityClick, onCityChange, offersList} = props;
+  const {city, activeCard, changeActiveCard, onCityClick, onCityChange, onSortPriceInc, onSortPriceRed, onSortRate, offersList} = props;
 
   const screen = screenForCardClass.MAIN;
   const card = typeOfCards.PlaceCard;
@@ -55,23 +56,9 @@ const MainScreen = (props) => {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offersList.length} places to stay in {city.name}</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex="0">
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom">
-                  <li className="places__option places__option--active" tabIndex="0">Popular</li>
-                  <li className="places__option" tabIndex="0">Price: low to high</li>
-                  <li className="places__option" tabIndex="0">Price: high to low</li>
-                  <li className="places__option" tabIndex="0">Top rated first</li>
-                </ul>
-              </form>
+              <SortForm activeCity={city} onCityChange={onCityChange} onSortPriceInc={onSortPriceInc} onSortPriceRed={onSortPriceRed} onSortRate={onSortRate}/>
               <div className="cities__places-list places__list tabs__content">
-                <OffersList offers={offersList} screen={screen} card={card} image={image}/>
+                <OffersList offers={offersList} changeActiveCard={changeActiveCard} screen={screen} card={card} image={image}/>
               </div>
             </section>
             <div className="cities__right-section">
@@ -79,6 +66,7 @@ const MainScreen = (props) => {
                 <Map
                   city={city}
                   points={offersList}
+                  activeCard={activeCard}
                 />
               </section>
             </div>
@@ -92,22 +80,40 @@ const MainScreen = (props) => {
 
 const mapStateToProps = (state) => ({
   city: state.main.city,
-  offersList: getFilteredOffersByCity(state.main.offersList, state.main.city)
+  offersList: getFilteredOffersByCity(state.main.offersList, state.main.city),
+  activeCard: state.main.activeCard
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onCityClick(city) {
     dispatch(ActionCreator.changeCity(city));
   },
+  changeActiveCard(id) {
+    dispatch(ActionCreator.changeActiveCard(id));
+  },
   onCityChange(city) {
     dispatch(ActionCreator.updateOffers(city));
+  },
+  onSortPriceInc(city) {
+    dispatch(ActionCreator.sortOffersByPriceIncrease(city));
+  },
+  onSortPriceRed(city) {
+    dispatch(ActionCreator.sortOffersByPriceReduce(city));
+  },
+  onSortRate(city) {
+    dispatch(ActionCreator.sortOffersByRate(city));
   },
 });
 
 MainScreen.propTypes = {
   city: Types.CITY,
+  activeCard: PropTypes.object.isRequired,
+  changeActiveCard: PropTypes.func.isRequired,
   onCityClick: PropTypes.func.isRequired,
   onCityChange: PropTypes.func.isRequired,
+  onSortPriceInc: PropTypes.func.isRequired,
+  onSortPriceRed: PropTypes.func.isRequired,
+  onSortRate: PropTypes.func.isRequired,
   offersList: PropTypes.arrayOf(Types.OFFER)
 };
 

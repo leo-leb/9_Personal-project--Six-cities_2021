@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import Types from '../../types';
 import PropTypes from 'prop-types';
-import {screenForCardClass, sizesForImages} from '../../consts';
+import {screenForCardClass, sizesForImages, starsRate} from '../../consts';
 
 const OfferCard = (props) => {
-  const {screen, offer, card, image} = props;
+  const {screen, changeActiveCard, offer, card, image} = props;
   const {mark, smallImage, bigImage, price, rate, name, type} = offer;
   const [activeOffer, setActiveOffer] = useState(null);
 
@@ -13,6 +13,7 @@ const OfferCard = (props) => {
       className={screen + `__` + card + ` place-card`}
       onMouseEnter={() => {
         setActiveOffer({activeOffer: offer.id});
+        changeActiveCard(offer.id);
       }}
     >
       {screen === screenForCardClass.MAIN && offer.mark && <div className="place-card__mark"><span>{mark}</span></div>}
@@ -43,7 +44,7 @@ const OfferCard = (props) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: rate}}></span>
+            <span style={{width: starsRate(rate)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -58,6 +59,7 @@ const OfferCard = (props) => {
 
 OfferCard.propTypes = {
   offer: Types.OFFER,
+  changeActiveCard: PropTypes.func.isRequired,
   screen: PropTypes.string.isRequired,
   card: PropTypes.string.isRequired,
   image: Types.IMAGE

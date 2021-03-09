@@ -7,7 +7,7 @@ const Types = {
     smallImage: PropTypes.string.isRequired,
     bigImage: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
-    rate: PropTypes.string.isRequired,
+    rate: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     city: PropTypes.string.isRequired,

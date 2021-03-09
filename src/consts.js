@@ -36,6 +36,23 @@ const sizesForImages = {
 
 const stars = [`5`, `4`, `3`, `2`, `1`];
 
+const starsRate = (rate) => {
+  switch (rate) {
+    case 5:
+      return `100%`;
+    case 4:
+      return `80%`;
+    case 3:
+      return `60%`;
+    case 2:
+      return `40%`;
+    case 1:
+      return `20%`;
+    default:
+      return null;
+  }
+};
+
 const cities = [
   {
     name: `Paris`,
@@ -74,4 +91,4 @@ const defaultStates = {
   ROOM: offers[0]
 };
 
-export {Routes, stars, city, screenForCardClass, typeOfCards, sizesForImages, cities, defaultStates};
+export {Routes, stars, city, starsRate, screenForCardClass, typeOfCards, sizesForImages, cities, defaultStates};
