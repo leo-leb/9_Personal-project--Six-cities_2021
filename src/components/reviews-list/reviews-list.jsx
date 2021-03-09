@@ -1,6 +1,6 @@
 import React from 'react';
 import Types from '../../types';
-import ReviewTemplate from '../review-template/review-template';
+import ReviewCard from '../review-card/review-card';
 import PropTypes from 'prop-types';
 
 const ReviewsList = (props) => {
@@ -9,7 +9,7 @@ const ReviewsList = (props) => {
   return (<>
     <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
     <ul className="reviews__list">
-      {reviews.map((review, i) => <ReviewTemplate key={review + i} review={review}/>)}
+      {reviews.map((review, i) => <ReviewCard key={review + i} review={review}/>)}
     </ul>
   </>
   );

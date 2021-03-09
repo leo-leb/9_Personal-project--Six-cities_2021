@@ -2,7 +2,7 @@ import React from 'react';
 import dayjs from 'dayjs';
 import Types from '../../types';
 
-const ReviewsTemplate = (props) => {
+const ReviewCard = (props) => {
   const {review} = props;
   const {name, avatar, rate, description, date} = review;
 
@@ -33,8 +33,8 @@ const ReviewsTemplate = (props) => {
   );
 };
 
-ReviewsTemplate.propTypes = {
+ReviewCard.propTypes = {
   review: Types.REVIEW
 };
 
-export default ReviewsTemplate;
+export default ReviewCard;

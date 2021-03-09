@@ -1,6 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Routes, city, screenForCardClass, typeOfCards, sizesForImages} from '../../consts';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/room-screen/action';
+import {Routes, cities, screenForCardClass, typeOfCards, sizesForImages} from '../../consts';
+import {getFilteredReviewsByOffer, getThreeNeighboringOffers} from '../../common';
 import ReviewsList from '../reviews-list/reviews-list';
 import OffersList from '../offers-list/offers-list';
 import ReviewForm from '../review-form/review-form';
@@ -9,12 +12,15 @@ import PropTypes from 'prop-types';
 import Map from '../map/map';
 
 const RoomScreen = (props) => {
-  const {offers} = props;
-  const {reviews} = props;
+  const {id, offer, reviewsList, neighborOffersList} = props;
+  const {} = id;
 
   const screen = screenForCardClass.ROOM;
   const card = typeOfCards.Card;
   const image = sizesForImages.BIG;
+  const city = cities.find((element) => {
+    return element.name === offer.city;
+  });
 
   return (
     <div className="page">
@@ -159,7 +165,7 @@ const RoomScreen = (props) => {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <ReviewsList reviews={reviews}/>
+                <ReviewsList reviews={reviewsList}/>
                 <ReviewForm />
               </section>
             </div>
@@ -167,7 +173,7 @@ const RoomScreen = (props) => {
           <section className="property__map map">
             <Map
               city={city}
-              points={offers}
+              points={neighborOffersList}
             />
           </section>
         </section>
@@ -175,7 +181,7 @@ const RoomScreen = (props) => {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <OffersList offers={offers} screen={screen} card={card} image={image}/>
+              <OffersList offers={neighborOffersList} screen={screen} card={card} image={image}/>
             </div>
           </section>
         </div>
@@ -186,9 +192,34 @@ const RoomScreen = (props) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  id: state.room.id,
+  offer: state.room.offer,
+  reviewsList: getFilteredReviewsByOffer(state.room.reviewsList, state.room.id),
+  neighborOffersList: getThreeNeighboringOffers(state.room.offersList, state.room.id)
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeId(id) {
+    dispatch(ActionCreator.changeId(id));
+  },
+  updateOffer(id) {
+    dispatch(ActionCreator.updateOffer(id));
+  },
+  updateReviews(id) {
+    dispatch(ActionCreator.updateReviews(id));
+  },
+  updateNeighborOffers(id) {
+    dispatch(ActionCreator.updateNeighborOffers(id));
+  },
+});
+
 RoomScreen.propTypes = {
-  reviews: PropTypes.arrayOf(Types.REVIEW),
-  offers: PropTypes.arrayOf(Types.OFFER)
+  id: PropTypes.number.isRequired,
+  offer: Types.OFFER,
+  reviewsList: PropTypes.arrayOf(Types.REVIEW),
+  neighborOffersList: PropTypes.arrayOf(Types.OFFER)
 };
 
-export default RoomScreen;
+export {RoomScreen};
+export default connect(mapStateToProps, mapDispatchToProps)(RoomScreen);

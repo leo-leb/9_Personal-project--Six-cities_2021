@@ -1,8 +1,9 @@
-import offers from '../mocks/offers';
+import offers from '../../mocks/offers';
+import {getFilteredOffersByCity} from '../../common';
 
 export const ActionType = {
-  CHANGE_CITY: `list/changeCity`,
-  UPDATE_OFFERS: `list/updateOffers`
+  CHANGE_CITY: `main/changeCity`,
+  UPDATE_OFFERS: `main/updateOffers`
 };
 
 export const ActionCreator = {
@@ -12,10 +13,7 @@ export const ActionCreator = {
   }),
 
   updateOffers: (city) => {
-    const generalOffersList = offers.forMainScreen;
-    let offersList = generalOffersList.filter((offer) => {
-      return offer.city === city.name;
-    });
+    let offersList = getFilteredOffersByCity(offers, city);
 
     return {
       type: ActionType.UPDATE_OFFERS,

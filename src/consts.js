@@ -1,3 +1,5 @@
+import offers from './mocks/offers';
+
 const Routes = {
   MAIN: `/`,
   FAVORITES: `/favorites`,
@@ -67,4 +69,9 @@ const cities = [
   }
 ];
 
-export {Routes, stars, city, screenForCardClass, typeOfCards, sizesForImages, cities};
+const defaultStates = {
+  MAIN: cities[0],
+  ROOM: offers[0]
+};
+
+export {Routes, stars, city, screenForCardClass, typeOfCards, sizesForImages, cities, defaultStates};

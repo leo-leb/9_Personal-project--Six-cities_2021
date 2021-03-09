@@ -1,23 +1,16 @@
 import React from 'react';
-import OffersList from '../offers-list/offers-list';
+import FavoritesList from '../favorites-list/favorites-list';
 import {Link} from 'react-router-dom';
-import {Routes, screenForCardClass, typeOfCards, sizesForImages} from '../../consts';
+import {Routes} from '../../consts';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/favorite-screen/action';
+import {getCitiesListFromOffers} from '../../common';
 import Types from '../../types';
 import PropTypes from 'prop-types';
 
 const FavoritesScreen = (props) => {
-  const {offers} = props;
-  const cities = [`Amsterdam`, `Cologne`];
-
-  const screen = screenForCardClass.FAVORITES;
-  const card = typeOfCards.Card;
-  const image = sizesForImages.SMALL;
-
-  const getFavoriteOffersForCity = (city) => {
-    return offers.filter((offer) => {
-      return offer.city === city && offer.status === `favorite`;
-    });
-  };
+  const {id, offers, citiesList} = props;
+  const {} = id;
 
   return (
     <div className="page">
@@ -49,22 +42,7 @@ const FavoritesScreen = (props) => {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              {cities.map((city, id) => (
-                <li key={id} className="favorites__locations-items">
-                  <div className="favorites__locations locations locations--current">
-                    <div className="locations__item">
-                      <a className="locations__item-link" href="#">
-                        <span>{city}</span>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="favorites__places">
-                    <OffersList offers={getFavoriteOffersForCity(city)} screen={screen} card={card} image={image}/>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <FavoritesList offers={offers} cities={citiesList}/>
           </section>
         </div>
       </main>
@@ -73,8 +51,29 @@ const FavoritesScreen = (props) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  id: state.favorite.id,
+  offers: state.favorite.offersList,
+  citiesList: getCitiesListFromOffers(state.favorite.offersList)
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeId(id) {
+    dispatch(ActionCreator.changeId(id));
+  },
+  updateOffers(offers) {
+    dispatch(ActionCreator.updateOffers(offers));
+  },
+  updateCitiesList(offers) {
+    dispatch(ActionCreator.updateCitiesList(offers));
+  }
+});
+
 FavoritesScreen.propTypes = {
-  offers: PropTypes.arrayOf(Types.OFFER)
+  id: PropTypes.number.isRequired,
+  offers: PropTypes.arrayOf(Types.OFFER),
+  citiesList: PropTypes.array.isRequired
 };
 
-export default FavoritesScreen;
+export {FavoritesScreen};
+export default connect(mapStateToProps, mapDispatchToProps)(FavoritesScreen);

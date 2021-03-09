@@ -6,12 +6,8 @@ import FavoritesScreen from '../favorites-screen/favorites-screen';
 import RoomScreen from '../room-screen/room-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {Routes} from '../../consts';
-import Types from '../../types';
-import PropTypes from 'prop-types';
 
-const App = (props) => {
-  const {offers, reviews} = props;
-
+const App = () => {
   return (
     <BrowserRouter>
       <Switch>
@@ -19,13 +15,13 @@ const App = (props) => {
           <MainScreen />
         </Route>
         <Route exact path={Routes.FAVORITES}>
-          <FavoritesScreen offers={offers.forMainScreen}/>
+          <FavoritesScreen />
+        </Route>
+        <Route exact path={Routes.ROOM}>
+          <RoomScreen />
         </Route>
         <Route exact path={Routes.SIGNIN}>
           <SignInScreen />
-        </Route>
-        <Route exact path={Routes.ROOM}>
-          <RoomScreen reviews={reviews} offers={offers.forRoomScreen}/>
         </Route>
         <Route>
           <NotFoundScreen />
@@ -33,11 +29,6 @@ const App = (props) => {
       </Switch>
     </BrowserRouter>
   );
-};
-
-App.propTypes = {
-  offers: PropTypes.objectOf(PropTypes.array),
-  reviews: PropTypes.arrayOf(Types.REVIEW)
 };
 
 export default App;

@@ -2,8 +2,9 @@ import React from 'react';
 import OffersList from '../offers-list/offers-list';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
+import {ActionCreator} from '../../store/main-screen/action';
 import {Routes, screenForCardClass, typeOfCards, sizesForImages} from '../../consts';
+import {getFilteredOffersByCity} from '../../common';
 import Types from '../../types';
 import Map from '../map/map';
 import CitiesList from '../cities-list/cities-list';
@@ -90,8 +91,8 @@ const MainScreen = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  city: state.city,
-  offersList: state.offersList
+  city: state.main.city,
+  offersList: getFilteredOffersByCity(state.main.offersList, state.main.city)
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -6,7 +6,7 @@ import {Provider} from 'react-redux';
 import App from './components/app/app';
 import offers from './mocks/offers';
 import reviews from './mocks/reviews';
-import {reducer} from './store/reducer';
+import reducer from './store/reducer';
 
 const store = createStore(
     reducer,
