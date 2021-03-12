@@ -2,8 +2,8 @@ import {ActionType} from './action';
 import offers from '../../mocks/offers';
 
 const initialState = {
-  id: 1,
-  offersList: offers,
+  userId: 1,
+  favoriteOffers: offers,
 };
 
 const reducerFavorite = (state = initialState, action) => {
@@ -11,17 +11,12 @@ const reducerFavorite = (state = initialState, action) => {
     case ActionType.CHANGE_ID:
       return {
         ...state,
-        id: action.payload
+        userId: action.payload
       };
     case ActionType.UPDATE_OFFERS:
       return {
         ...state,
-        offers: action.payload
-      };
-    case ActionType.UPDATE_CITIES_LIST:
-      return {
-        ...state,
-        citiesList: action.payload
+        favoriteOffers: action.payload
       };
     default:
       return state;

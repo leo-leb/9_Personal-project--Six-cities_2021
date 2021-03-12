@@ -1,5 +1,3 @@
-import offers from './mocks/offers';
-
 const Routes = {
   MAIN: `/`,
   FAVORITES: `/favorites`,
@@ -55,40 +53,57 @@ const starsRate = (rate) => {
 
 const cities = [
   {
-    name: `Paris`,
-    lat: 48.864716,
-    lng: 2.349014
+    location: {
+      lat: 48.864716,
+      lng: 2.349014,
+      zoom: 10
+    },
+    name: `Paris`
   },
   {
-    name: `Cologne`,
-    lat: 50.935173,
-    lng: 6.953101
+    location: {
+      lat: 50.935173,
+      lng: 6.953101,
+      zoom: 10
+    },
+    name: `Cologne`
   },
   {
-    name: `Brussels`,
-    lat: 50.8505,
-    lng: 4.3488
+    location: {
+      lat: 50.8505,
+      lng: 4.3488,
+      zoom: 10
+    },
+    name: `Brussels`
   },
   {
-    name: `Amsterdam`,
-    lat: 52.377956,
-    lng: 4.897070
+    location: {
+      lat: 52.377956,
+      lng: 4.897070,
+      zoom: 10
+    },
+    name: `Amsterdam`
   },
   {
-    name: `Hamburg`,
-    lat: 53.551086,
-    lng: 9.993682
+    location: {
+      lat: 53.551086,
+      lng: 9.993682,
+      zoom: 10
+    },
+    name: `Hamburg`
   },
   {
-    name: `Dusseldorf`,
-    lat: 51.233334,
-    lng: 6.783333
+    location: {
+      lat: 51.233334,
+      lng: 6.783333,
+      zoom: 10
+    },
+    name: `Dusseldorf`
   }
 ];
 
 const defaultStates = {
-  MAIN: cities[0],
-  ROOM: offers[0]
+  MAIN: cities[0]
 };
 
 export {Routes, stars, city, starsRate, screenForCardClass, typeOfCards, sizesForImages, cities, defaultStates};

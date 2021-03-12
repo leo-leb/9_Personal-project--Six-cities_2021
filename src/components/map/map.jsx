@@ -6,116 +6,69 @@ import Types from '../../types';
 
 import "leaflet/dist/leaflet.css";
 
-// const Map = ({city, points}) => {
-//   const mapRef = useRef();
-//   const [map, setMap] = useState(null);
+const Map = (props) => {
+  const {city, points, activeCard: {id}} = props;
 
-//   useEffect(() => {
-//     mapRef.current = leaflet.map(`map`, {
-//       center: {
-//         lat: city.lat,
-//         lng: city.lng
-//       },
-//       zoom: 12,
-//       zoomControl: false,
-//       marker: true
-//     });
-//     leaflet
-//       .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
-//         attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
-//       })
-//       .addTo(mapRef.current);
-//     setMap(mapRef.current);
-
-//     return () => {
-//       mapRef.current.remove();
-//     };
-//   }, []);
-
-//   useEffect(() => {
-//     if (!map) {
-//       return () => {
-//       };
-//     }
-//     const markers = points.forEach((point) => {
-//       const customIcon = leaflet.icon({
-//         iconUrl: `img/pin.svg`,
-//         iconSize: [30, 30]
-//       });
-//       return leaflet.marker({
-//         lat: point.location.lat,
-//         lng: point.location.lng
-//       },
-//       {
-//         icon: customIcon
-//       })
-//       .addTo(map)
-//       .bindPopup(point.type);
-//     });
-//     return () => {
-//       markers.forEach((marker) => marker.remove());
-//     };
-//   }, [city, points]);
-
-//   return <>
-//     <div id="map" style={{width: `100%`, height: `100%`}} ref={mapRef}></div>
-//   </>;
-// };
-
-const Map = ({city, points, activeCard}) => {
   const mapRef = useRef();
+
+  const basicIcon = leaflet.icon({
+    iconUrl: `img/pin.svg`,
+    iconSize: [27, 39]
+  });
+
+  const activeIcon = leaflet.icon({
+    iconUrl: `img/pin-active.svg`,
+    iconSize: [27, 39]
+  });
 
   useEffect(() => {
     mapRef.current = leaflet.map(`map`, {
       center: {
-        lat: city.lat,
-        lng: city.lng
+        lat: city.location.lat,
+        lng: city.location.lng
       },
       zoom: 12,
       zoomControl: false,
       marker: true
     });
-
-    let container = leaflet.DomUtil.get(`map`);
-
-    if (container !== null) {
-      container._leaflet_id = null;
-    }
-
     leaflet
       .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
         attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
       })
       .addTo(mapRef.current);
 
-    points.forEach((point) => {
-      const pointIcon = (item) => {
-        if (item.id === activeCard.id) {
-          return `img/pin-active.svg`;
-        } else {
-          return `img/pin.svg`;
-        }
-      };
-      const customIcon = leaflet.icon({
-        iconUrl: pointIcon(point),
-        iconSize: [30, 30]
-      });
+    return () => {
+      mapRef.current.remove();
+    };
+  }, [city]);
 
-      leaflet.marker({
-        lat: point.location.lat,
-        lng: point.location.lng
-      },
-      {
-        icon: customIcon
-      })
-      .addTo(mapRef.current)
-      .bindPopup(point.type);
+  useEffect(() => {
+    const markers = [];
 
-      return () => {
-        mapRef.current.remove();
-      };
+    points.forEach((offer) => {
+      const icon = offer.id === id ? activeIcon : basicIcon;
+
+      markers.push(
+          leaflet
+            .marker({
+              lat: offer.location.lat,
+              lng: offer.location.lng
+            }, {icon})
+            .addTo(mapRef.current)
+            .bindPopup(offer.type)
+      );
+
+      const activeIconElement = document.querySelector(`img[src="img/pin-active.svg"]`);
+
+      if (activeIconElement) {
+        activeIconElement.style.zIndex = 1010;
+      }
     });
-  }, [city, activeCard]);
+
+    return () => {
+      markers.forEach((marker) => mapRef.current.removeLayer(marker));
+    };
+  }, [city, id]);
 
   return <>
     <div id="map" style={{width: `100%`, height: `100%`}} ref={mapRef}></div>

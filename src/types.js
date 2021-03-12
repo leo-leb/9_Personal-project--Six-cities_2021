@@ -3,20 +3,26 @@ import PropTypes from 'prop-types';
 const Types = {
   OFFER: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    mark: PropTypes.string.isRequired,
-    smallImage: PropTypes.string.isRequired,
-    bigImage: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    rate: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
+    host: PropTypes.object.isRequired,
     type: PropTypes.string.isRequired,
-    city: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
+    isPremium: PropTypes.bool.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    price: PropTypes.number.isRequired,
+    rating: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    bedrooms: PropTypes.number.isRequired,
+    maxAdults: PropTypes.number.isRequired,
+    goods: PropTypes.array.isRequired,
+    images: PropTypes.array.isRequired,
+    previewImage: PropTypes.string.isRequired,
+    city: PropTypes.object.isRequired,
     location: PropTypes.shape({
       lat: PropTypes.number.isRequired,
-      lng: PropTypes.number.isRequired
+      lng: PropTypes.number.isRequired,
+      zoom: PropTypes.number.isRequired
     })
-  }).isRequired,
+  }),
   REVIEW: PropTypes.shape({
     name: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
@@ -34,8 +40,11 @@ const Types = {
   }),
   CITY: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    lat: PropTypes.number.isRequired,
-    lng: PropTypes.number.isRequired,
+    location: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lng: PropTypes.number.isRequired,
+      zoom: PropTypes.number.isRequired
+    })
   }),
 };
 

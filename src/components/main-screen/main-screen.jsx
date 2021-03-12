@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/main-screen/action';
 import {Routes, screenForCardClass, typeOfCards, sizesForImages} from '../../consts';
-import {getFilteredOffersByCity} from '../../common';
+import {getFilteredOffersByCity} from '../../selectors';
 import Types from '../../types';
 import Map from '../map/map';
 import CitiesList from '../cities-list/cities-list';
@@ -12,7 +12,7 @@ import SortForm from '../sort-form/sort-form';
 import PropTypes from 'prop-types';
 
 const MainScreen = (props) => {
-  const {city, activeCard, changeActiveCard, onCityClick, onCityChange, onSortPriceInc, onSortPriceRed, onSortRate, offersList} = props;
+  const {city, activeOfferCard, changeActiveCard, onCityClick, onCityChange, onSortPriceInc, onSortPriceRed, onSortRate, allOffers} = props;
 
   const screen = screenForCardClass.MAIN;
   const card = typeOfCards.PlaceCard;
@@ -55,18 +55,18 @@ const MainScreen = (props) => {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersList.length} places to stay in {city.name}</b>
+              <b className="places__found">{allOffers.length} places to stay in {city.name}</b>
               <SortForm activeCity={city} onCityChange={onCityChange} onSortPriceInc={onSortPriceInc} onSortPriceRed={onSortPriceRed} onSortRate={onSortRate}/>
               <div className="cities__places-list places__list tabs__content">
-                <OffersList offers={offersList} changeActiveCard={changeActiveCard} screen={screen} card={card} image={image}/>
+                <OffersList offers={allOffers} changeActiveCard={changeActiveCard} screen={screen} card={card} image={image}/>
               </div>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
                 <Map
                   city={city}
-                  points={offersList}
-                  activeCard={activeCard}
+                  points={allOffers}
+                  activeCard={activeOfferCard}
                 />
               </section>
             </div>
@@ -80,8 +80,8 @@ const MainScreen = (props) => {
 
 const mapStateToProps = (state) => ({
   city: state.main.city,
-  offersList: getFilteredOffersByCity(state.main.offersList, state.main.city),
-  activeCard: state.main.activeCard
+  allOffers: getFilteredOffersByCity(state.main.allOffers, state.main.city),
+  activeOfferCard: state.main.activeOfferCard
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -107,14 +107,14 @@ const mapDispatchToProps = (dispatch) => ({
 
 MainScreen.propTypes = {
   city: Types.CITY,
-  activeCard: PropTypes.object.isRequired,
+  activeOfferCard: PropTypes.object.isRequired,
   changeActiveCard: PropTypes.func.isRequired,
   onCityClick: PropTypes.func.isRequired,
   onCityChange: PropTypes.func.isRequired,
   onSortPriceInc: PropTypes.func.isRequired,
   onSortPriceRed: PropTypes.func.isRequired,
   onSortRate: PropTypes.func.isRequired,
-  offersList: PropTypes.arrayOf(Types.OFFER)
+  allOffers: PropTypes.arrayOf(Types.OFFER)
 };
 
 export {MainScreen};

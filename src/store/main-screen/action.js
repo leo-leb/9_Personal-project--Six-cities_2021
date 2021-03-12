@@ -1,9 +1,9 @@
 import offers from '../../mocks/offers';
-import {getFilteredOffersByCity, getFilteredOffersById, getFilteredOffersByPriceIncrease, getFilteredOffersByPriceReduce, getFilteredOffersByRate} from '../../common';
+import {getFilteredOffersByCity, getFilteredOffersById, getFilteredOffersByPriceIncrease, getFilteredOffersByPriceReduce, getFilteredOffersByRate} from '../../selectors';
 
 export const ActionType = {
   CHANGE_CITY: `main/changeCity`,
-  CHANGE_ACTIVE_CARD: `main/changeActiveCard`,
+  CHANGE_CARD: `main/changeActiveCard`,
   UPDATE_OFFERS: `main/updateOffers`,
   SORT_OFFERS_PRICE_INC: `main/sortOffersByPriceInc`,
   SORT_OFFERS_PRICE_RED: `main/sortOffersByPriceRed`,
@@ -17,47 +17,47 @@ export const ActionCreator = {
   }),
 
   changeActiveCard: (id) => {
-    let activeCard = getFilteredOffersById(offers, id);
+    let activeOfferCard = getFilteredOffersById(offers, id);
 
     return {
-      type: ActionType.CHANGE_ACTIVE_CARD,
-      payload: activeCard
+      type: ActionType.CHANGE_CARD,
+      payload: activeOfferCard
     };
   },
 
   updateOffers: (city) => {
-    let offersList = getFilteredOffersByCity(offers, city);
+    let allOffers = getFilteredOffersByCity(offers, city);
 
     return {
       type: ActionType.UPDATE_OFFERS,
-      payload: offersList
+      payload: allOffers
     };
   },
 
   sortOffersByPriceIncrease: (city) => {
-    let offersList = getFilteredOffersByPriceIncrease(offers, city);
+    let allOffers = getFilteredOffersByPriceIncrease(offers, city);
 
     return {
       type: ActionType.SORT_OFFERS_PRICE_INC,
-      payload: offersList
+      payload: allOffers
     };
   },
 
   sortOffersByPriceReduce: (city) => {
-    let offersList = getFilteredOffersByPriceReduce(offers, city);
+    let allOffers = getFilteredOffersByPriceReduce(offers, city);
 
     return {
       type: ActionType.SORT_OFFERS_PRICE_RED,
-      payload: offersList
+      payload: allOffers
     };
   },
 
   sortOffersByRate: (city) => {
-    let offersList = getFilteredOffersByRate(offers, city);
+    let allOffers = getFilteredOffersByRate(offers, city);
 
     return {
       type: ActionType.SORT_OFFERS_RATE,
-      payload: offersList
+      payload: allOffers
     };
   }
 };

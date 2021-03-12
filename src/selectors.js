@@ -1,6 +1,6 @@
 const getFilteredOffersByCity = (offers, city) => {
   return offers.filter((offer) => {
-    return offer.city === city.name;
+    return offer.city.name === city.name;
   });
 };
 
@@ -24,7 +24,7 @@ const getFilteredOffersByPriceReduce = (offers, city) => {
 
 const getFilteredOffersByRate = (offers, city) => {
   return getFilteredOffersByCity(offers, city).sort((a, b) => {
-    return b.rate - a.rate;
+    return b.rating - a.rating;
   });
 };
 
@@ -42,22 +42,8 @@ const getFilteredReviewsByOffer = (reviews, id) => {
 
 const getThreeNeighboringOffers = (offers, id) => {
   return offers.filter((offer) => {
-    return offer.city === getUpdatedOffer(offers, id).city;
+    return offer.city.name === getUpdatedOffer(offers, id).city.name;
   }).slice(0, 3);
 };
 
-const getCitiesListFromOffers = (offers) => {
-  let cities = [];
-  offers
-    .filter((offer) => {
-      return offer.status === `favorite`;
-    })
-    .forEach((offer) => {
-      if (cities.includes(offer.city) !== true) {
-        cities.push(offer.city);
-      }
-    });
-  return cities;
-};
-
-export {getFilteredOffersByCity, getFilteredOffersById, getFilteredOffersByPriceIncrease, getFilteredOffersByPriceReduce, getFilteredOffersByRate, getUpdatedOffer, getFilteredReviewsByOffer, getThreeNeighboringOffers, getCitiesListFromOffers};
+export {getFilteredOffersByCity, getFilteredOffersById, getFilteredOffersByPriceIncrease, getFilteredOffersByPriceReduce, getFilteredOffersByRate, getUpdatedOffer, getFilteredReviewsByOffer, getThreeNeighboringOffers};

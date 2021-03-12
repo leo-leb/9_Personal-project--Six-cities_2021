@@ -11,21 +11,11 @@ const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path={Routes.MAIN}>
-          <MainScreen />
-        </Route>
-        <Route exact path={Routes.FAVORITES}>
-          <FavoritesScreen />
-        </Route>
-        <Route exact path={Routes.ROOM}>
-          <RoomScreen />
-        </Route>
-        <Route exact path={Routes.SIGNIN}>
-          <SignInScreen />
-        </Route>
-        <Route>
-          <NotFoundScreen />
-        </Route>
+        <Route path={Routes.MAIN} exact component={MainScreen}></Route>
+        <Route path={Routes.FAVORITES} exact component={FavoritesScreen}></Route>
+        <Route path={Routes.ROOM} exact component={RoomScreen}></Route>
+        <Route path={Routes.SIGNIN} exact component={SignInScreen}></Route>
+        <Route exact component={NotFoundScreen}></Route>
       </Switch>
     </BrowserRouter>
   );

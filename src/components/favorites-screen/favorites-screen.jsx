@@ -4,13 +4,11 @@ import {Link} from 'react-router-dom';
 import {Routes} from '../../consts';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/favorite-screen/action';
-import {getCitiesListFromOffers} from '../../common';
 import Types from '../../types';
 import PropTypes from 'prop-types';
 
 const FavoritesScreen = (props) => {
-  const {id, offers, citiesList} = props;
-  const {} = id;
+  const {favoriteOffers} = props;
 
   return (
     <div className="page">
@@ -42,7 +40,7 @@ const FavoritesScreen = (props) => {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList offers={offers} cities={citiesList}/>
+            <FavoritesList offers={favoriteOffers}/>
           </section>
         </div>
       </main>
@@ -52,27 +50,22 @@ const FavoritesScreen = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  id: state.favorite.id,
-  offers: state.favorite.offersList,
-  citiesList: getCitiesListFromOffers(state.favorite.offersList)
+  userId: state.favorite.userId,
+  favoriteOffers: state.favorite.favoriteOffers
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeId(id) {
-    dispatch(ActionCreator.changeId(id));
+  changeId(userId) {
+    dispatch(ActionCreator.changeId(userId));
   },
-  updateOffers(offers) {
-    dispatch(ActionCreator.updateOffers(offers));
-  },
-  updateCitiesList(offers) {
-    dispatch(ActionCreator.updateCitiesList(offers));
+  updateOffers(favoriteOffers) {
+    dispatch(ActionCreator.updateOffers(favoriteOffers));
   }
 });
 
 FavoritesScreen.propTypes = {
-  id: PropTypes.number.isRequired,
-  offers: PropTypes.arrayOf(Types.OFFER),
-  citiesList: PropTypes.array.isRequired
+  userId: PropTypes.number.isRequired,
+  favoriteOffers: PropTypes.arrayOf(Types.OFFER)
 };
 
 export {FavoritesScreen};

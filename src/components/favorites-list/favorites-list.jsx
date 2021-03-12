@@ -5,24 +5,35 @@ import OffersList from '../offers-list/offers-list';
 import {screenForCardClass, typeOfCards, sizesForImages} from '../../consts';
 
 const FavoritesList = (props) => {
-  const {offers, cities} = props;
+  const {offers} = props;
 
   const screen = screenForCardClass.FAVORITES;
   const card = typeOfCards.Card;
   const image = sizesForImages.SMALL;
 
+  const getCitiesFromOffers = (offersList) => {
+    let citiesList = [];
+    offersList
+      .filter((offer) => {
+        return offer.isFavorite;
+      })
+      .forEach((offer) => {
+        if (citiesList.includes(offer.city.name) !== true) {
+          citiesList.push(offer.city.name);
+        }
+      });
+    return citiesList;
+  };
+
   const getFavoriteOffers = (city) => {
     return offers.filter((offer) => {
-      return offer.city === city && offer.status === `favorite`;
+      return offer.city.name === city && offer.isFavorite;
     });
   };
 
-  console.log(offers);
-  console.log(cities);
-
   return (
     <ul className="favorites__list">
-      {cities.map((city, id) => (
+      {getCitiesFromOffers(offers).map((city, id) => (
         <li key={id} className="favorites__locations-items">
           <div className="favorites__locations locations locations--current">
             <div className="locations__item">
@@ -41,8 +52,7 @@ const FavoritesList = (props) => {
 };
 
 FavoritesList.propTypes = {
-  offers: PropTypes.arrayOf(Types.OFFER),
-  cities: PropTypes.arrayOf(PropTypes.string.isRequired)
+  offers: PropTypes.arrayOf(Types.OFFER)
 };
 
 export default FavoritesList;

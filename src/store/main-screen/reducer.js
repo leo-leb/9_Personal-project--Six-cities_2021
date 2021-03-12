@@ -6,8 +6,8 @@ const defaultState = defaultStates.MAIN;
 
 const initialState = {
   city: defaultState,
-  offersList: offers,
-  activeCard: {}
+  allOffers: offers,
+  activeOfferCard: {}
 };
 
 const reducerMain = (state = initialState, action) => {
@@ -17,30 +17,30 @@ const reducerMain = (state = initialState, action) => {
         ...state,
         city: action.payload
       };
-    case ActionType.CHANGE_ACTIVE_CARD:
+    case ActionType.CHANGE_CARD:
       return {
         ...state,
-        activeCard: action.payload
+        activeOfferCard: action.payload
       };
     case ActionType.UPDATE_OFFERS:
       return {
         ...state,
-        offersList: action.payload
+        allOffers: action.payload
       };
     case ActionType.SORT_OFFERS_PRICE_INC:
       return {
         ...state,
-        offersList: action.payload
+        allOffers: action.payload
       };
     case ActionType.SORT_OFFERS_PRICE_RED:
       return {
         ...state,
-        offersList: action.payload
+        allOffers: action.payload
       };
     case ActionType.SORT_OFFERS_RATE:
       return {
         ...state,
-        offersList: action.payload
+        allOffers: action.payload
       };
     default:
       return state;

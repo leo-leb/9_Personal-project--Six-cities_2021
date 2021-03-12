@@ -1,30 +1,29 @@
 import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
 import Types from '../../types';
 import PropTypes from 'prop-types';
-import {screenForCardClass, sizesForImages, starsRate} from '../../consts';
+import {screenForCardClass, starsRate} from '../../consts';
+
 
 const OfferCard = (props) => {
-  const {screen, changeActiveCard, offer, card, image} = props;
-  const {mark, smallImage, bigImage, price, rate, name, type} = offer;
+  const {screen, onNameClick, changeActiveCard, offer, card, image} = props;
+  const {id, isPremium, previewImage, price, rating, name, type} = offer;
   const [activeOffer, setActiveOffer] = useState(null);
 
   return (
     <article
       className={screen + `__` + card + ` place-card`}
       onMouseEnter={() => {
-        setActiveOffer({activeOffer: offer.id});
-        changeActiveCard(offer.id);
+        setActiveOffer({activeOffer: id});
+        changeActiveCard(id);
       }}
     >
-      {screen === screenForCardClass.MAIN && offer.mark && <div className="place-card__mark"><span>{mark}</span></div>}
+      {screen === screenForCardClass.MAIN && isPremium && <div className="place-card__mark"><span>Premium</span></div>}
       <div
         className={screen + `__image-wrapper place-card__image-wrapper`}
       >
         <a href="#">
-          {image === sizesForImages.SMALL ?
-            <img className="place-card__image" src={smallImage} width={sizesForImages.SMALL.width} height={sizesForImages.SMALL.height} alt="Place image" /> :
-            <img className="place-card__image" src={bigImage} width={sizesForImages.BIG.width} height={sizesForImages.BIG.height} alt="Place image" />
-          }
+          <img className="place-card__image" src={previewImage} width={image.width} height={image.height} alt="Place image" />
         </a>
       </div>
       <div
@@ -44,12 +43,22 @@ const OfferCard = (props) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: starsRate(rate)}}></span>
+            <span style={{width: starsRate(rating)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <h2 className="place-card__name">
-          <a href="#">{name}</a>
+        <h2
+          className="place-card__name"
+          onClick={() => {
+            onNameClick(id);
+          }}
+        >
+          <Link
+            href="#"
+            to={`/offer/${id}`}
+          >
+            {name}
+          </Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
@@ -59,10 +68,12 @@ const OfferCard = (props) => {
 
 OfferCard.propTypes = {
   offer: Types.OFFER,
-  changeActiveCard: PropTypes.func.isRequired,
+  clickedOffer: PropTypes.number,
+  changeActiveCard: PropTypes.func,
   screen: PropTypes.string.isRequired,
   card: PropTypes.string.isRequired,
-  image: Types.IMAGE
+  image: Types.IMAGE,
+  onNameClick: PropTypes.func.isRequired
 };
 
 export default OfferCard;
