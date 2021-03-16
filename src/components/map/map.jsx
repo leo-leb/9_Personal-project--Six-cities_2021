@@ -1,6 +1,6 @@
 import React from 'react';
 import leaflet from 'leaflet';
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import Types from '../../types';
 
@@ -24,8 +24,8 @@ const Map = (props) => {
   useEffect(() => {
     mapRef.current = leaflet.map(`map`, {
       center: {
-        lat: city.location.lat,
-        lng: city.location.lng
+        lat: city.location.latitude,
+        lng: city.location.longitude
       },
       zoom: 12,
       zoomControl: false,
@@ -51,8 +51,8 @@ const Map = (props) => {
       markers.push(
           leaflet
             .marker({
-              lat: offer.location.lat,
-              lng: offer.location.lng
+              lat: offer.location.latitude,
+              lng: offer.location.longitude
             }, {icon})
             .addTo(mapRef.current)
             .bindPopup(offer.type)
@@ -68,7 +68,7 @@ const Map = (props) => {
     return () => {
       markers.forEach((marker) => mapRef.current.removeLayer(marker));
     };
-  }, [city, id]);
+  }, [city, points, id]);
 
   return <>
     <div id="map" style={{width: `100%`, height: `100%`}} ref={mapRef}></div>

@@ -3,7 +3,7 @@ import Types from '../../types';
 import PropTypes from 'prop-types';
 
 const SortForm = (props) => {
-  const {activeCity, onCityChange, onSortPriceInc, onSortPriceRed, onSortRate} = props;
+  const {activeCity, onCityChange, onSortPriceInc, onSortPriceRed, onSortRate, offers} = props;
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -19,7 +19,7 @@ const SortForm = (props) => {
           className="places__option"
           tabIndex="0"
           onClick={() => {
-            onCityChange(activeCity);
+            onCityChange(offers, activeCity);
           }}
         >
             Popular
@@ -28,7 +28,7 @@ const SortForm = (props) => {
           className="places__option"
           tabIndex="0"
           onClick={() => {
-            onSortPriceInc(activeCity);
+            onSortPriceInc(offers);
           }}
         >
             Price: low to high
@@ -37,7 +37,7 @@ const SortForm = (props) => {
           className="places__option"
           tabIndex="0"
           onClick={() => {
-            onSortPriceRed(activeCity);
+            onSortPriceRed(offers);
           }}
         >
             Price: high to low
@@ -46,7 +46,7 @@ const SortForm = (props) => {
           className="places__option"
           tabIndex="0"
           onClick={() => {
-            onSortRate(activeCity);
+            onSortRate(offers);
           }}
         >
             Top rated first
@@ -61,7 +61,8 @@ SortForm.propTypes = {
   onCityChange: PropTypes.func.isRequired,
   onSortPriceInc: PropTypes.func.isRequired,
   onSortPriceRed: PropTypes.func.isRequired,
-  onSortRate: PropTypes.func.isRequired
+  onSortRate: PropTypes.func.isRequired,
+  offers: PropTypes.arrayOf(Types.OFFER)
 };
 
 export default SortForm;

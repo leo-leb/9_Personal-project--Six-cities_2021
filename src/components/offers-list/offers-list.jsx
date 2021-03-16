@@ -9,7 +9,7 @@ const OffersList = (props) => {
   const {offers, changeOfferId, changeActiveCard, screen, card, image} = props;
 
   return <>
-    {offers.map((offer, i) => <OfferCard offer={offer} onNameClick={changeOfferId} changeActiveCard={changeActiveCard} screen={screen} card={card} image={image} key={i}/>)}
+    {offers.map((offer, i) => <OfferCard offers={offers} offer={offer} onNameClick={changeOfferId} changeActiveCard={changeActiveCard} screen={screen} card={card} image={image} key={i}/>)}
   </>;
 };
 

@@ -15,7 +15,7 @@ const FavoritesList = (props) => {
     let citiesList = [];
     offersList
       .filter((offer) => {
-        return offer.isFavorite;
+        return offer.is_favorite;
       })
       .forEach((offer) => {
         if (citiesList.includes(offer.city.name) !== true) {
@@ -27,7 +27,7 @@ const FavoritesList = (props) => {
 
   const getFavoriteOffers = (city) => {
     return offers.filter((offer) => {
-      return offer.city.name === city && offer.isFavorite;
+      return offer.city.name === city && offer.is_favorite;
     });
   };
 

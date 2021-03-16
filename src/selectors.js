@@ -10,20 +10,20 @@ const getFilteredOffersById = (offers, id) => {
   });
 };
 
-const getFilteredOffersByPriceIncrease = (offers, city) => {
-  return getFilteredOffersByCity(offers, city).sort((a, b) => {
+const getFilteredOffersByPriceIncrease = (offers) => {
+  return offers.sort((a, b) => {
     return a.price - b.price;
   });
 };
 
-const getFilteredOffersByPriceReduce = (offers, city) => {
-  return getFilteredOffersByCity(offers, city).sort((a, b) => {
+const getFilteredOffersByPriceReduce = (offers) => {
+  return offers.sort((a, b) => {
     return b.price - a.price;
   });
 };
 
-const getFilteredOffersByRate = (offers, city) => {
-  return getFilteredOffersByCity(offers, city).sort((a, b) => {
+const getFilteredOffersByRate = (offers) => {
+  return offers.sort((a, b) => {
     return b.rating - a.rating;
   });
 };

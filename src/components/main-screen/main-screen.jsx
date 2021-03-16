@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import OffersList from '../offers-list/offers-list';
+import LoadingScreen from '../loading-screen/loading-screen';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/main-screen/action';
@@ -11,12 +12,26 @@ import CitiesList from '../cities-list/cities-list';
 import SortForm from '../sort-form/sort-form';
 import PropTypes from 'prop-types';
 
+import {fetchQuestionList} from "../../store/main-screen/api-actions";
+
 const MainScreen = (props) => {
-  const {city, activeOfferCard, changeActiveCard, onCityClick, onCityChange, onSortPriceInc, onSortPriceRed, onSortRate, allOffers} = props;
+  const {city, activeOfferCard, authorizationStatus, changeActiveCard, onCityClick, onCityChange, onSortPriceInc, onSortPriceRed, onSortRate, offers, isDataLoaded, onLoadData, offersSorted} = props;
 
   const screen = screenForCardClass.MAIN;
   const card = typeOfCards.PlaceCard;
   const image = sizesForImages.BIG;
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      onLoadData();
+    }
+  }, [isDataLoaded]);
+
+  if (!isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <div className="page page--gray page--main">
@@ -48,24 +63,24 @@ const MainScreen = (props) => {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList activeCity={city} setActiveCity={onCityClick} onCityChange={onCityChange}/>
+            <CitiesList activeCity={city} setActiveCity={onCityClick} onCityChange={onCityChange} offers={offers}/>
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{allOffers.length} places to stay in {city.name}</b>
-              <SortForm activeCity={city} onCityChange={onCityChange} onSortPriceInc={onSortPriceInc} onSortPriceRed={onSortPriceRed} onSortRate={onSortRate}/>
+              <b className="places__found"> places to stay in {city.name}</b>
+              <SortForm activeCity={city} onCityChange={onCityChange} onSortPriceInc={onSortPriceInc} onSortPriceRed={onSortPriceRed} onSortRate={onSortRate} offers={offersSorted}/>
               <div className="cities__places-list places__list tabs__content">
-                <OffersList offers={allOffers} changeActiveCard={changeActiveCard} screen={screen} card={card} image={image}/>
+                <OffersList offers={offersSorted} changeActiveCard={changeActiveCard} screen={screen} card={card} image={image}/>
               </div>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
                 <Map
                   city={city}
-                  points={allOffers}
+                  points={offersSorted}
                   activeCard={activeOfferCard}
                 />
               </section>
@@ -80,29 +95,35 @@ const MainScreen = (props) => {
 
 const mapStateToProps = (state) => ({
   city: state.main.city,
-  allOffers: getFilteredOffersByCity(state.main.allOffers, state.main.city),
-  activeOfferCard: state.main.activeOfferCard
+  offers: state.main.offers,
+  offersSorted: getFilteredOffersByCity(state.main.offers, state.main.city),
+  activeOfferCard: state.main.activeOfferCard,
+  isDataLoaded: state.main.isDataLoaded,
+  authorizationStatus: state.main.authorizationStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onCityClick(city) {
     dispatch(ActionCreator.changeCity(city));
   },
-  changeActiveCard(id) {
-    dispatch(ActionCreator.changeActiveCard(id));
+  changeActiveCard(offers, id) {
+    dispatch(ActionCreator.changeActiveCard(offers, id));
   },
-  onCityChange(city) {
-    dispatch(ActionCreator.updateOffers(city));
+  onCityChange(offers, city) {
+    dispatch(ActionCreator.sortOffersByCity(offers, city));
   },
-  onSortPriceInc(city) {
-    dispatch(ActionCreator.sortOffersByPriceIncrease(city));
+  onSortPriceInc(offers) {
+    dispatch(ActionCreator.sortOffersByPriceIncrease(offers));
   },
-  onSortPriceRed(city) {
-    dispatch(ActionCreator.sortOffersByPriceReduce(city));
+  onSortPriceRed(offers) {
+    dispatch(ActionCreator.sortOffersByPriceReduce(offers));
   },
-  onSortRate(city) {
-    dispatch(ActionCreator.sortOffersByRate(city));
+  onSortRate(offers) {
+    dispatch(ActionCreator.sortOffersByRate(offers));
   },
+  onLoadData() {
+    dispatch(fetchQuestionList());
+  }
 });
 
 MainScreen.propTypes = {
@@ -114,7 +135,11 @@ MainScreen.propTypes = {
   onSortPriceInc: PropTypes.func.isRequired,
   onSortPriceRed: PropTypes.func.isRequired,
   onSortRate: PropTypes.func.isRequired,
-  allOffers: PropTypes.arrayOf(Types.OFFER)
+  offers: PropTypes.arrayOf(Types.OFFER),
+  offersSorted: PropTypes.arrayOf(Types.OFFER),
+  isDataLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
 };
 
 export {MainScreen};

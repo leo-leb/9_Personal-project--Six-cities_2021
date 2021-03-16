@@ -5,21 +5,21 @@ const Types = {
     id: PropTypes.number.isRequired,
     host: PropTypes.object.isRequired,
     type: PropTypes.string.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
+    is_premium: PropTypes.bool.isRequired,
+    is_favorite: PropTypes.bool.isRequired,
     price: PropTypes.number.isRequired,
     rating: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     bedrooms: PropTypes.number.isRequired,
-    maxAdults: PropTypes.number.isRequired,
+    max_adults: PropTypes.number.isRequired,
     goods: PropTypes.array.isRequired,
     images: PropTypes.array.isRequired,
-    previewImage: PropTypes.string.isRequired,
+    preview_image: PropTypes.string.isRequired,
     city: PropTypes.object.isRequired,
     location: PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      lng: PropTypes.number.isRequired,
+      latitude: PropTypes.number.isRequired,
+      longitude: PropTypes.number.isRequired,
       zoom: PropTypes.number.isRequired
     })
   }),
@@ -41,8 +41,8 @@ const Types = {
   CITY: PropTypes.shape({
     name: PropTypes.string.isRequired,
     location: PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      lng: PropTypes.number.isRequired,
+      latitude: PropTypes.number.isRequired,
+      longitude: PropTypes.number.isRequired,
       zoom: PropTypes.number.isRequired
     })
   }),

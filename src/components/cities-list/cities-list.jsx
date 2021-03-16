@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {cities} from '../../consts';
 import Types from '../../types';
+import {connect} from 'react-redux';
 
 const CitiesList = (props) => {
-  const {activeCity, setActiveCity, onCityChange} = props;
+  const {activeCity, setActiveCity, onCityChange, offers} = props;
 
   return (
     <ul className="locations__list tabs__list">
@@ -14,7 +15,7 @@ const CitiesList = (props) => {
             className="locations__item" key={city + i}
             onClick={() => {
               setActiveCity(city);
-              onCityChange(city);
+              onCityChange(offers, city);
             }}
           >
             <a
@@ -33,7 +34,8 @@ const CitiesList = (props) => {
 CitiesList.propTypes = {
   setActiveCity: PropTypes.func.isRequired,
   activeCity: Types.CITY,
-  onCityChange: PropTypes.func.isRequired
+  onCityChange: PropTypes.func.isRequired,
+  offers: PropTypes.arrayOf(Types.OFFER)
 };
 
 export default CitiesList;

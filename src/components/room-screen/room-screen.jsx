@@ -20,7 +20,7 @@ const RoomScreen = (props) => {
   const reviewsForOffer = getFilteredReviewsByOffer(allReviews, Number(id));
   const neighborOffers = getThreeNeighboringOffers(allOffers, Number(id));
 
-  const {isPremium, maxAdults, bedrooms, price, rating, type, name, description, goods, images, host, city} = currentOffer;
+  const {is_premium, max_adults, bedrooms, price, rating, type, title, description, goods, images, host, city} = currentOffer;
 
   const screen = screenForCardClass.ROOM;
   const card = typeOfCards.Card;
@@ -75,7 +75,7 @@ const RoomScreen = (props) => {
                 ) : null
               }
               <div className="property__name-wrapper">
-                <h1 className="property__name">{name}</h1>
+                <h1 className="property__name">{title}</h1>
                 <button className="property__bookmark-button button" type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
@@ -111,11 +111,11 @@ const RoomScreen = (props) => {
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div
-                    className={host.isPro ?
+                    className={host.is_pro ?
                       `property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper` :
                       `property__avatar-wrapper user__avatar-wrapper`}
                   >
-                    <img className="property__avatar user__avatar" src={host.avatarUrl} width="74" height="74" alt="Host avatar" />
+                    <img className="property__avatar user__avatar" src={host.avatar_url} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">{host.name}</span>
                 </div>

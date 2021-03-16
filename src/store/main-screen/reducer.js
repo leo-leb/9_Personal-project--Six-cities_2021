@@ -1,13 +1,15 @@
 import {ActionType} from './action';
-import offers from '../../mocks/offers';
-import {defaultStates} from '../../consts';
+import {defaultStates, AuthorizationStatus} from '../../consts';
 
 const defaultState = defaultStates.MAIN;
 
 const initialState = {
   city: defaultState,
-  allOffers: offers,
-  activeOfferCard: {}
+  offers: [],
+  offersSorted: [],
+  activeOfferCard: {},
+  authorizationStatus: AuthorizationStatus.NO_AUTH,
+  isDataLoaded: false
 };
 
 const reducerMain = (state = initialState, action) => {
@@ -17,30 +19,41 @@ const reducerMain = (state = initialState, action) => {
         ...state,
         city: action.payload
       };
-    case ActionType.CHANGE_CARD:
+    case ActionType.LOAD_OFFERS:
       return {
         ...state,
-        activeOfferCard: action.payload
+        offers: action.payload,
+        isDataLoaded: true
       };
-    case ActionType.UPDATE_OFFERS:
+    case ActionType.SORT_OFFERS_CITY:
       return {
         ...state,
-        allOffers: action.payload
+        offersSorted: action.payload
+      };
+    case ActionType.REQUIRED_AUTHORIZATION:
+      return {
+        ...state,
+        authorizationStatus: action.payload,
       };
     case ActionType.SORT_OFFERS_PRICE_INC:
       return {
         ...state,
-        allOffers: action.payload
+        offersSorted: action.payload
       };
     case ActionType.SORT_OFFERS_PRICE_RED:
       return {
         ...state,
-        allOffers: action.payload
+        offersSorted: action.payload
       };
     case ActionType.SORT_OFFERS_RATE:
       return {
         ...state,
-        allOffers: action.payload
+        offersSorted: action.payload
+      };
+    case ActionType.CHANGE_CARD:
+      return {
+        ...state,
+        activeOfferCard: action.payload
       };
     default:
       return state;

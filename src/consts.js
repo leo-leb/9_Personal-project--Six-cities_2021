@@ -54,48 +54,48 @@ const starsRate = (rate) => {
 const cities = [
   {
     location: {
-      lat: 48.864716,
-      lng: 2.349014,
+      latitude: 48.864716,
+      longitude: 2.349014,
       zoom: 10
     },
     name: `Paris`
   },
   {
     location: {
-      lat: 50.935173,
-      lng: 6.953101,
+      latitude: 50.935173,
+      longitude: 6.953101,
       zoom: 10
     },
     name: `Cologne`
   },
   {
     location: {
-      lat: 50.8505,
-      lng: 4.3488,
+      latitude: 50.8505,
+      longitude: 4.3488,
       zoom: 10
     },
     name: `Brussels`
   },
   {
     location: {
-      lat: 52.377956,
-      lng: 4.897070,
+      latitude: 52.377956,
+      longitude: 4.897070,
       zoom: 10
     },
     name: `Amsterdam`
   },
   {
     location: {
-      lat: 53.551086,
-      lng: 9.993682,
+      latitude: 53.551086,
+      longitude: 9.993682,
       zoom: 10
     },
     name: `Hamburg`
   },
   {
     location: {
-      lat: 51.233334,
-      lng: 6.783333,
+      latitude: 51.233334,
+      longitude: 6.783333,
       zoom: 10
     },
     name: `Dusseldorf`
@@ -106,4 +106,9 @@ const defaultStates = {
   MAIN: cities[0]
 };
 
-export {Routes, stars, city, starsRate, screenForCardClass, typeOfCards, sizesForImages, cities, defaultStates};
+const AuthorizationStatus = {
+  AUTH: `AUTH`,
+  NO_AUTH: `NO_AUTH`,
+};
+
+export {Routes, stars, city, starsRate, screenForCardClass, typeOfCards, sizesForImages, cities, defaultStates, AuthorizationStatus};

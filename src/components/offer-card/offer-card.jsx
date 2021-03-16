@@ -6,8 +6,8 @@ import {screenForCardClass, starsRate} from '../../consts';
 
 
 const OfferCard = (props) => {
-  const {screen, onNameClick, changeActiveCard, offer, card, image} = props;
-  const {id, isPremium, previewImage, price, rating, name, type} = offer;
+  const {offers, screen, onNameClick, changeActiveCard, offer, card, image} = props;
+  const {id, is_premium, preview_image, price, rating, title, type} = offer;
   const [activeOffer, setActiveOffer] = useState(null);
 
   return (
@@ -15,15 +15,15 @@ const OfferCard = (props) => {
       className={screen + `__` + card + ` place-card`}
       onMouseEnter={() => {
         setActiveOffer({activeOffer: id});
-        changeActiveCard(id);
+        changeActiveCard(offers, id);
       }}
     >
-      {screen === screenForCardClass.MAIN && isPremium && <div className="place-card__mark"><span>Premium</span></div>}
+      {screen === screenForCardClass.MAIN && is_premium && <div className="place-card__mark"><span>Premium</span></div>}
       <div
         className={screen + `__image-wrapper place-card__image-wrapper`}
       >
         <a href="#">
-          <img className="place-card__image" src={previewImage} width={image.width} height={image.height} alt="Place image" />
+          <img className="place-card__image" src={preview_image} width={image.width} height={image.height} alt="Place image" />
         </a>
       </div>
       <div
@@ -57,7 +57,7 @@ const OfferCard = (props) => {
             href="#"
             to={`/offer/${id}`}
           >
-            {name}
+            {title}
           </Link>
         </h2>
         <p className="place-card__type">{type}</p>
@@ -73,7 +73,8 @@ OfferCard.propTypes = {
   screen: PropTypes.string.isRequired,
   card: PropTypes.string.isRequired,
   image: Types.IMAGE,
-  onNameClick: PropTypes.func.isRequired
+  onNameClick: PropTypes.func.isRequired,
+  offers: PropTypes.arrayOf(Types.OFFER)
 };
 
 export default OfferCard;
