@@ -1,26 +1,28 @@
 import {ActionType} from './action';
-import offers from '../../mocks/offers';
+import {AuthorizationStatus} from '../../consts';
 
 const initialState = {
-  userId: 1,
-  favoriteOffers: offers,
+  authStatus: AuthorizationStatus.NO_AUTH,
+  favoriteOffers: [],
+  isDataLoaded: false
 };
 
-const reducerFavorite = (state = initialState, action) => {
+const reducerFavorites = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.CHANGE_ID:
+    case ActionType.CHANGE_STATUS:
       return {
         ...state,
-        userId: action.payload
+        authStatus: action.payload,
       };
-    case ActionType.UPDATE_OFFERS:
+    case ActionType.LOAD_OFFERS:
       return {
         ...state,
-        favoriteOffers: action.payload
+        favoriteOffers: action.payload,
+        isDataLoaded: true
       };
     default:
       return state;
   }
 };
 
-export default reducerFavorite;
+export default reducerFavorites;

@@ -1,29 +1,32 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import Types from '../../types';
 import PropTypes from 'prop-types';
 import {screenForCardClass, starsRate} from '../../consts';
 
-
 const OfferCard = (props) => {
-  const {offers, screen, onNameClick, changeActiveCard, offer, card, image} = props;
-  const {id, is_premium, preview_image, price, rating, title, type} = offer;
+  const {offers, screen, changeActiveCard, offer, card, image} = props;
+  const {id, isPremium, previewImage, price, rating, title, type} = offer;
+
   const [activeOffer, setActiveOffer] = useState(null);
+
+  useEffect(() => {
+    changeActiveCard(offers, activeOffer);
+  }, [activeOffer]);
 
   return (
     <article
       className={screen + `__` + card + ` place-card`}
       onMouseEnter={() => {
-        setActiveOffer({activeOffer: id});
-        changeActiveCard(offers, id);
+        setActiveOffer(id);
       }}
     >
-      {screen === screenForCardClass.MAIN && is_premium && <div className="place-card__mark"><span>Premium</span></div>}
+      {screen === screenForCardClass.MAIN && isPremium && <div className="place-card__mark"><span>Premium</span></div>}
       <div
         className={screen + `__image-wrapper place-card__image-wrapper`}
       >
         <a href="#">
-          <img className="place-card__image" src={preview_image} width={image.width} height={image.height} alt="Place image" />
+          <img className="place-card__image" src={previewImage} width={image.width} height={image.height} alt="Place image" />
         </a>
       </div>
       <div
@@ -49,9 +52,6 @@ const OfferCard = (props) => {
         </div>
         <h2
           className="place-card__name"
-          onClick={() => {
-            onNameClick(id);
-          }}
         >
           <Link
             href="#"

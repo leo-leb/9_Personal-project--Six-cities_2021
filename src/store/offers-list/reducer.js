@@ -1,20 +1,18 @@
 import {ActionType} from './action';
 
 const initialState = {
-  offerId: {}
+  activeOfferCard: {}
 };
 
 const reducerOffersList = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.CHANGE_OFFER_ID:
+    case ActionType.CHANGE_CARD:
       return {
         ...state,
-        offerId: action.payload
+        activeOfferCard: action.payload
       };
     default:
-      return {
-        offerId: {}
-      };
+      return state;
   }
 };
 

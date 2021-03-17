@@ -8,7 +8,7 @@ import reducer from './store/reducer';
 import thunk from "redux-thunk";
 import {createAPI} from "./services/api";
 import {ActionCreator} from './store/main-screen/action';
-import {checkAuth} from "./store/main-screen/api-actions";
+import {checkAuth} from "./store/api-actions";
 import {AuthorizationStatus} from "./consts";
 
 const api = createAPI(

@@ -1,26 +1,47 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/room-screen/action';
 import {Routes, screenForCardClass, typeOfCards, sizesForImages, starsRate} from '../../consts';
-import {getFilteredReviewsByOffer, getThreeNeighboringOffers, getFilteredOffersById} from '../../selectors';
+import {getFilteredOffersById} from '../../selectors';
 import ReviewsList from '../reviews-list/reviews-list';
 import OffersList from '../offers-list/offers-list';
 import ReviewForm from '../review-form/review-form';
 import Types from '../../types';
 import PropTypes from 'prop-types';
 import Map from '../map/map';
+import {createAPI} from "../../services/api";
+import {dataArrayAdapter} from '../../common';
 
 const RoomScreen = (props) => {
-  const {allReviews, allOffers, activeOfferCard, changeActiveCard} = props;
+  const {offers} = props;
+
+  const [reviews, setReview] = useState([]);
+  const [neighborOffers, setNeighborOffers] = useState([]);
 
   let {id} = useParams();
+  const offerId = Number(id);
 
-  const currentOffer = getFilteredOffersById(allOffers, Number(id));
-  const reviewsForOffer = getFilteredReviewsByOffer(allReviews, Number(id));
-  const neighborOffers = getThreeNeighboringOffers(allOffers, Number(id));
+  const api = createAPI();
 
-  const {is_premium, max_adults, bedrooms, price, rating, type, title, description, goods, images, host, city} = currentOffer;
+  useEffect(() => {
+    api
+      .get(`/comments/${offerId}`)
+      .then(({data}) => {
+        setReview(dataArrayAdapter(data));
+      });
+  }, [id]);
+
+  useEffect(() => {
+    api
+      .get(`/hotels/${offerId}/nearby`)
+      .then(({data}) => {
+        setNeighborOffers(dataArrayAdapter(data));
+      });
+  }, [id]);
+
+  const currentOffer = getFilteredOffersById(offers, offerId);
+
+  const {isPremium, maxAdults, bedrooms, price, rating, type, title, description, goods, images, host, city} = currentOffer;
 
   const screen = screenForCardClass.ROOM;
   const card = typeOfCards.Card;
@@ -111,11 +132,11 @@ const RoomScreen = (props) => {
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div
-                    className={host.is_pro ?
+                    className={host.isPro ?
                       `property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper` :
                       `property__avatar-wrapper user__avatar-wrapper`}
                   >
-                    <img className="property__avatar user__avatar" src={host.avatar_url} width="74" height="74" alt="Host avatar" />
+                    <img className="property__avatar user__avatar" src={host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">{host.name}</span>
                 </div>
@@ -124,7 +145,7 @@ const RoomScreen = (props) => {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <ReviewsList reviews={reviewsForOffer}/>
+                <ReviewsList reviews={reviews}/>
                 <ReviewForm />
               </section>
             </div>
@@ -133,7 +154,6 @@ const RoomScreen = (props) => {
             <Map
               city={city}
               points={neighborOffers}
-              activeCard={activeOfferCard}
             />
           </section>
         </section>
@@ -141,7 +161,7 @@ const RoomScreen = (props) => {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <OffersList offers={neighborOffers} changeActiveCard={changeActiveCard} screen={screen} card={card} image={image}/>
+              <OffersList offers={neighborOffers} screen={screen} card={card} image={image}/>
             </div>
           </section>
         </div>
@@ -153,24 +173,14 @@ const RoomScreen = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  allReviews: state.room.allReviews,
-  allOffers: state.room.allOffers,
-  activeOfferCard: state.room.activeOfferCard
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  changeActiveCard(id) {
-    dispatch(ActionCreator.changeActiveCard(id));
-  },
+  offers: state.main.offers,
 });
 
 RoomScreen.propTypes = {
-  allReviews: PropTypes.arrayOf(Types.REVIEW),
-  allOffers: PropTypes.arrayOf(Types.OFFER),
+  offers: PropTypes.arrayOf(Types.OFFER),
   activeOfferCard: PropTypes.object.isRequired,
-  changeActiveCard: PropTypes.func.isRequired,
   activeOffer: Types.OFFER
 };
 
 export {RoomScreen};
-export default connect(mapStateToProps, mapDispatchToProps)(RoomScreen);
+export default connect(mapStateToProps)(RoomScreen);

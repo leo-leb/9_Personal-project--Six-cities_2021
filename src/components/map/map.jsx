@@ -3,11 +3,12 @@ import leaflet from 'leaflet';
 import {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import Types from '../../types';
+import {connect} from 'react-redux';
 
 import "leaflet/dist/leaflet.css";
 
 const Map = (props) => {
-  const {city, points, activeCard: {id}} = props;
+  const {city, points, activeCard} = props;
 
   const mapRef = useRef();
 
@@ -45,40 +46,67 @@ const Map = (props) => {
   useEffect(() => {
     const markers = [];
 
-    points.forEach((offer) => {
-      const icon = offer.id === id ? activeIcon : basicIcon;
+    if (activeCard) {
+      points.forEach((offer) => {
+        const icon = offer.id === activeCard.id ? activeIcon : basicIcon;
 
-      markers.push(
-          leaflet
-            .marker({
-              lat: offer.location.latitude,
-              lng: offer.location.longitude
-            }, {icon})
-            .addTo(mapRef.current)
-            .bindPopup(offer.type)
-      );
+        markers.push(
+            leaflet
+              .marker({
+                lat: offer.location.latitude,
+                lng: offer.location.longitude
+              }, {icon})
+              .addTo(mapRef.current)
+              .bindPopup(offer.type)
+        );
 
-      const activeIconElement = document.querySelector(`img[src="img/pin-active.svg"]`);
+        const activeIconElement = document.querySelector(`img[src="img/pin-active.svg"]`);
 
-      if (activeIconElement) {
-        activeIconElement.style.zIndex = 1010;
-      }
-    });
+        if (activeIconElement) {
+          activeIconElement.style.zIndex = 1010;
+        }
+      });
+    } else {
+      points.forEach((offer) => {
+        const icon = basicIcon;
+
+        markers.push(
+            leaflet
+              .marker({
+                lat: offer.location.latitude,
+                lng: offer.location.longitude
+              }, {icon})
+              .addTo(mapRef.current)
+              .bindPopup(offer.type)
+        );
+
+        const activeIconElement = document.querySelector(`img[src="img/pin-active.svg"]`);
+
+        if (activeIconElement) {
+          activeIconElement.style.zIndex = 1010;
+        }
+      });
+    }
 
     return () => {
       markers.forEach((marker) => mapRef.current.removeLayer(marker));
     };
-  }, [city, points, id]);
+  }, [city, points, activeCard]);
 
   return <>
     <div id="map" style={{width: `100%`, height: `100%`}} ref={mapRef}></div>
   </>;
 };
 
+const mapStateToProps = (state) => ({
+  activeCard: state.offersList.activeOfferCard
+});
+
 Map.propTypes = {
   city: Types.CITY,
   points: PropTypes.arrayOf(Types.OFFER),
-  activeCard: PropTypes.object.isRequired
+  activeCard: PropTypes.object
 };
 
-export default Map;
+export {Map};
+export default connect(mapStateToProps)(Map);

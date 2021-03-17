@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {cities} from '../../consts';
 import Types from '../../types';
-import {connect} from 'react-redux';
+import {getFilteredOffersByCity} from '../../selectors';
 
 const CitiesList = (props) => {
   const {activeCity, setActiveCity, onCityChange, offers} = props;
+
+  const offersFilteredByCity = getFilteredOffersByCity(offers, activeCity);
 
   return (
     <ul className="locations__list tabs__list">
@@ -15,7 +17,7 @@ const CitiesList = (props) => {
             className="locations__item" key={city + i}
             onClick={() => {
               setActiveCity(city);
-              onCityChange(offers, city);
+              onCityChange(offersFilteredByCity);
             }}
           >
             <a

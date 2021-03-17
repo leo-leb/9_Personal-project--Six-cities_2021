@@ -1,14 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import FavoritesList from '../favorites-list/favorites-list';
+import LoadingScreen from '../loading-screen/loading-screen';
 import {Link} from 'react-router-dom';
 import {Routes} from '../../consts';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/favorite-screen/action';
 import Types from '../../types';
 import PropTypes from 'prop-types';
 
+import {fetchFavoriteOffersList} from "../../store/api-actions";
+
 const FavoritesScreen = (props) => {
-  const {favoriteOffers} = props;
+  const {favorites, isDataLoaded, onLoadData} = props;
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      onLoadData();
+    }
+  }, [isDataLoaded]);
+
+  if (!isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <div className="page">
@@ -40,7 +54,7 @@ const FavoritesScreen = (props) => {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList offers={favoriteOffers}/>
+            <FavoritesList offers={favorites}/>
           </section>
         </div>
       </main>
@@ -50,22 +64,20 @@ const FavoritesScreen = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  userId: state.favorite.userId,
-  favoriteOffers: state.favorite.favoriteOffers
+  favorites: state.favorite.favorites,
+  isDataLoaded: state.favorite.isDataLoaded,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeId(userId) {
-    dispatch(ActionCreator.changeId(userId));
-  },
-  updateOffers(favoriteOffers) {
-    dispatch(ActionCreator.updateOffers(favoriteOffers));
+  onLoadData() {
+    dispatch(fetchFavoriteOffersList());
   }
 });
 
 FavoritesScreen.propTypes = {
-  userId: PropTypes.number.isRequired,
-  favoriteOffers: PropTypes.arrayOf(Types.OFFER)
+  favorites: PropTypes.arrayOf(Types.OFFER),
+  isDataLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired
 };
 
 export {FavoritesScreen};

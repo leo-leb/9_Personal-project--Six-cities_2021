@@ -1,9 +1,14 @@
 import React from 'react';
 import Types from '../../types';
 import PropTypes from 'prop-types';
+import {getFilteredOffersByPriceIncrease, getFilteredOffersByPriceReduce, getFilteredOffersByRate} from '../../selectors';
 
 const SortForm = (props) => {
-  const {activeCity, onCityChange, onSortPriceInc, onSortPriceRed, onSortRate, offers} = props;
+  const {offersFilteredByCity, onSortClick, offers} = props;
+
+  const offersFilteredByPriceInc = getFilteredOffersByPriceIncrease(offers);
+  const offersFilteredByPriceRed = getFilteredOffersByPriceReduce(offers);
+  const offersFilteredByRate = getFilteredOffersByRate(offers);
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -19,7 +24,7 @@ const SortForm = (props) => {
           className="places__option"
           tabIndex="0"
           onClick={() => {
-            onCityChange(offers, activeCity);
+            onSortClick(offersFilteredByCity);
           }}
         >
             Popular
@@ -28,7 +33,7 @@ const SortForm = (props) => {
           className="places__option"
           tabIndex="0"
           onClick={() => {
-            onSortPriceInc(offers);
+            onSortClick(offersFilteredByPriceInc);
           }}
         >
             Price: low to high
@@ -37,7 +42,7 @@ const SortForm = (props) => {
           className="places__option"
           tabIndex="0"
           onClick={() => {
-            onSortPriceRed(offers);
+            onSortClick(offersFilteredByPriceRed);
           }}
         >
             Price: high to low
@@ -46,7 +51,7 @@ const SortForm = (props) => {
           className="places__option"
           tabIndex="0"
           onClick={() => {
-            onSortRate(offers);
+            onSortClick(offersFilteredByRate);
           }}
         >
             Top rated first
@@ -57,12 +62,9 @@ const SortForm = (props) => {
 };
 
 SortForm.propTypes = {
-  activeCity: Types.CITY,
-  onCityChange: PropTypes.func.isRequired,
-  onSortPriceInc: PropTypes.func.isRequired,
-  onSortPriceRed: PropTypes.func.isRequired,
-  onSortRate: PropTypes.func.isRequired,
-  offers: PropTypes.arrayOf(Types.OFFER)
+  offersFilteredByCity: PropTypes.arrayOf(Types.OFFER),
+  offers: PropTypes.arrayOf(Types.OFFER),
+  onSortClick: PropTypes.func.isRequired
 };
 
 export default SortForm;

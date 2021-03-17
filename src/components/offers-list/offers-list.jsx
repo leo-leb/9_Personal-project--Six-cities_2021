@@ -6,21 +6,21 @@ import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/offers-list/action';
 
 const OffersList = (props) => {
-  const {offers, changeOfferId, changeActiveCard, screen, card, image} = props;
+  const {offers, changeActiveCard, screen, card, image} = props;
 
   return <>
-    {offers.map((offer, i) => <OfferCard offers={offers} offer={offer} onNameClick={changeOfferId} changeActiveCard={changeActiveCard} screen={screen} card={card} image={image} key={i}/>)}
+    {offers.map((offer, i) => <OfferCard offers={offers} offer={offer} changeActiveCard={changeActiveCard} screen={screen} card={card} image={image} key={i}/>)}
   </>;
 };
 
 const mapStateToProps = (state) => ({
-  activeOfferId: state.offersList.offerId
+  activeOfferCard: state.offersList.activeOfferCard,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeOfferId(id) {
-    dispatch(ActionCreator.changeOfferId(id));
-  }
+  changeActiveCard(offers, id) {
+    dispatch(ActionCreator.changeActiveCard(offers, id));
+  },
 });
 
 OffersList.propTypes = {
@@ -31,6 +31,7 @@ OffersList.propTypes = {
   screen: PropTypes.string.isRequired,
   card: PropTypes.string.isRequired,
   image: Types.IMAGE,
+  activeOfferCard: PropTypes.object,
 };
 
 export {OffersList};

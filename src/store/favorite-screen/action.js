@@ -1,16 +1,20 @@
+import {dataArrayAdapter} from '../../common';
+
 export const ActionType = {
-  CHANGE_ID: `favorite/changeId`,
-  UPDATE_OFFERS: `favorite/updateOffers`
+  CHANGE_STATUS: `favorites/changeStatus`,
+  LOAD_FAVORITE_OFFERS: `favorites/loadOffers`
 };
 
 export const ActionCreator = {
-  changeId: (userId) => ({
-    type: ActionType.CHANGE_ID,
-    payload: userId
+  changeAuthStatus: (status) => ({
+    type: ActionType.CHANGE_STATUS,
+    payload: status
   }),
-
-  updateOffers: (favoriteOffers) => ({
-    type: ActionType.UPDATE_OFFERS,
-    payload: favoriteOffers
-  }),
+  loadOffers: (offers) => {
+    let updatedData = dataArrayAdapter(offers);
+    return {
+      type: ActionType.LOAD_OFFERS,
+      payload: updatedData
+    };
+  }
 };

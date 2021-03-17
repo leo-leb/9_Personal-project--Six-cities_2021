@@ -1,10 +1,16 @@
+import {getFilteredOffersById} from '../../selectors';
+
 export const ActionType = {
-  CHANGE_OFFER_ID: `offersList/changeOfferId`
+  CHANGE_CARD: `offersList/changeActiveCard`
 };
 
 export const ActionCreator = {
-  changeOfferId: (id) => ({
-    type: ActionType.CHANGE_OFFER_ID,
-    payload: id
-  })
+  changeActiveCard: (offers, id) => {
+    let activeOfferCard = getFilteredOffersById(offers, id);
+
+    return {
+      type: ActionType.CHANGE_CARD,
+      payload: activeOfferCard
+    };
+  }
 };
