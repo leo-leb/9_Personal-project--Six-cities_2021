@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
-import FavoritesList from '../favorites-list/favorites-list';
-import LoadingScreen from '../loading-screen/loading-screen';
 import {Link} from 'react-router-dom';
 import {Routes} from '../../consts';
 import {connect} from 'react-redux';
-import Types from '../../types';
 import PropTypes from 'prop-types';
 
+import FavoritesList from '../favorites-list/favorites-list';
+import LoadingScreen from '../loading-screen/loading-screen';
+import Types from '../../types';
 import {fetchFavoriteOffersList} from "../../store/api-actions";
 
 const FavoritesScreen = (props) => {

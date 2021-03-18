@@ -2,9 +2,9 @@ import React from 'react';
 import leaflet from 'leaflet';
 import {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
-import Types from '../../types';
 import {connect} from 'react-redux';
 
+import Types from '../../types';
 import "leaflet/dist/leaflet.css";
 
 const Map = (props) => {

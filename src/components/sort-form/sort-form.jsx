@@ -1,6 +1,7 @@
 import React from 'react';
-import Types from '../../types';
 import PropTypes from 'prop-types';
+
+import Types from '../../types';
 import {getFilteredOffersByPriceIncrease, getFilteredOffersByPriceReduce, getFilteredOffersByRate} from '../../selectors';
 
 const SortForm = (props) => {

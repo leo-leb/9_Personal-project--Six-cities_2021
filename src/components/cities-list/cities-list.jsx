@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {cities} from '../../consts';
+
 import Types from '../../types';
+import {cities} from '../../consts';
 import {getFilteredOffersByCity} from '../../selectors';
 
 const CitiesList = (props) => {

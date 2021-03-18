@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {Routes, screenForCardClass, typeOfCards, sizesForImages, starsRate} from '../../consts';
-import {getFilteredOffersById} from '../../selectors';
+
 import ReviewsList from '../reviews-list/reviews-list';
 import OffersList from '../offers-list/offers-list';
 import ReviewForm from '../review-form/review-form';
@@ -11,6 +10,8 @@ import PropTypes from 'prop-types';
 import Map from '../map/map';
 import {createAPI} from "../../services/api";
 import {dataArrayAdapter} from '../../common';
+import {Routes, settingsForCard, starsRate} from '../../consts';
+import {getFilteredOffersById} from '../../selectors';
 
 const RoomScreen = (props) => {
   const {offers} = props;
@@ -42,10 +43,6 @@ const RoomScreen = (props) => {
   const currentOffer = getFilteredOffersById(offers, offerId);
 
   const {isPremium, maxAdults, bedrooms, price, rating, type, title, description, goods, images, host, city} = currentOffer;
-
-  const screen = screenForCardClass.ROOM;
-  const card = typeOfCards.Card;
-  const image = sizesForImages.BIG;
 
   return (
     <div className="page">
@@ -161,7 +158,7 @@ const RoomScreen = (props) => {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <OffersList offers={neighborOffers} screen={screen} card={card} image={image}/>
+              <OffersList offers={neighborOffers} cardSet={settingsForCard.ROOM}/>
             </div>
           </section>
         </div>
@@ -178,8 +175,6 @@ const mapStateToProps = (state) => ({
 
 RoomScreen.propTypes = {
   offers: PropTypes.arrayOf(Types.OFFER),
-  activeOfferCard: PropTypes.object.isRequired,
-  activeOffer: Types.OFFER
 };
 
 export {RoomScreen};

@@ -1,16 +1,13 @@
 import React from 'react';
-import Types from '../../types';
 import PropTypes from 'prop-types';
+
 import OffersList from '../offers-list/offers-list';
-import {screenForCardClass, typeOfCards, sizesForImages} from '../../consts';
+import Types from '../../types';
+import {settingsForCard} from '../../consts';
 import {getCitiesFromOffers, getFavoriteOffersByCity} from '../../selectors';
 
 const FavoritesList = (props) => {
   const {offers} = props;
-
-  const screen = screenForCardClass.FAVORITES;
-  const card = typeOfCards.Card;
-  const image = sizesForImages.SMALL;
 
   const cities = getCitiesFromOffers(offers);
 
@@ -26,7 +23,7 @@ const FavoritesList = (props) => {
             </div>
           </div>
           <div className="favorites__places">
-            <OffersList offers={getFavoriteOffersByCity(offers, city)} screen={screen} card={card} image={image}/>
+            <OffersList offers={getFavoriteOffersByCity(offers, city)} cardSet={settingsForCard.FAVORITES}/>
           </div>
         </li>
       ))}

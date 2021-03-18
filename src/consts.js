@@ -1,40 +1,40 @@
-const Routes = {
+export const Routes = {
   MAIN: `/`,
   FAVORITES: `/favorites`,
   SIGNIN: `/login`,
   ROOM: `/offer/:id?`
 };
 
-const city = {
-  lat: 52.38333,
-  lng: 4.9,
-};
-
-const screenForCardClass = {
-  MAIN: `cities`,
-  ROOM: `near-places`,
-  FAVORITES: `favorites`,
-};
-
-const typeOfCards = {
-  PlaceCard: `place-card`,
-  Card: `card`
-};
-
-const sizesForImages = {
-  SMALL: {
-    width: `150`,
-    height: `110`
+export const settingsForCard = {
+  MAIN: {
+    screen: `cities`,
+    card: `place-card`,
+    image: {
+      width: `260`,
+      height: `200`
+    }
   },
-  BIG: {
-    width: `260`,
-    height: `200`
+  ROOM: {
+    screen: `near-places`,
+    card: `card`,
+    image: {
+      width: `260`,
+      height: `200`
+    }
+  },
+  FAVORITES: {
+    screen: `favorites`,
+    card: `card`,
+    image: {
+      width: `150`,
+      height: `110`
+    }
   }
 };
 
-const stars = [`5`, `4`, `3`, `2`, `1`];
+export const stars = [`5`, `4`, `3`, `2`, `1`];
 
-const starsRate = (rate) => {
+export const starsRate = (rate) => {
   switch (rate) {
     case 5:
       return `100%`;
@@ -51,7 +51,7 @@ const starsRate = (rate) => {
   }
 };
 
-const cities = [
+export const cities = [
   {
     location: {
       latitude: 48.864716,
@@ -102,13 +102,11 @@ const cities = [
   }
 ];
 
-const defaultStates = {
+export const defaultStates = {
   MAIN: cities[0]
 };
 
-const AuthorizationStatus = {
+export const AuthorizationStatus = {
   AUTH: `AUTH`,
   NO_AUTH: `NO_AUTH`,
 };
-
-export {Routes, stars, city, starsRate, screenForCardClass, typeOfCards, sizesForImages, cities, defaultStates, AuthorizationStatus};

@@ -1,15 +1,16 @@
 import React from 'react';
 import OfferCard from '../offer-card/offer-card';
-import Types from '../../types';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+
+import Types from '../../types';
 import {ActionCreator} from '../../store/offers-list/action';
 
 const OffersList = (props) => {
-  const {offers, changeActiveCard, screen, card, image} = props;
+  const {offers, changeActiveCard, cardSet} = props;
 
   return <>
-    {offers.map((offer, i) => <OfferCard offers={offers} offer={offer} changeActiveCard={changeActiveCard} screen={screen} card={card} image={image} key={i}/>)}
+    {offers.map((offer, i) => <OfferCard offers={offers} offer={offer} changeActiveCard={changeActiveCard} cardSet={cardSet} key={i}/>)}
   </>;
 };
 
@@ -25,12 +26,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 OffersList.propTypes = {
   offers: PropTypes.arrayOf(Types.OFFER),
-  activeOffer: PropTypes.number,
   changeActiveCard: PropTypes.func,
-  changeOfferId: PropTypes.func,
-  screen: PropTypes.string.isRequired,
-  card: PropTypes.string.isRequired,
-  image: Types.IMAGE,
+  cardSet: Types.CARD_SET,
   activeOfferCard: PropTypes.object,
 };
 

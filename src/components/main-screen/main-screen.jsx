@@ -1,28 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import OffersList from '../offers-list/offers-list';
-import LoadingScreen from '../loading-screen/loading-screen';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {Routes, cities, screenForCardClass, typeOfCards, sizesForImages} from '../../consts';
-import {getFilteredOffersByCity} from '../../selectors';
-import Types from '../../types';
-import Map from '../map/map';
-import CitiesList from '../cities-list/cities-list';
-import SortForm from '../sort-form/sort-form';
 import PropTypes from 'prop-types';
 
+import CitiesList from '../cities-list/cities-list';
+import OffersList from '../offers-list/offers-list';
+import Map from '../map/map';
+import LoadingScreen from '../loading-screen/loading-screen';
+import SortForm from '../sort-form/sort-form';
+import Types from '../../types';
+import {Routes, settingsForCard, defaultStates} from '../../consts';
+import {getFilteredOffersByCity} from '../../selectors';
 import {fetchOffersList} from "../../store/api-actions";
 
 const MainScreen = (props) => {
   const {offers, isDataLoaded, onLoadData} = props;
 
-  const [city, setCity] = useState(cities[0]);
-
-  const screen = screenForCardClass.MAIN;
-  const card = typeOfCards.PlaceCard;
-  const image = sizesForImages.BIG;
+  const [city, setCity] = useState(defaultStates.MAIN);
   const offersFilteredByCity = getFilteredOffersByCity(offers, city);
-
   const [filterOffers, setFilteredOffers] = useState(offersFilteredByCity);
 
   useEffect(() => {
@@ -78,7 +73,7 @@ const MainScreen = (props) => {
               <b className="places__found"> places to stay in {city.name}</b>
               <SortForm offers={filterOffers} offersFilteredByCity={offersFilteredByCity} onSortClick={setFilteredOffers}/>
               <div className="cities__places-list places__list tabs__content">
-                <OffersList offers={filterOffers} screen={screen} card={card} image={image}/>
+                <OffersList offers={filterOffers} cardSet={settingsForCard.MAIN}/>
               </div>
             </section>
             <div className="cities__right-section">
@@ -110,7 +105,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 MainScreen.propTypes = {
   offers: PropTypes.arrayOf(Types.OFFER),
-  offersSorted: PropTypes.arrayOf(Types.OFFER),
   isDataLoaded: PropTypes.bool.isRequired,
   onLoadData: PropTypes.func.isRequired
 };

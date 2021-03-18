@@ -1,6 +1,7 @@
 import React from 'react';
-import ReviewCard from '../review-card/review-card';
 import PropTypes from 'prop-types';
+
+import ReviewCard from '../review-card/review-card';
 
 const ReviewsList = (props) => {
   const {reviews} = props;

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+
 import {stars} from '../../consts';
 
 const ReviewForm = () => {

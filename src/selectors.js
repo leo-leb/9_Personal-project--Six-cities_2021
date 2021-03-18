@@ -1,40 +1,40 @@
-const getFilteredOffersById = (offers, id) => {
+export const getFilteredOffersById = (offers, id) => {
   return offers.find((offer) => {
     return offer.id === id;
   });
 };
 
-const getUpdatedOffer = (offers, id) => {
+export const getUpdatedOffer = (offers, id) => {
   return offers.find((offer) => {
     return offer.id === id;
   });
 };
 
-const getFilteredOffersByCity = (offers, city) => {
+export const getFilteredOffersByCity = (offers, city) => {
   return offers.filter((offer) => {
     return offer.city.name === city.name;
   });
 };
 
-const getFilteredOffersByPriceIncrease = (offers) => {
+export const getFilteredOffersByPriceIncrease = (offers) => {
   return offers.sort((a, b) => {
     return a.price - b.price;
   });
 };
 
-const getFilteredOffersByPriceReduce = (offers) => {
+export const getFilteredOffersByPriceReduce = (offers) => {
   return offers.sort((a, b) => {
     return b.price - a.price;
   });
 };
 
-const getFilteredOffersByRate = (offers) => {
+export const getFilteredOffersByRate = (offers) => {
   return offers.sort((a, b) => {
     return b.rating - a.rating;
   });
 };
 
-const getCitiesFromOffers = (offers) => {
+export const getCitiesFromOffers = (offers) => {
   let citiesList = [];
   offers
     .forEach((offer) => {
@@ -45,10 +45,8 @@ const getCitiesFromOffers = (offers) => {
   return citiesList;
 };
 
-const getFavoriteOffersByCity = (offers, city) => {
+export const getFavoriteOffersByCity = (offers, city) => {
   return offers.filter((offer) => {
     return offer.city.name === city && offer.isFavorite;
   });
 };
-
-export {getFilteredOffersByCity, getFilteredOffersById, getFilteredOffersByPriceIncrease, getFilteredOffersByPriceReduce, getFilteredOffersByRate, getUpdatedOffer, getCitiesFromOffers, getFavoriteOffersByCity};

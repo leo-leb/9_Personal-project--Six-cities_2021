@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
-import Types from '../../types';
 import PropTypes from 'prop-types';
-import {screenForCardClass, starsRate} from '../../consts';
+
+import Types from '../../types';
+import {settingsForCard, starsRate} from '../../consts';
 
 const OfferCard = (props) => {
-  const {offers, screen, changeActiveCard, offer, card, image} = props;
+  const {offers, changeActiveCard, offer, cardSet} = props;
   const {id, isPremium, previewImage, price, rating, title, type} = offer;
 
   const [activeOffer, setActiveOffer] = useState(null);
@@ -16,21 +17,21 @@ const OfferCard = (props) => {
 
   return (
     <article
-      className={screen + `__` + card + ` place-card`}
+      className={cardSet.screen + `__` + cardSet.card + ` place-card`}
       onMouseEnter={() => {
         setActiveOffer(id);
       }}
     >
-      {screen === screenForCardClass.MAIN && isPremium && <div className="place-card__mark"><span>Premium</span></div>}
+      {cardSet.screen === settingsForCard.MAIN.screen && isPremium && <div className="place-card__mark"><span>Premium</span></div>}
       <div
-        className={screen + `__image-wrapper place-card__image-wrapper`}
+        className={cardSet.screen + `__image-wrapper place-card__image-wrapper`}
       >
         <a href="#">
-          <img className="place-card__image" src={previewImage} width={image.width} height={image.height} alt="Place image" />
+          <img className="place-card__image" src={previewImage} width={cardSet.image.width} height={cardSet.image.height} alt="Place image" />
         </a>
       </div>
       <div
-        className={screen !== screenForCardClass.FAVORITES ? `place-card__info` : screenForCardClass.FAVORITES + `__card-info place-card__info`}
+        className={cardSet.screen !== settingsForCard.FAVORITES.screen ? `place-card__info` : settingsForCard.FAVORITES.screen + `__card-info place-card__info`}
       >
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
@@ -68,12 +69,8 @@ const OfferCard = (props) => {
 
 OfferCard.propTypes = {
   offer: Types.OFFER,
-  clickedOffer: PropTypes.number,
   changeActiveCard: PropTypes.func,
-  screen: PropTypes.string.isRequired,
-  card: PropTypes.string.isRequired,
-  image: Types.IMAGE,
-  onNameClick: PropTypes.func.isRequired,
+  cardSet: Types.CARD_SET,
   offers: PropTypes.arrayOf(Types.OFFER)
 };
 

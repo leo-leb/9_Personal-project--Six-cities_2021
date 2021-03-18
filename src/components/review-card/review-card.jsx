@@ -1,6 +1,8 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
+
+import Types from '../../types';
 import {starsRate} from '../../consts';
 
 const ReviewCard = (props) => {
@@ -35,7 +37,7 @@ const ReviewCard = (props) => {
 };
 
 ReviewCard.propTypes = {
-  review: PropTypes.object
+  review: PropTypes.arrayOf(Types.REVIEW)
 };
 
 export default ReviewCard;
