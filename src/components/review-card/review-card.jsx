@@ -37,7 +37,7 @@ const ReviewCard = (props) => {
 };
 
 ReviewCard.propTypes = {
-  review: PropTypes.arrayOf(Types.REVIEW)
+  review: Types.REVIEW
 };
 
 export default ReviewCard;

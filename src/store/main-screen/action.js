@@ -1,7 +1,7 @@
 import {dataArrayAdapter} from '../../common';
 
 export const ActionType = {
-  LOAD_OFFERS: `data/loadOffers`,
+  LOAD_OFFERS: `main/loadOffers`,
 };
 
 export const ActionCreator = {

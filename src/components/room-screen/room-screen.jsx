@@ -13,6 +13,8 @@ import {dataArrayAdapter} from '../../common';
 import {Routes, settingsForCard, starsRate} from '../../consts';
 import {getFilteredOffersById} from '../../selectors';
 
+import {getReviews, getNearOffers} from "../../store/api-actions";
+
 const RoomScreen = (props) => {
   const {offers} = props;
 
@@ -22,21 +24,29 @@ const RoomScreen = (props) => {
   let {id} = useParams();
   const offerId = Number(id);
 
-  const api = createAPI();
+  // useEffect(() => {
+  //   setReview(getReviews(offerId));
+  // }, [id]);
 
-  useEffect(() => {
-    api
-      .get(`/comments/${offerId}`)
-      .then(({data}) => {
-        setReview(dataArrayAdapter(data));
-      });
-  }, [id]);
+  // useEffect(() => {
+  //   setReview(getNearOffers(offerId));
+  // }, [id]);
+
+  const api = createAPI();
 
   useEffect(() => {
     api
       .get(`/hotels/${offerId}/nearby`)
       .then(({data}) => {
         setNeighborOffers(dataArrayAdapter(data));
+      });
+  }, [id]);
+
+  useEffect(() => {
+    api
+      .get(`/comments/${offerId}`)
+      .then(({data}) => {
+        setReview(dataArrayAdapter(data));
       });
   }, [id]);
 
@@ -103,7 +113,7 @@ const RoomScreen = (props) => {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: starsRate(rating)}}></span>
+                  <span style={{width: starsRate(Math.round(rating))}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{rating}</span>

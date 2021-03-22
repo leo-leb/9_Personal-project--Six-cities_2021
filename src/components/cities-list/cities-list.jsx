@@ -10,6 +10,10 @@ const CitiesList = (props) => {
 
   const offersFilteredByCity = getFilteredOffersByCity(offers, activeCity);
 
+  // useEffect(() => {
+  //   onCityChange(offersFilteredByCity);
+  // }, [activeCity]);
+
   return (
     <ul className="locations__list tabs__list">
       {cities.map((city, i) => {
@@ -18,7 +22,7 @@ const CitiesList = (props) => {
             className="locations__item" key={city + i}
             onClick={() => {
               setActiveCity(city);
-              onCityChange(offersFilteredByCity);
+              // onCityChange(offersFilteredByCity);
             }}
           >
             <a

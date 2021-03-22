@@ -20,6 +20,7 @@ const OfferCard = (props) => {
       className={cardSet.screen + `__` + cardSet.card + ` place-card`}
       onMouseEnter={() => {
         setActiveOffer(id);
+        changeActiveCard(offers, activeOffer);
       }}
     >
       {cardSet.screen === settingsForCard.MAIN.screen && isPremium && <div className="place-card__mark"><span>Premium</span></div>}
@@ -47,7 +48,7 @@ const OfferCard = (props) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: starsRate(rating)}}></span>
+            <span style={{width: starsRate(Math.round(rating))}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

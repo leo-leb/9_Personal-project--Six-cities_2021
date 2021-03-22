@@ -10,19 +10,20 @@ import Types from '../../types';
 import {fetchFavoriteOffersList} from "../../store/api-actions";
 
 const FavoritesScreen = (props) => {
-  const {favorites, isDataLoaded, onLoadData} = props;
+  // const {favorites, isDataLoaded, onLoadData} = props;
+  const {favorites} = props;
 
-  useEffect(() => {
-    if (!isDataLoaded) {
-      onLoadData();
-    }
-  }, [isDataLoaded]);
+  // useEffect(() => {
+  //   if (!isDataLoaded) {
+  //     onLoadData();
+  //   }
+  // }, [isDataLoaded]);
 
-  if (!isDataLoaded) {
-    return (
-      <LoadingScreen />
-    );
-  }
+  // if (!isDataLoaded) {
+  //   return (
+  //     <LoadingScreen />
+  //   );
+  // }
 
   return (
     <div className="page">
@@ -65,20 +66,20 @@ const FavoritesScreen = (props) => {
 
 const mapStateToProps = (state) => ({
   favorites: state.favorite.favorites,
-  isDataLoaded: state.favorite.isDataLoaded,
+  // isDataLoaded: state.favorite.isDataLoaded,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onLoadData() {
-    dispatch(fetchFavoriteOffersList());
-  }
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   onLoadData() {
+//     dispatch(fetchFavoriteOffersList());
+//   }
+// });
 
 FavoritesScreen.propTypes = {
   favorites: PropTypes.arrayOf(Types.OFFER),
-  isDataLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired
+  // isDataLoaded: PropTypes.bool.isRequired,
+  // onLoadData: PropTypes.func.isRequired
 };
 
 export {FavoritesScreen};
-export default connect(mapStateToProps, mapDispatchToProps)(FavoritesScreen);
+export default connect(mapStateToProps)(FavoritesScreen);

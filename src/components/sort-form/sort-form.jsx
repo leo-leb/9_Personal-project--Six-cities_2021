@@ -5,11 +5,7 @@ import Types from '../../types';
 import {getFilteredOffersByPriceIncrease, getFilteredOffersByPriceReduce, getFilteredOffersByRate} from '../../selectors';
 
 const SortForm = (props) => {
-  const {offersFilteredByCity, onSortClick, offers} = props;
-
-  const offersFilteredByPriceInc = getFilteredOffersByPriceIncrease(offers);
-  const offersFilteredByPriceRed = getFilteredOffersByPriceReduce(offers);
-  const offersFilteredByRate = getFilteredOffersByRate(offers);
+  const {onSortClick, offers} = props;
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -25,7 +21,7 @@ const SortForm = (props) => {
           className="places__option"
           tabIndex="0"
           onClick={() => {
-            onSortClick(offersFilteredByCity);
+            onSortClick(offers);
           }}
         >
             Popular
@@ -34,7 +30,7 @@ const SortForm = (props) => {
           className="places__option"
           tabIndex="0"
           onClick={() => {
-            onSortClick(offersFilteredByPriceInc);
+            onSortClick(getFilteredOffersByPriceIncrease(offers));
           }}
         >
             Price: low to high
@@ -43,7 +39,7 @@ const SortForm = (props) => {
           className="places__option"
           tabIndex="0"
           onClick={() => {
-            onSortClick(offersFilteredByPriceRed);
+            onSortClick(getFilteredOffersByPriceReduce(offers));
           }}
         >
             Price: high to low
@@ -52,7 +48,7 @@ const SortForm = (props) => {
           className="places__option"
           tabIndex="0"
           onClick={() => {
-            onSortClick(offersFilteredByRate);
+            onSortClick(getFilteredOffersByRate(offers));
           }}
         >
             Top rated first
@@ -63,7 +59,7 @@ const SortForm = (props) => {
 };
 
 SortForm.propTypes = {
-  offersFilteredByCity: PropTypes.arrayOf(Types.OFFER),
+  // offersFilteredByCity: PropTypes.arrayOf(Types.OFFER),
   offers: PropTypes.arrayOf(Types.OFFER),
   onSortClick: PropTypes.func.isRequired
 };

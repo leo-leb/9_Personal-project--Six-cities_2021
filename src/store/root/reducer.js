@@ -1,19 +1,19 @@
 import {ActionType} from './action';
 
 const initialState = {
-  offers: []
+  isAppReady: false
 };
 
-const reducerMain = (state = initialState, action) => {
+const reducerRoot = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.LOAD_OFFERS:
+    case ActionType.SET_READY:
       return {
         ...state,
-        offers: action.payload
+        isAppReady: true
       };
     default:
       return state;
   }
 };
 
-export default reducerMain;
+export default reducerRoot;

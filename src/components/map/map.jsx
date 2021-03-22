@@ -10,6 +10,8 @@ import "leaflet/dist/leaflet.css";
 const Map = (props) => {
   const {city, points, activeCard} = props;
 
+  const id = activeCard ? activeCard.id : null;
+
   const mapRef = useRef();
 
   const basicIcon = leaflet.icon({
@@ -91,7 +93,7 @@ const Map = (props) => {
     return () => {
       markers.forEach((marker) => mapRef.current.removeLayer(marker));
     };
-  }, [city, points, activeCard]);
+  }, [city, points, id]);
 
   return <>
     <div id="map" style={{width: `100%`, height: `100%`}} ref={mapRef}></div>

@@ -6,10 +6,10 @@ export const ActionType = {
 };
 
 export const ActionCreator = {
-  changeAuthStatus: (status) => ({
-    type: ActionType.CHANGE_STATUS,
-    payload: status
-  }),
+  // changeAuthStatus: (status) => ({
+  //   type: ActionType.CHANGE_STATUS,
+  //   payload: status
+  // }),
   loadOffers: (offers) => {
     let updatedData = dataArrayAdapter(offers);
     return {

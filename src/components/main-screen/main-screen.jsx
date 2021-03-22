@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import CitiesList from '../cities-list/cities-list';
 import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
-import LoadingScreen from '../loading-screen/loading-screen';
 import SortForm from '../sort-form/sort-form';
 import Types from '../../types';
 import {Routes, settingsForCard, defaultStates} from '../../consts';
@@ -14,23 +13,15 @@ import {getFilteredOffersByCity} from '../../selectors';
 import {fetchOffersList} from "../../store/api-actions";
 
 const MainScreen = (props) => {
-  const {offers, isDataLoaded, onLoadData} = props;
+  const {offers, isAppReady} = props;
 
   const [city, setCity] = useState(defaultStates.MAIN);
-  const offersFilteredByCity = getFilteredOffersByCity(offers, city);
-  const [filterOffers, setFilteredOffers] = useState(offersFilteredByCity);
+  let offersFilteredByCity = getFilteredOffersByCity(offers, city);
+  const [filterOffers, setFilteredOffers] = useState([]);
 
   useEffect(() => {
-    if (!isDataLoaded) {
-      onLoadData();
-    }
-  }, [isDataLoaded]);
-
-  if (!isDataLoaded) {
-    return (
-      <LoadingScreen />
-    );
-  }
+    setFilteredOffers(offersFilteredByCity);
+  }, [city]);
 
   return (
     <div className="page page--gray page--main">
@@ -58,12 +49,11 @@ const MainScreen = (props) => {
         </div>
       </header>
 
-
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList activeCity={city} setActiveCity={setCity} onCityChange={setFilteredOffers} offers={filterOffers}/>
+            <CitiesList activeCity={city} setActiveCity={setCity} onCityChange={setFilteredOffers} offers={offers}/>
           </section>
         </div>
         <div className="cities">
@@ -71,8 +61,9 @@ const MainScreen = (props) => {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found"> places to stay in {city.name}</b>
-              <SortForm offers={filterOffers} offersFilteredByCity={offersFilteredByCity} onSortClick={setFilteredOffers}/>
+              {/* <SortForm offers={offersFilteredByCity} onSortClick={setFilteredOffers}/> */}
               <div className="cities__places-list places__list tabs__content">
+                {/* <OffersList offers={filterOffers} cardSet={settingsForCard.MAIN}/> */}
                 <OffersList offers={filterOffers} cardSet={settingsForCard.MAIN}/>
               </div>
             </section>
@@ -94,19 +85,23 @@ const MainScreen = (props) => {
 
 const mapStateToProps = (state) => ({
   offers: state.main.offers,
-  isDataLoaded: state.main.isDataLoaded,
+  isAppReady: state.root.isAppReady
+  // isDataLoaded: state.main.isDataLoaded,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadData() {
     dispatch(fetchOffersList());
-  }
+  },
 });
 
 MainScreen.propTypes = {
   offers: PropTypes.arrayOf(Types.OFFER),
-  isDataLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired
+  // isDataLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired,
+  isAppReady: PropTypes.bool.isRequired,
+  // filterOffersByCity: PropTypes.func.isRequired,
+  // filteredOffers: PropTypes.arrayOf(Types.OFFER),
 };
 
 export {MainScreen};
