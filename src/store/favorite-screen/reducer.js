@@ -1,24 +1,21 @@
 import {ActionType} from './action';
-import {AuthorizationStatus} from '../../consts';
 
 const initialState = {
-  // authStatus: AuthorizationStatus.NO_AUTH,
   favoriteOffers: [],
-  // isDataLoaded: false
+  isDataLoaded: false
 };
 
 const reducerFavorites = (state = initialState, action) => {
   switch (action.type) {
-    // case ActionType.CHANGE_STATUS:
-    //   return {
-    //     ...state,
-    //     authStatus: action.payload,
-    //   };
-    case ActionType.LOAD_OFFERS:
+    case ActionType.LOAD_FAVORITE_OFFERS:
       return {
         ...state,
-        favoriteOffers: action.payload,
-        // isDataLoaded: true
+        favoriteOffers: action.payload
+      };
+    case ActionType.SET_LOADING_STATUS:
+      return {
+        ...state,
+        isDataLoaded: action.payload
       };
     default:
       return state;

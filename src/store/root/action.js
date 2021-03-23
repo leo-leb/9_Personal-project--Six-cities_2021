@@ -1,5 +1,3 @@
-// import {dataArrayAdapter} from '../../common';
-
 export const ActionType = {
   SET_READY: `root/setAppReady`
 };

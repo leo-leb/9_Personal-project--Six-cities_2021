@@ -4,13 +4,13 @@ import {Routes} from '../../consts';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-// import Types from '../../types';
 import LoadingScreen from '../loading-screen/loading-screen';
 import MainScreen from '../main-screen/main-screen';
 import SignInScreen from '../sign-in-screen/sign-in-screen';
 import FavoritesScreen from '../favorites-screen/favorites-screen';
 import RoomScreen from '../room-screen/room-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import PrivateRoute from '../private-route/private-route';
 
 import {initApp} from "../../store/api-actions";
 
@@ -33,9 +33,13 @@ const App = (props) => {
     <BrowserRouter>
       <Switch>
         <Route path={Routes.MAIN} exact component={MainScreen}></Route>
-        <Route path={Routes.FAVORITES} exact component={FavoritesScreen}></Route>
         <Route path={Routes.ROOM} exact component={RoomScreen}></Route>
         <Route path={Routes.SIGNIN} exact component={SignInScreen}></Route>
+        <PrivateRoute
+          path={Routes.FAVORITES}
+          render={() => <FavoritesScreen />}
+        >
+        </PrivateRoute>
         <Route exact component={NotFoundScreen}></Route>
       </Switch>
     </BrowserRouter>
@@ -43,8 +47,7 @@ const App = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  isAppReady: state.root.isAppReady,
-  // offers: state.main.offers
+  isAppReady: state.root.isAppReady
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -54,7 +57,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 App.propTypes = {
-  // offers: PropTypes.arrayOf(Types.OFFER),
   isAppReady: PropTypes.bool.isRequired,
   onInitApp: PropTypes.func.isRequired
 };

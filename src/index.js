@@ -7,7 +7,7 @@ import App from './components/app/app';
 import reducer from './store/reducer';
 import thunk from "redux-thunk";
 import {createAPI} from "./services/api";
-import {ActionCreator} from './store/main-screen/action';
+import {ActionCreator} from './store/app/action';
 import {checkAuth} from "./store/api-actions";
 import {AuthorizationStatus} from "./consts";
 

@@ -1,20 +1,17 @@
-import {dataArrayAdapter} from '../../common';
-
 export const ActionType = {
-  CHANGE_STATUS: `favorites/changeStatus`,
-  LOAD_FAVORITE_OFFERS: `favorites/loadOffers`
+  LOAD_FAVORITE_OFFERS: `favorites/loadOffers`,
+  SET_LOADING_STATUS: `favorites/setLoadingStatus`
 };
 
 export const ActionCreator = {
-  // changeAuthStatus: (status) => ({
-  //   type: ActionType.CHANGE_STATUS,
-  //   payload: status
-  // }),
-  loadOffers: (offers) => {
-    let updatedData = dataArrayAdapter(offers);
+  loadOffers: (offers) => ({
+    type: ActionType.LOAD_FAVORITE_OFFERS,
+    payload: offers
+  }),
+  setLoadingStatus: (status) => {
     return {
-      type: ActionType.LOAD_OFFERS,
-      payload: updatedData
+      type: ActionType.SET_LOADING_STATUS,
+      payload: status
     };
   }
 };

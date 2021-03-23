@@ -8,12 +8,11 @@ import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import SortForm from '../sort-form/sort-form';
 import Types from '../../types';
-import {Routes, settingsForCard, defaultStates} from '../../consts';
+import {Routes, settingsForCard, defaultStates, AuthorizationStatus} from '../../consts';
 import {getFilteredOffersByCity} from '../../selectors';
-import {fetchOffersList} from "../../store/api-actions";
 
 const MainScreen = (props) => {
-  const {offers, isAppReady} = props;
+  const {offers, authorizationStatus} = props;
 
   const [city, setCity] = useState(defaultStates.MAIN);
   let offersFilteredByCity = getFilteredOffersByCity(offers, city);
@@ -37,11 +36,18 @@ const MainScreen = (props) => {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={Routes.FAVORITES}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </Link>
+                  {authorizationStatus === AuthorizationStatus.AUTH ?
+                    <Link className="header__nav-link header__nav-link--profile" to={Routes.FAVORITES}>
+                      <div className="header__avatar-wrapper user__avatar-wrapper">
+                      </div>
+                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                    </Link> :
+                    <Link className="header__nav-link header__nav-link--profile" to={Routes.SIGNIN}>
+                      <div className="header__avatar-wrapper user__avatar-wrapper">
+                      </div>
+                      <span className="header__login">Sign in</span>
+                    </Link>
+                  }
                 </li>
               </ul>
             </nav>
@@ -61,9 +67,8 @@ const MainScreen = (props) => {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found"> places to stay in {city.name}</b>
-              {/* <SortForm offers={offersFilteredByCity} onSortClick={setFilteredOffers}/> */}
+              <SortForm offers={offersFilteredByCity} onSortClick={setFilteredOffers}/>
               <div className="cities__places-list places__list tabs__content">
-                {/* <OffersList offers={filterOffers} cardSet={settingsForCard.MAIN}/> */}
                 <OffersList offers={filterOffers} cardSet={settingsForCard.MAIN}/>
               </div>
             </section>
@@ -85,24 +90,13 @@ const MainScreen = (props) => {
 
 const mapStateToProps = (state) => ({
   offers: state.main.offers,
-  isAppReady: state.root.isAppReady
-  // isDataLoaded: state.main.isDataLoaded,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadData() {
-    dispatch(fetchOffersList());
-  },
+  authorizationStatus: state.app.authorizationStatus
 });
 
 MainScreen.propTypes = {
   offers: PropTypes.arrayOf(Types.OFFER),
-  // isDataLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired,
-  isAppReady: PropTypes.bool.isRequired,
-  // filterOffersByCity: PropTypes.func.isRequired,
-  // filteredOffers: PropTypes.arrayOf(Types.OFFER),
+  authorizationStatus: PropTypes.string.isRequired
 };
 
 export {MainScreen};
-export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
+export default connect(mapStateToProps, null)(MainScreen);

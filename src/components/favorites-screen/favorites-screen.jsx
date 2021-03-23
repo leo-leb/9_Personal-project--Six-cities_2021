@@ -3,27 +3,21 @@ import {Link} from 'react-router-dom';
 import {Routes} from '../../consts';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import {ActionCreator} from "../../store/favorite-screen/action";
 
 import FavoritesList from '../favorites-list/favorites-list';
-import LoadingScreen from '../loading-screen/loading-screen';
 import Types from '../../types';
 import {fetchFavoriteOffersList} from "../../store/api-actions";
 
 const FavoritesScreen = (props) => {
-  // const {favorites, isDataLoaded, onLoadData} = props;
-  const {favorites} = props;
+  const {favorites, onLoadData, authorizationStatus, isDataLoaded, changeLoadingStatus} = props;
 
-  // useEffect(() => {
-  //   if (!isDataLoaded) {
-  //     onLoadData();
-  //   }
-  // }, [isDataLoaded]);
-
-  // if (!isDataLoaded) {
-  //   return (
-  //     <LoadingScreen />
-  //   );
-  // }
+  useEffect(() => {
+    if (!isDataLoaded) {
+      onLoadData();
+      changeLoadingStatus(true);
+    }
+  }, [authorizationStatus]);
 
   return (
     <div className="page">
@@ -65,21 +59,27 @@ const FavoritesScreen = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  favorites: state.favorite.favorites,
-  // isDataLoaded: state.favorite.isDataLoaded,
+  favorites: state.favorite.favoriteOffers,
+  isDataLoaded: state.favorite.isDataLoaded,
+  authorizationStatus: state.app.authorizationStatus
 });
 
-// const mapDispatchToProps = (dispatch) => ({
-//   onLoadData() {
-//     dispatch(fetchFavoriteOffersList());
-//   }
-// });
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData() {
+    dispatch(fetchFavoriteOffersList);
+  },
+  changeLoadingStatus(status) {
+    dispatch(ActionCreator.setLoadingStatus(status));
+  }
+});
 
 FavoritesScreen.propTypes = {
   favorites: PropTypes.arrayOf(Types.OFFER),
-  // isDataLoaded: PropTypes.bool.isRequired,
-  // onLoadData: PropTypes.func.isRequired
+  onLoadData: PropTypes.func.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
+  isDataLoaded: PropTypes.bool.isRequired,
+  changeLoadingStatus: PropTypes.func.isRequired,
 };
 
 export {FavoritesScreen};
-export default connect(mapStateToProps)(FavoritesScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(FavoritesScreen);
