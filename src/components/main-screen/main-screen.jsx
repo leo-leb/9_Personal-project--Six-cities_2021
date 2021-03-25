@@ -12,10 +12,10 @@ import {Routes, settingsForCard, defaultStates, AuthorizationStatus} from '../..
 import {getFilteredOffersByCity} from '../../selectors';
 
 const MainScreen = (props) => {
-  const {offers, authorizationStatus} = props;
+  const {allOffers, authStatus} = props;
 
   const [city, setCity] = useState(defaultStates.MAIN);
-  let offersFilteredByCity = getFilteredOffersByCity(offers, city);
+  let offersFilteredByCity = getFilteredOffersByCity(allOffers, city);
   const [filterOffers, setFilteredOffers] = useState([]);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const MainScreen = (props) => {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  {authorizationStatus === AuthorizationStatus.AUTH ?
+                  {authStatus === AuthorizationStatus.AUTH ?
                     <Link className="header__nav-link header__nav-link--profile" to={Routes.FAVORITES}>
                       <div className="header__avatar-wrapper user__avatar-wrapper">
                       </div>
@@ -59,7 +59,7 @@ const MainScreen = (props) => {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList activeCity={city} setActiveCity={setCity} onCityChange={setFilteredOffers} offers={offers}/>
+            <CitiesList activeCity={city} setActiveCity={setCity} onCityChange={setFilteredOffers} offers={allOffers}/>
           </section>
         </div>
         <div className="cities">
@@ -89,13 +89,13 @@ const MainScreen = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.main.offers,
-  authorizationStatus: state.app.authorizationStatus
+  allOffers: state.main.offers,
+  authStatus: state.root.authStatus
 });
 
 MainScreen.propTypes = {
-  offers: PropTypes.arrayOf(Types.OFFER),
-  authorizationStatus: PropTypes.string.isRequired
+  allOffers: PropTypes.arrayOf(Types.OFFER),
+  authStatus: PropTypes.string.isRequired
 };
 
 export {MainScreen};

@@ -1,11 +1,17 @@
 import {ActionType} from './action';
 
 const initialState = {
+  reviews: [],
   offers: []
 };
 
-const reducerFavorites = (state = initialState, action) => {
+const reducerRoom = (state = initialState, action) => {
   switch (action.type) {
+    case ActionType.LOAD_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload
+      };
     case ActionType.LOAD_OFFERS:
       return {
         ...state,
@@ -16,4 +22,4 @@ const reducerFavorites = (state = initialState, action) => {
   }
 };
 
-export default reducerFavorites;
+export default reducerRoom;

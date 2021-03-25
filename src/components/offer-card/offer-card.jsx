@@ -1,26 +1,36 @@
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Types from '../../types';
-import {settingsForCard, starsRate} from '../../consts';
+import {settingsForCard, starsRate, AuthorizationStatus, Routes} from '../../consts';
+
+import {setFavoriteStatus} from "../../store/api-actions";
 
 const OfferCard = (props) => {
-  const {offers, changeActiveCard, offer, cardSet} = props;
-  const {id, isPremium, previewImage, price, rating, title, type} = offer;
+  const {offers, setActiveCard, offer, authStatus, changeFavorite, cardSet} = props;
+  const {id, isPremium, isFavorite, previewImage, price, rating, title, type} = offer;
 
   const [activeOffer, setActiveOffer] = useState(null);
+  const [click, setClick] = useState(isFavorite);
 
   useEffect(() => {
-    changeActiveCard(offers, activeOffer);
+    setActiveCard(offers, activeOffer);
   }, [activeOffer]);
+
+  if (click && authStatus !== AuthorizationStatus.AUTH) {
+    return (
+      <Redirect to={Routes.SIGNIN} />
+    );
+  }
 
   return (
     <article
       className={cardSet.screen + `__` + cardSet.card + ` place-card`}
       onMouseEnter={() => {
         setActiveOffer(id);
-        changeActiveCard(offers, activeOffer);
+        setActiveCard(offers, activeOffer);
       }}
     >
       {cardSet.screen === settingsForCard.MAIN.screen && isPremium && <div className="place-card__mark"><span>Premium</span></div>}
@@ -39,7 +49,14 @@ const OfferCard = (props) => {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <button
+            className={`place-card__bookmark-button button` + (click ? ` place-card__bookmark-button--active` : ``)}
+            type="button"
+            onClick={() => {
+              setClick(!click);
+              changeFavorite(id, (isFavorite ? 0 : 1));
+            }}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -68,11 +85,24 @@ const OfferCard = (props) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  authStatus: state.root.authStatus
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeFavorite(id, status) {
+    dispatch(setFavoriteStatus(id, status));
+  }
+});
+
 OfferCard.propTypes = {
   offer: Types.OFFER,
-  changeActiveCard: PropTypes.func,
+  setActiveCard: PropTypes.func,
   cardSet: Types.CARD_SET,
-  offers: PropTypes.arrayOf(Types.OFFER)
+  offers: PropTypes.arrayOf(Types.OFFER),
+  authStatus: PropTypes.string.isRequired,
+  changeFavorite: PropTypes.func
 };
 
-export default OfferCard;
+export {OfferCard};
+export default connect(mapStateToProps, mapDispatchToProps)(OfferCard);

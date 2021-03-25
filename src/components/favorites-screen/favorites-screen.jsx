@@ -1,23 +1,14 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import {Routes} from '../../consts';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {ActionCreator} from "../../store/favorite-screen/action";
 
 import FavoritesList from '../favorites-list/favorites-list';
 import Types from '../../types';
-import {fetchFavoriteOffersList} from "../../store/api-actions";
 
 const FavoritesScreen = (props) => {
-  const {favorites, onLoadData, authorizationStatus, isDataLoaded, changeLoadingStatus} = props;
-
-  useEffect(() => {
-    if (!isDataLoaded) {
-      onLoadData();
-      changeLoadingStatus(true);
-    }
-  }, [authorizationStatus]);
+  const {favoriteOffers} = props;
 
   return (
     <div className="page">
@@ -49,7 +40,7 @@ const FavoritesScreen = (props) => {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList offers={favorites}/>
+            <FavoritesList offers={favoriteOffers}/>
           </section>
         </div>
       </main>
@@ -59,27 +50,12 @@ const FavoritesScreen = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  favorites: state.favorite.favoriteOffers,
-  isDataLoaded: state.favorite.isDataLoaded,
-  authorizationStatus: state.app.authorizationStatus
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadData() {
-    dispatch(fetchFavoriteOffersList);
-  },
-  changeLoadingStatus(status) {
-    dispatch(ActionCreator.setLoadingStatus(status));
-  }
+  favoriteOffers: state.favorite.offers
 });
 
 FavoritesScreen.propTypes = {
-  favorites: PropTypes.arrayOf(Types.OFFER),
-  onLoadData: PropTypes.func.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
-  isDataLoaded: PropTypes.bool.isRequired,
-  changeLoadingStatus: PropTypes.func.isRequired,
+  favoriteOffers: PropTypes.arrayOf(Types.OFFER)
 };
 
 export {FavoritesScreen};
-export default connect(mapStateToProps, mapDispatchToProps)(FavoritesScreen);
+export default connect(mapStateToProps, null)(FavoritesScreen);

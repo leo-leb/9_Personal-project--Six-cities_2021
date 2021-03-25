@@ -8,9 +8,9 @@ import Types from '../../types';
 import "leaflet/dist/leaflet.css";
 
 const Map = (props) => {
-  const {city, points, activeCard} = props;
+  const {city, points, activePoint} = props;
 
-  const id = activeCard ? activeCard.id : null;
+  const id = activePoint ? activePoint.id : null;
 
   const mapRef = useRef();
 
@@ -48,9 +48,9 @@ const Map = (props) => {
   useEffect(() => {
     const markers = [];
 
-    if (activeCard) {
+    if (activePoint) {
       points.forEach((offer) => {
-        const icon = offer.id === activeCard.id ? activeIcon : basicIcon;
+        const icon = offer.id === activePoint.id ? activeIcon : basicIcon;
 
         markers.push(
             leaflet
@@ -101,13 +101,13 @@ const Map = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  activeCard: state.offersList.activeOfferCard
+  activePoint: state.root.activeOffer
 });
 
 Map.propTypes = {
   city: Types.CITY,
   points: PropTypes.arrayOf(Types.OFFER),
-  activeCard: PropTypes.object
+  activePoint: PropTypes.object
 };
 
 export {Map};

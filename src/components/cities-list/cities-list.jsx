@@ -3,16 +3,9 @@ import PropTypes from 'prop-types';
 
 import Types from '../../types';
 import {cities} from '../../consts';
-import {getFilteredOffersByCity} from '../../selectors';
 
 const CitiesList = (props) => {
-  const {activeCity, setActiveCity, onCityChange, offers} = props;
-
-  const offersFilteredByCity = getFilteredOffersByCity(offers, activeCity);
-
-  // useEffect(() => {
-  //   onCityChange(offersFilteredByCity);
-  // }, [activeCity]);
+  const {activeCity, setActiveCity} = props;
 
   return (
     <ul className="locations__list tabs__list">
@@ -22,7 +15,6 @@ const CitiesList = (props) => {
             className="locations__item" key={city + i}
             onClick={() => {
               setActiveCity(city);
-              // onCityChange(offersFilteredByCity);
             }}
           >
             <a
@@ -39,10 +31,8 @@ const CitiesList = (props) => {
 };
 
 CitiesList.propTypes = {
-  setActiveCity: PropTypes.func.isRequired,
   activeCity: Types.CITY,
-  onCityChange: PropTypes.func.isRequired,
-  offers: PropTypes.arrayOf(Types.OFFER)
+  setActiveCity: PropTypes.func.isRequired
 };
 
 export default CitiesList;

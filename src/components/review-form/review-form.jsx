@@ -1,11 +1,16 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 import {stars} from '../../consts';
+import {postReview} from "../../store/api-actions";
 
-const ReviewForm = () => {
+const ReviewForm = (props) => {
+  const {id, postComment} = props;
+
   const [review, setReview] = useState({
-    rate: 0,
-    description: 0,
+    comment: 0,
+    rating: 0,
   });
 
   return (
@@ -23,7 +28,7 @@ const ReviewForm = () => {
               onChange={(evt) => {
                 setReview({
                   ...review,
-                  rate: evt.target.value
+                  rating: Number(evt.target.value)
                 });
               }}
             />
@@ -43,7 +48,7 @@ const ReviewForm = () => {
         onChange={(evt) => {
           setReview({
             ...review,
-            description: evt.target.value
+            comment: evt.target.value
           });
         }}
       ></textarea>
@@ -51,10 +56,32 @@ const ReviewForm = () => {
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled="">Submit</button>
+        <button
+          className="reviews__submit form__submit button"
+          type="submit"
+          disabled=""
+          onClick={(evt) => {
+            evt.preventDefault();
+            postComment(id, review);
+          }}
+        >
+          Submit
+        </button>
       </div>
     </form>
   );
 };
 
-export default ReviewForm;
+const mapDispatchToProps = (dispatch) => ({
+  postComment(id, review) {
+    dispatch(postReview(id, review));
+  }
+});
+
+ReviewForm.propTypes = {
+  postComment: PropTypes.func,
+  id: PropTypes.number
+};
+
+export {ReviewForm};
+export default connect(null, mapDispatchToProps)(ReviewForm);

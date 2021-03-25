@@ -13,15 +13,22 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 
 import {initApp} from "../../store/api-actions";
+import {fetchFavoriteOffers} from "../../store/api-actions";
 
 const App = (props) => {
-  const {isAppReady, onInitApp} = props;
+  const {isAppReady, onInitApp, authStatus, getFavoriteOffers} = props;
 
   useEffect(() => {
     if (!isAppReady) {
       onInitApp();
     }
   }, [isAppReady]);
+
+  useEffect(() => {
+    if (authStatus) {
+      getFavoriteOffers();
+    }
+  }, [authStatus]);
 
   if (!isAppReady) {
     return (
@@ -47,18 +54,24 @@ const App = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  isAppReady: state.root.isAppReady
+  isAppReady: state.root.isAppReady,
+  authStatus: state.root.authStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onInitApp() {
     dispatch(initApp());
+  },
+  getFavoriteOffers() {
+    dispatch(fetchFavoriteOffers());
   }
 });
 
 App.propTypes = {
   isAppReady: PropTypes.bool.isRequired,
-  onInitApp: PropTypes.func.isRequired
+  onInitApp: PropTypes.func.isRequired,
+  getFavoriteOffers: PropTypes.func.isRequired,
+  authStatus: PropTypes.string.isRequired
 };
 
 export {App};

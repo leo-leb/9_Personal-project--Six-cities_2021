@@ -2,7 +2,8 @@ export const Routes = {
   MAIN: `/`,
   FAVORITES: `/favorites`,
   SIGNIN: `/login`,
-  ROOM: `/offer/:id?`
+  ROOM: `/offer/:id?`,
+  NOT_FOUND: `/404`
 };
 
 export const settingsForCard = {

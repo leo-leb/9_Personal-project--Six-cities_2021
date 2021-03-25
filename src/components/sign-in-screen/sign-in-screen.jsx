@@ -7,7 +7,7 @@ import {login} from "../../store/api-actions";
 import {Routes, AuthorizationStatus} from '../../consts';
 
 const SignInScreen = (props) => {
-  const {onSubmit, authorizationStatus} = props;
+  const {onSubmit, authStatus} = props;
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -21,9 +21,9 @@ const SignInScreen = (props) => {
     });
   };
 
-  if (authorizationStatus === AuthorizationStatus.AUTH) {
+  if (authStatus === AuthorizationStatus.AUTH) {
     return (
-      <Redirect to={Routes.FAVORITES} />
+      <Redirect to={Routes.MAIN} />
     );
   }
 
@@ -107,7 +107,7 @@ const SignInScreen = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  authorizationStatus: state.app.authorizationStatus
+  authStatus: state.root.authStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -118,7 +118,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 SignInScreen.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  authorizationStatus: PropTypes.string.isRequired
+  authStatus: PropTypes.string.isRequired
 };
 
 export {SignInScreen};

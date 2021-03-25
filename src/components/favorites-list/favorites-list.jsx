@@ -8,7 +8,6 @@ import {getCitiesFromOffers, getFavoriteOffersByCity} from '../../selectors';
 
 const FavoritesList = (props) => {
   const {offers} = props;
-
   const cities = getCitiesFromOffers(offers);
 
   return (

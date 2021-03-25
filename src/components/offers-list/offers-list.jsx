@@ -4,32 +4,27 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import Types from '../../types';
-import {ActionCreator} from '../../store/offers-list/action';
+import {ActionCreator} from '../../store/root/action';
 
 const OffersList = (props) => {
-  const {offers, changeActiveCard, cardSet} = props;
+  const {offers, setActiveOffer, cardSet} = props;
 
   return <>
-    {offers.map((offer, i) => <OfferCard offers={offers} offer={offer} changeActiveCard={changeActiveCard} cardSet={cardSet} key={i}/>)}
+    {offers.map((offer, i) => <OfferCard offers={offers} offer={offer} setActiveCard={setActiveOffer} cardSet={cardSet} key={i}/>)}
   </>;
 };
 
-const mapStateToProps = (state) => ({
-  activeOfferCard: state.offersList.activeOfferCard,
-});
-
 const mapDispatchToProps = (dispatch) => ({
-  changeActiveCard(offers, id) {
-    dispatch(ActionCreator.changeActiveCard(offers, id));
+  setActiveOffer(offers, id) {
+    dispatch(ActionCreator.setActiveOffer(offers, id));
   },
 });
 
 OffersList.propTypes = {
   offers: PropTypes.arrayOf(Types.OFFER),
-  changeActiveCard: PropTypes.func,
-  cardSet: Types.CARD_SET,
-  activeOfferCard: PropTypes.object,
+  setActiveOffer: PropTypes.func,
+  cardSet: Types.CARD_SET
 };
 
 export {OffersList};
-export default connect(mapStateToProps, mapDispatchToProps)(OffersList);
+export default connect(null, mapDispatchToProps)(OffersList);

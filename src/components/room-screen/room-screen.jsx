@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useParams, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import ReviewsList from '../reviews-list/reviews-list';
@@ -8,51 +8,33 @@ import ReviewForm from '../review-form/review-form';
 import Types from '../../types';
 import PropTypes from 'prop-types';
 import Map from '../map/map';
-import {createAPI} from "../../services/api";
-import {dataArrayAdapter} from '../../common';
-import {Routes, settingsForCard, starsRate} from '../../consts';
+import {Routes, settingsForCard, starsRate, AuthorizationStatus} from '../../consts';
 import {getFilteredOffersById} from '../../selectors';
 
-import {getReviews, getNearOffers} from "../../store/api-actions";
+import {fetchReviews, fetchNearOffers, setFavoriteStatus} from "../../store/api-actions";
 
 const RoomScreen = (props) => {
-  const {offers} = props;
-
-  const [reviews, setReview] = useState([]);
-  const [neighborOffers, setNeighborOffers] = useState([]);
+  const {allOffers, reviews, nearOffers, getReviews, getOffers, changeFavorite, authStatus} = props;
 
   let {id} = useParams();
   const offerId = Number(id);
 
-  // useEffect(() => {
-  //   setReview(getReviews(offerId));
-  // }, [id]);
-
-  // useEffect(() => {
-  //   setReview(getNearOffers(offerId));
-  // }, [id]);
-
-  const api = createAPI();
-
   useEffect(() => {
-    api
-      .get(`/hotels/${offerId}/nearby`)
-      .then(({data}) => {
-        setNeighborOffers(dataArrayAdapter(data));
-      });
+    getReviews(offerId);
+    getOffers(offerId);
   }, [id]);
 
-  useEffect(() => {
-    api
-      .get(`/comments/${offerId}`)
-      .then(({data}) => {
-        setReview(dataArrayAdapter(data));
-      });
-  }, [id]);
+  const currentOffer = getFilteredOffersById(allOffers, offerId);
 
-  const currentOffer = getFilteredOffersById(offers, offerId);
+  if (currentOffer === undefined) {
+    return (
+      <Redirect to={Routes.NOT_FOUND} />
+    );
+  }
 
-  const {isPremium, maxAdults, bedrooms, price, rating, type, title, description, goods, images, host, city} = currentOffer;
+  const {isPremium, isFavorite, maxAdults, bedrooms, price, rating, type, title, description, goods, images, host, city} = currentOffer;
+
+  const [click, setClick] = useState(isFavorite);
 
   return (
     <div className="page">
@@ -104,7 +86,14 @@ const RoomScreen = (props) => {
               }
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
-                <button className="property__bookmark-button button" type="button">
+                <button
+                  className={`property__bookmark-button button` + (click ? ` property__bookmark-button--active` : ``)}
+                  type="button"
+                  onClick={() => {
+                    setClick(!click);
+                    changeFavorite(offerId, (isFavorite ? 0 : 1));
+                  }}
+                >
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -153,14 +142,14 @@ const RoomScreen = (props) => {
               </div>
               <section className="property__reviews reviews">
                 <ReviewsList reviews={reviews}/>
-                <ReviewForm />
+                {authStatus === AuthorizationStatus.AUTH ? <ReviewForm id={offerId}/> : null}
               </section>
             </div>
           </div>
           <section className="property__map map">
             <Map
               city={city}
-              points={neighborOffers}
+              points={nearOffers}
             />
           </section>
         </section>
@@ -168,7 +157,7 @@ const RoomScreen = (props) => {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <OffersList offers={neighborOffers} cardSet={settingsForCard.ROOM}/>
+              <OffersList offers={nearOffers} cardSet={settingsForCard.ROOM}/>
             </div>
           </section>
         </div>
@@ -180,12 +169,33 @@ const RoomScreen = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.main.offers,
+  allOffers: state.main.offers,
+  reviews: state.room.reviews,
+  nearOffers: state.room.offers,
+  authStatus: state.root.authStatus
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getReviews(id) {
+    dispatch(fetchReviews(id));
+  },
+  getOffers(id) {
+    dispatch(fetchNearOffers(id));
+  },
+  changeFavorite(id, status) {
+    dispatch(setFavoriteStatus(id, status));
+  }
 });
 
 RoomScreen.propTypes = {
-  offers: PropTypes.arrayOf(Types.OFFER),
+  allOffers: PropTypes.arrayOf(Types.OFFER),
+  reviews: PropTypes.arrayOf(Types.REVIEW),
+  nearOffers: PropTypes.arrayOf(Types.OFFER),
+  getReviews: PropTypes.func,
+  getOffers: PropTypes.func,
+  changeFavorite: PropTypes.func,
+  authStatus: PropTypes.string.isRequired
 };
 
 export {RoomScreen};
-export default connect(mapStateToProps)(RoomScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(RoomScreen);
