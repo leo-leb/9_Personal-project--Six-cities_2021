@@ -9,7 +9,7 @@ import {settingsForCard, starsRate, AuthorizationStatus, Routes} from '../../con
 import {setFavoriteStatus} from "../../store/api-actions";
 
 const OfferCard = (props) => {
-  const {offers, setActiveCard, offer, authStatus, changeFavorite, cardSet} = props;
+  const {offers, setActiveCard, offer, authStatus, changeFavorite, cardSet, updateOffers} = props;
   const {id, isPremium, isFavorite, previewImage, price, rating, title, type} = offer;
 
   const [activeOffer, setActiveOffer] = useState(null);
@@ -101,7 +101,8 @@ OfferCard.propTypes = {
   cardSet: Types.CARD_SET,
   offers: PropTypes.arrayOf(Types.OFFER),
   authStatus: PropTypes.string.isRequired,
-  changeFavorite: PropTypes.func
+  changeFavorite: PropTypes.func,
+  updateOffers: PropTypes.func
 };
 
 export {OfferCard};

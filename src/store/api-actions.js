@@ -17,6 +17,8 @@ export const fetchFavoriteOffers = () => (dispatch, _getState, api) => (
 
 export const setFavoriteStatus = (hotelId, status) => (dispatch, _getState, api) => (
   api.post(`/favorite/${hotelId}/${status}`)
+    .then(() => dispatch(fetchAllOffers()))
+    .then(() => dispatch(fetchFavoriteOffers()))
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (
@@ -53,4 +55,5 @@ export const fetchNearOffers = (id) => (dispatch, _getState, api) => (
 
 export const postReview = (id, {comment, rating}) => (dispatch, _getState, api) => (
   api.post(`/comments/${id}`, {comment, rating})
+    .then(() => dispatch(fetchReviews(id)))
 );

@@ -1,17 +1,27 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {stars} from '../../consts';
 import {postReview} from "../../store/api-actions";
+import Types from '../../types';
 
 const ReviewForm = (props) => {
   const {id, postComment} = props;
 
-  const [review, setReview] = useState({
-    comment: 0,
-    rating: 0,
-  });
+  const ratingRef = useRef();
+  const commentRef = useRef();
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    postComment(id, {
+      comment: commentRef.current.value,
+      rating: ratingRef.current.value
+    });
+
+    commentRef.current.value = ``;
+  };
 
   return (
     <form className="reviews__form form" action="#" method="post">
@@ -23,14 +33,9 @@ const ReviewForm = (props) => {
               className="form__rating-input visually-hidden"
               name="rating"
               value={star}
+              ref={ratingRef}
               id={star + `-stars`}
               type="radio"
-              onChange={(evt) => {
-                setReview({
-                  ...review,
-                  rating: Number(evt.target.value)
-                });
-              }}
             />
             <label htmlFor={star + `-stars`} className="reviews__rating-label form__rating-label" title="perfect">
               <svg className="form__star-image" width="37" height="33">
@@ -44,13 +49,8 @@ const ReviewForm = (props) => {
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
+        ref={commentRef}
         placeholder="Tell how was your stay, what you like and what can be improved"
-        onChange={(evt) => {
-          setReview({
-            ...review,
-            comment: evt.target.value
-          });
-        }}
       ></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -60,10 +60,7 @@ const ReviewForm = (props) => {
           className="reviews__submit form__submit button"
           type="submit"
           disabled=""
-          onClick={(evt) => {
-            evt.preventDefault();
-            postComment(id, review);
-          }}
+          onClick={handleSubmit}
         >
           Submit
         </button>
@@ -80,7 +77,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 ReviewForm.propTypes = {
   postComment: PropTypes.func,
-  id: PropTypes.number
+  id: PropTypes.number,
+  reviews: PropTypes.arrayOf(Types.REVIEW)
 };
 
 export {ReviewForm};
