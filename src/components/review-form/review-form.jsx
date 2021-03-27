@@ -1,12 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {stars} from '../../consts';
 import {postReview} from "../../store/api-actions";
 import Types from '../../types';
-
-// const form = document.getElementsByClassName(`reviews__form`)[0];
 
 const ReviewForm = (props) => {
   const {id, postComment} = props;
