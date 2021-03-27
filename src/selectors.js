@@ -50,3 +50,9 @@ export const getFavoriteOffersByCity = (offers, city) => {
     return offer.city.name === city && offer.isFavorite;
   });
 };
+
+export const getFilteredReviews = (array) => {
+  return array.sort((a, b) => {
+    return new Date(b.date) - new Date(a.date);
+  }).slice(0, 10);
+};

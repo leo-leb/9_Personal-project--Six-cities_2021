@@ -50,11 +50,18 @@ const RoomScreen = (props) => {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={Routes.FAVORITES}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </Link>
+                  {authStatus === AuthorizationStatus.AUTH ?
+                    <Link className="header__nav-link header__nav-link--profile" to={Routes.FAVORITES}>
+                      <div className="header__avatar-wrapper user__avatar-wrapper">
+                      </div>
+                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                    </Link> :
+                    <Link className="header__nav-link header__nav-link--profile" to={Routes.SIGNIN}>
+                      <div className="header__avatar-wrapper user__avatar-wrapper">
+                      </div>
+                      <span className="header__login">Sign in</span>
+                    </Link>
+                  }
                 </li>
               </ul>
             </nav>

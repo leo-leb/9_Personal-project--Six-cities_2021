@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
@@ -6,25 +6,50 @@ import {stars} from '../../consts';
 import {postReview} from "../../store/api-actions";
 import Types from '../../types';
 
+// const form = document.getElementsByClassName(`reviews__form`)[0];
+
 const ReviewForm = (props) => {
   const {id, postComment} = props;
 
-  const ratingRef = useRef();
-  const commentRef = useRef();
+  const [info, setInfo] = useState({
+    rate: null,
+    review: null
+  });
+
+  const [validity, setValidity] = useState({
+    rate: false,
+    review: false
+  });
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
     postComment(id, {
-      comment: commentRef.current.value,
-      rating: ratingRef.current.value
+      comment: info.review,
+      rating: info.rate
     });
 
-    commentRef.current.value = ``;
+    setInfo({
+      rate: null,
+      review: null
+    });
+
+    setValidity({
+      rate: false,
+      review: false
+    });
+
+    Array.from(document.getElementsByClassName(`form__rating-input`)).forEach((item) => {
+      item.checked = false;
+    });
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {stars.map((star, i) => (
@@ -33,12 +58,26 @@ const ReviewForm = (props) => {
               className="form__rating-input visually-hidden"
               name="rating"
               value={star}
-              ref={ratingRef}
               id={star + `-stars`}
               type="radio"
               onChange={(evt) => {
-                evt.target.ref = {ratingRef};
+                setInfo({
+                  ...info,
+                  rate: evt.target.value
+                });
+                if (evt.target.checkValidity()) {
+                  setValidity({
+                    ...validity,
+                    rate: true
+                  });
+                } else {
+                  setValidity({
+                    ...validity,
+                    rate: false
+                  });
+                }
               }}
+              required
             />
             <label htmlFor={star + `-stars`} className="reviews__rating-label form__rating-label" title="perfect">
               <svg className="form__star-image" width="37" height="33">
@@ -52,8 +91,28 @@ const ReviewForm = (props) => {
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
-        ref={commentRef}
         placeholder="Tell how was your stay, what you like and what can be improved"
+        value={info.review === null ? `` : info.review}
+        minLength="50"
+        maxLength="350"
+        onChange={(evt) => {
+          setInfo({
+            ...info,
+            review: evt.target.value
+          });
+          if (evt.target.checkValidity()) {
+            setValidity({
+              ...validity,
+              review: true
+            });
+          } else {
+            setValidity({
+              ...validity,
+              review: false
+            });
+          }
+        }}
+        required
       ></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -62,7 +121,7 @@ const ReviewForm = (props) => {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled=""
+          disabled={validity.rate && validity.review ? false : true}
           onClick={handleSubmit}
         >
           Submit

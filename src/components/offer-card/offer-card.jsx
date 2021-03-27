@@ -37,7 +37,7 @@ const OfferCard = (props) => {
       <div
         className={cardSet.screen + `__image-wrapper place-card__image-wrapper`}
       >
-        <a href="#">
+        <a>
           <img className="place-card__image" src={previewImage} width={cardSet.image.width} height={cardSet.image.height} alt="Place image" />
         </a>
       </div>
