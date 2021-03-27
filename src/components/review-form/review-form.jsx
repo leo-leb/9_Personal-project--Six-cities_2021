@@ -36,6 +36,9 @@ const ReviewForm = (props) => {
               ref={ratingRef}
               id={star + `-stars`}
               type="radio"
+              onChange={(evt) => {
+                evt.target.ref = {ratingRef};
+              }}
             />
             <label htmlFor={star + `-stars`} className="reviews__rating-label form__rating-label" title="perfect">
               <svg className="form__star-image" width="37" height="33">
