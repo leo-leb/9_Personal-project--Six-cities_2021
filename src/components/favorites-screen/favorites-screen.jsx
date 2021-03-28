@@ -49,8 +49,8 @@ const FavoritesScreen = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  favoriteOffers: state.favorite.offers
+const mapStateToProps = ({FAVORITE}) => ({
+  favoriteOffers: FAVORITE.offers
 });
 
 FavoritesScreen.propTypes = {

@@ -53,9 +53,9 @@ const App = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isAppReady: state.root.isAppReady,
-  authStatus: state.root.authStatus
+const mapStateToProps = ({ROOT}) => ({
+  isAppReady: ROOT.isAppReady,
+  authStatus: ROOT.authStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -171,11 +171,11 @@ const RoomScreen = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  allOffers: state.main.offers,
-  reviews: state.room.reviews,
-  nearOffers: state.room.offers,
-  authStatus: state.root.authStatus
+const mapStateToProps = ({MAIN, ROOM, ROOT}) => ({
+  allOffers: MAIN.offers,
+  reviews: ROOM.reviews,
+  nearOffers: ROOM.offers,
+  authStatus: ROOT.authStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -5,9 +5,16 @@ import reducerFavorite from './favorite-screen/reducer';
 import reducerRoom from './room-screen/reducer';
 import reducerRoot from './root/reducer';
 
+export const NameSpace = {
+  MAIN: `MAIN`,
+  FAVORITE: `FAVORITE`,
+  ROOM: `ROOM`,
+  ROOT: `ROOT`
+};
+
 export default combineReducers({
-  main: reducerMain,
-  favorite: reducerFavorite,
-  room: reducerRoom,
-  root: reducerRoot
+  [NameSpace.MAIN]: reducerMain,
+  [NameSpace.FAVORITE]: reducerFavorite,
+  [NameSpace.ROOM]: reducerRoom,
+  [NameSpace.ROOT]: reducerRoot
 });

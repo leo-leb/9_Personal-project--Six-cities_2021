@@ -85,8 +85,8 @@ const OfferCard = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  authStatus: state.root.authStatus
+const mapStateToProps = ({ROOT}) => ({
+  authStatus: ROOT.authStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -100,8 +100,8 @@ const Map = (props) => {
   </>;
 };
 
-const mapStateToProps = (state) => ({
-  activePoint: state.root.activeOffer
+const mapStateToProps = ({ROOT}) => ({
+  activePoint: ROOT.activeOffer
 });
 
 Map.propTypes = {

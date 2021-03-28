@@ -84,9 +84,9 @@ const MainScreen = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  allOffers: state.main.offers,
-  authStatus: state.root.authStatus
+const mapStateToProps = ({MAIN, ROOT}) => ({
+  allOffers: MAIN.offers,
+  authStatus: ROOT.authStatus
 });
 
 MainScreen.propTypes = {
