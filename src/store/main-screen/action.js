@@ -2,9 +2,7 @@ export const ActionType = {
   LOAD_OFFERS: `main/loadOffers`,
 };
 
-export const ActionCreator = {
-  loadOffers: (offers) => ({
-    type: ActionType.LOAD_OFFERS,
-    payload: offers
-  })
-};
+export const loadAllOffers = (offers) => ({
+  type: ActionType.LOAD_OFFERS,
+  payload: offers
+});

@@ -1,4 +1,3 @@
-import { array } from "prop-types";
 import {getFilteredOffersByPriceIncrease, getFilteredOffersByPriceReduce, getFilteredOffersByRate} from './selectors';
 
 export const Routes = {

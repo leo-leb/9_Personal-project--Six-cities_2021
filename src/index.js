@@ -7,11 +7,11 @@ import App from './components/app/app';
 import reducer from './store/reducer';
 import thunk from "redux-thunk";
 import {createAPI} from "./services/api";
-import {ActionCreator} from './store/root/action';
+import {setAuthStatus} from './store/root/action';
 import {AuthorizationStatus} from "./consts";
 
 const api = createAPI(
-    () => store.dispatch(ActionCreator.setAuthStatus(AuthorizationStatus.NO_AUTH))
+    () => store.dispatch(setAuthStatus(AuthorizationStatus.NO_AUTH))
 );
 
 const store = createStore(

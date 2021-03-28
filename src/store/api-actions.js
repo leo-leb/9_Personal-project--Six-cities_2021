@@ -1,50 +1,50 @@
-import {ActionCreator as ActionCreatorMain} from "./main-screen/action";
-import {ActionCreator as ActionCreatorFavorites} from "./favorite-screen/action";
-import {ActionCreator as ActionCreatorRoot} from "./root/action";
-import {ActionCreator as ActionCreatorRoom} from "./room-screen/action";
+import {loadAllOffers} from "./main-screen/action";
+import {loadFavoriteOffers} from "./favorite-screen/action";
+import {setAppReady, setAuthStatus} from "./root/action";
+import {loadReviews, loadNearOffers} from "./room-screen/action";
 import {AuthorizationStatus} from "../consts";
 import {dataArrayAdapter} from '../common';
 
 export const initApp = () => (dispatch, _getState) => {
   dispatch(checkAuth())
     .then(() => dispatch(fetchAllOffers()))
-    .then(() => dispatch(ActionCreatorRoot.setAppReady(true)));
+    .then(() => dispatch(setAppReady(true)));
 };
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(`/login`)
-    .then(() => dispatch(ActionCreatorRoot.setAuthStatus(AuthorizationStatus.AUTH)))
+    .then(() => dispatch(setAuthStatus(AuthorizationStatus.AUTH)))
     .catch(() => {})
 );
 
 export const login = ({email, password}) => (dispatch, _getState, api) => (
   api.post(`/login`, {email, password})
-    .then(() => dispatch(ActionCreatorRoot.setAuthStatus(AuthorizationStatus.AUTH)))
+    .then(() => dispatch(setAuthStatus(AuthorizationStatus.AUTH)))
 );
 
 export const logout = () => (dispatch, _getState, api) => (
   api.get(`/`)
-    .then(() => dispatch(ActionCreatorRoot.setAuthStatus(AuthorizationStatus.NO_AUTH)))
+    .then(() => dispatch(setAuthStatus(AuthorizationStatus.NO_AUTH)))
 );
 
 export const fetchAllOffers = () => (dispatch, _getState, api) => (
   api.get(`/hotels`)
-    .then(({data}) => dispatch(ActionCreatorMain.loadOffers(dataArrayAdapter(data))))
+    .then(({data}) => dispatch(loadAllOffers(dataArrayAdapter(data))))
 );
 
 export const fetchFavoriteOffers = () => (dispatch, _getState, api) => (
   api.get(`/favorite`)
-    .then(({data}) => dispatch(ActionCreatorFavorites.loadOffers(dataArrayAdapter(data))))
+    .then(({data}) => dispatch(loadFavoriteOffers(dataArrayAdapter(data))))
 );
 
 export const fetchNearOffers = (id) => (dispatch, _getState, api) => (
   api.get(`/hotels/${id}/nearby`)
-    .then(({data}) => dispatch(ActionCreatorRoom.loadOffers(dataArrayAdapter(data))))
+    .then(({data}) => dispatch(loadNearOffers(dataArrayAdapter(data))))
 );
 
 export const fetchReviews = (id) => (dispatch, _getState, api) => (
   api.get(`/comments/${id}`)
-    .then(({data}) => dispatch(ActionCreatorRoom.loadReviews(dataArrayAdapter(data))))
+    .then(({data}) => dispatch(loadReviews(dataArrayAdapter(data))))
 );
 
 export const postReview = (id, {comment, rating}) => (dispatch, _getState, api) => (

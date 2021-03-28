@@ -3,13 +3,12 @@ export const ActionType = {
   LOAD_OFFERS: `room/loadOffers`
 };
 
-export const ActionCreator = {
-  loadReviews: (reviews) => ({
-    type: ActionType.LOAD_REVIEWS,
-    payload: reviews
-  }),
-  loadOffers: (offers) => ({
-    type: ActionType.LOAD_OFFERS,
-    payload: offers
-  })
-};
+export const loadReviews = (reviews) => ({
+  type: ActionType.LOAD_REVIEWS,
+  payload: reviews
+});
+
+export const loadNearOffers = (offers) => ({
+  type: ActionType.LOAD_OFFERS,
+  payload: offers
+});
