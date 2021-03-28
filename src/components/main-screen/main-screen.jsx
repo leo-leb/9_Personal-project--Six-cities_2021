@@ -36,18 +36,14 @@ const MainScreen = (props) => {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  {authStatus === AuthorizationStatus.AUTH ?
-                    <Link className="header__nav-link header__nav-link--profile" to={Routes.FAVORITES}>
-                      <div className="header__avatar-wrapper user__avatar-wrapper">
-                      </div>
-                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    </Link> :
-                    <Link className="header__nav-link header__nav-link--profile" to={Routes.SIGNIN}>
-                      <div className="header__avatar-wrapper user__avatar-wrapper">
-                      </div>
+                  <Link className="header__nav-link header__nav-link--profile" to={authStatus === AuthorizationStatus.AUTH ? Routes.FAVORITES : Routes.SIGNIN}>
+                    <div className="header__avatar-wrapper user__avatar-wrapper">
+                    </div>
+                    {authStatus === AuthorizationStatus.AUTH ?
+                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span> :
                       <span className="header__login">Sign in</span>
-                    </Link>
-                  }
+                    }
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -59,14 +55,14 @@ const MainScreen = (props) => {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList activeCity={city} setActiveCity={setCity} onCityChange={setFilteredOffers} offers={allOffers}/>
+            <CitiesList activeCity={city} setActiveCity={setCity}/>
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found"> places to stay in {city.name}</b>
+              <b className="places__found">{filterOffers.length} places to stay in {city.name}</b>
               <SortForm offers={offersFilteredByCity} onSortClick={setFilteredOffers}/>
               <div className="cities__places-list places__list tabs__content">
                 <OffersList offers={filterOffers} cardSet={settingsForCard.MAIN}/>

@@ -9,7 +9,7 @@ import {settingsForCard, starsRate, AuthorizationStatus, Routes} from '../../con
 import {setFavoriteStatus} from "../../store/api-actions";
 
 const OfferCard = (props) => {
-  const {offers, setActiveCard, offer, authStatus, changeFavorite, cardSet} = props;
+  const {offers, offer, setActiveCard, cardSet, authStatus, changeFavorite} = props;
   const {id, isPremium, isFavorite, previewImage, price, rating, title, type} = offer;
 
   const [activeOffer, setActiveOffer] = useState(null);

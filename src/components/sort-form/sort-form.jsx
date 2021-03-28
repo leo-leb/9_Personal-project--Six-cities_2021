@@ -2,12 +2,13 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 
 import Types from '../../types';
-import {getFilteredOffersByPriceIncrease, getFilteredOffersByPriceReduce, getFilteredOffersByRate} from '../../selectors';
+import {filters} from '../../consts';
 
 const SortForm = (props) => {
   const {onSortClick, offers} = props;
 
   const [popup, setPopup] = useState(false);
+  const [activeFilter, setActiveFilter] = useState(`Popular`);
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -19,7 +20,7 @@ const SortForm = (props) => {
           setPopup(!popup);
         }}
       >
-        Popular
+        {activeFilter}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
@@ -27,46 +28,20 @@ const SortForm = (props) => {
       <ul
         className={`places__options places__options--custom` + (popup ? ` places__options--opened` : ``)}
       >
-        <li
-          className="places__option"
-          tabIndex="0"
-          onClick={() => {
-            onSortClick(offers);
-            setPopup(!popup);
-          }}
-        >
-            Popular
-        </li>
-        <li
-          className="places__option"
-          tabIndex="0"
-          onClick={() => {
-            onSortClick(getFilteredOffersByPriceIncrease(offers));
-            setPopup(!popup);
-          }}
-        >
-            Price: low to high
-        </li>
-        <li
-          className="places__option"
-          tabIndex="0"
-          onClick={() => {
-            onSortClick(getFilteredOffersByPriceReduce(offers));
-            setPopup(!popup);
-          }}
-        >
-            Price: high to low
-        </li>
-        <li
-          className="places__option"
-          tabIndex="0"
-          onClick={() => {
-            onSortClick(getFilteredOffersByRate(offers));
-            setPopup(!popup);
-          }}
-        >
-            Top rated first
-        </li>
+        {filters.map((filter, i) => (
+          <li
+            className="places__option"
+            tabIndex="0"
+            key={i}
+            onClick={() => {
+              onSortClick(filter.action(offers));
+              setPopup(!popup);
+              setActiveFilter(filter.name);
+            }}
+          >
+            {filter.name}
+          </li>
+        ))}
       </ul>
     </form>
   );

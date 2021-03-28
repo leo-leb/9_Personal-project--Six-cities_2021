@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import Types from '../../types';
 import {starsRate} from '../../consts';
 
-const ReviewCard = (props) => {
+const ReviewsItem = (props) => {
   const {review} = props;
   const {user, rating, comment, date} = review;
 
@@ -35,8 +35,8 @@ const ReviewCard = (props) => {
   );
 };
 
-ReviewCard.propTypes = {
+ReviewsItem.propTypes = {
   review: Types.REVIEW
 };
 
-export default ReviewCard;
+export default ReviewsItem;

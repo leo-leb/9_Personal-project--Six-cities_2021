@@ -1,3 +1,6 @@
+import { array } from "prop-types";
+import {getFilteredOffersByPriceIncrease, getFilteredOffersByPriceReduce, getFilteredOffersByRate} from './selectors';
+
 export const Routes = {
   MAIN: `/`,
   FAVORITES: `/favorites`,
@@ -100,6 +103,33 @@ export const cities = [
       zoom: 10
     },
     name: `Dusseldorf`
+  }
+];
+
+export const filters = [
+  {
+    name: `Popular`,
+    action: (offers) => {
+      return offers;
+    }
+  },
+  {
+    name: `Price: low to high`,
+    action: (offers) => {
+      return getFilteredOffersByPriceIncrease(offers);
+    }
+  },
+  {
+    name: `Price: high to low`,
+    action: (offers) => {
+      return getFilteredOffersByPriceReduce(offers);
+    }
+  },
+  {
+    name: `Top rated first`,
+    action: (offers) => {
+      return getFilteredOffersByRate(offers);
+    }
   }
 ];
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ReviewCard from '../review-card/review-card';
+import ReviewsItem from '../reviews-item/reviews-item';
 import {getFilteredReviews} from '../../selectors';
 
 const ReviewsList = (props) => {
@@ -12,7 +12,7 @@ const ReviewsList = (props) => {
   return (<>
     <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
     <ul className="reviews__list">
-      {filteredReviews.map((review, i) => <ReviewCard key={review + i} review={review}/>)}
+      {filteredReviews.map((review, i) => <ReviewsItem key={review + i} review={review}/>)}
     </ul>
   </>
   );
