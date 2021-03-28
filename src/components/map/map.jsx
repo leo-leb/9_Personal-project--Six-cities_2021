@@ -2,16 +2,16 @@ import React from 'react';
 import leaflet from 'leaflet';
 import {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import Types from '../../types';
 import "leaflet/dist/leaflet.css";
-import {getActiveOffer} from '../../store/root/selectors';
 
 const Map = (props) => {
-  const {city, points, activePoint} = props;
+  const {city, points} = props;
+  const {activeOffer} = useSelector((state) => state.ROOT);
 
-  const id = activePoint ? activePoint.id : null;
+  const id = activeOffer ? activeOffer.id : null;
 
   const mapRef = useRef();
 
@@ -49,9 +49,9 @@ const Map = (props) => {
   useEffect(() => {
     const markers = [];
 
-    if (activePoint) {
+    if (activeOffer) {
       points.forEach((offer) => {
-        const icon = offer.id === activePoint.id ? activeIcon : basicIcon;
+        const icon = offer.id === activeOffer.id ? activeIcon : basicIcon;
 
         markers.push(
             leaflet
@@ -101,15 +101,9 @@ const Map = (props) => {
   </>;
 };
 
-const mapStateToProps = (state) => ({
-  activePoint: getActiveOffer(state)
-});
-
 Map.propTypes = {
   city: Types.CITY,
   points: PropTypes.arrayOf(Types.OFFER),
-  activePoint: PropTypes.object
 };
 
-export {Map};
-export default connect(mapStateToProps)(Map);
+export default Map;

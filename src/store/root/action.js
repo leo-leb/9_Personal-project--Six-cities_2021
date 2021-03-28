@@ -1,3 +1,4 @@
+import {createAction} from '@reduxjs/toolkit';
 import {getFilteredOffersById} from '../../selectors';
 
 export const ActionType = {
@@ -6,21 +7,22 @@ export const ActionType = {
   SET_ACTIVE_OFFER: `root/setActiveOffer`
 };
 
-export const setAppReady = (status) => ({
-  type: ActionType.SET_APP_READY,
-  payload: status
+export const setAppReady = createAction(ActionType.SET_APP_READY, (status) => {
+  return {
+    payload: status
+  };
 });
 
-export const setAuthStatus = (status) => ({
-  type: ActionType.SET_AUTH_STATUS,
-  payload: status
+export const setAuthStatus = createAction(ActionType.SET_AUTH_STATUS, (status) => {
+  return {
+    payload: status
+  };
 });
 
-export const setActiveOffer = (offers, id) => {
+export const setActiveOffer = createAction(ActionType.SET_ACTIVE_OFFER, (offers, id) => {
   let activeOffer = getFilteredOffersById(offers, id);
 
   return {
-    type: ActionType.SET_ACTIVE_OFFER,
     payload: activeOffer
   };
-};
+});

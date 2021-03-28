@@ -1,14 +1,18 @@
+import {createAction} from '@reduxjs/toolkit';
+
 export const ActionType = {
   LOAD_REVIEWS: `room/loadReviews`,
-  LOAD_OFFERS: `room/loadOffers`
+  LOAD_NEAR_OFFERS: `room/loadNearOffers`
 };
 
-export const loadReviews = (reviews) => ({
-  type: ActionType.LOAD_REVIEWS,
-  payload: reviews
+export const loadReviews = createAction(ActionType.LOAD_REVIEWS, (reviews) => {
+  return {
+    payload: reviews
+  };
 });
 
-export const loadNearOffers = (offers) => ({
-  type: ActionType.LOAD_OFFERS,
-  payload: offers
+export const loadNearOffers = createAction(ActionType.LOAD_NEAR_OFFERS, (offers) => {
+  return {
+    payload: offers
+  };
 });

@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 import {stars} from '../../consts';
 import {postReview} from "../../store/api-actions";
 import Types from '../../types';
 
 const ReviewForm = (props) => {
-  const {id, postComment} = props;
+  const {id} = props;
+
+  const dispatch = useDispatch();
 
   const [info, setInfo] = useState({
     rate: null,
@@ -22,10 +24,10 @@ const ReviewForm = (props) => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    postComment(id, {
+    dispatch(postReview(id, {
       comment: info.review,
       rating: info.rate
-    });
+    }));
 
     setInfo({
       rate: null,
@@ -129,17 +131,9 @@ const ReviewForm = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  postComment(id, review) {
-    dispatch(postReview(id, review));
-  }
-});
-
 ReviewForm.propTypes = {
-  postComment: PropTypes.func,
   id: PropTypes.number,
   reviews: PropTypes.arrayOf(Types.REVIEW)
 };
 
-export {ReviewForm};
-export default connect(null, mapDispatchToProps)(ReviewForm);
+export default ReviewForm;

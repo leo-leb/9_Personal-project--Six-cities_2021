@@ -1,19 +1,14 @@
-import {ActionType} from './action';
+import {createReducer} from '@reduxjs/toolkit';
+import {loadAllOffers} from './action';
 
 const initialState = {
   offers: []
 };
 
-const reducerMain = (state = initialState, action) => {
-  switch (action.type) {
-    case ActionType.LOAD_OFFERS:
-      return {
-        ...state,
-        offers: action.payload
-      };
-    default:
-      return state;
-  }
-};
+const reducerMain = createReducer(initialState, (builder) => {
+  builder.addCase(loadAllOffers, (state, action) => {
+    state.offers = action.payload;
+  });
+});
 
 export default reducerMain;

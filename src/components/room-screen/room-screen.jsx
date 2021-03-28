@@ -1,33 +1,31 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useParams, Redirect} from 'react-router-dom';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
 import ReviewsList from '../reviews-list/reviews-list';
 import OffersList from '../offers-list/offers-list';
 import ReviewForm from '../review-form/review-form';
-import Types from '../../types';
-import PropTypes from 'prop-types';
 import Map from '../map/map';
 import {Routes, settingsForCard, starsRate, AuthorizationStatus} from '../../consts';
 import {getFilteredOffersById} from '../../selectors';
 import {fetchReviews, fetchNearOffers, setFavoriteStatus} from "../../store/api-actions";
 
-import {getAllOffers} from '../../store/main-screen/selectors';
-import {getReviews, getNearOffers} from '../../store/room-screen/selectors';
-import {getAuthStatus} from '../../store/root/selectors';
+const RoomScreen = () => {
+  const {offers} = useSelector((state) => state.MAIN);
+  const {nearOffers} = useSelector((state) => state.ROOM);
+  const {authStatus} = useSelector((state) => state.ROOT);
 
-const RoomScreen = (props) => {
-  const {allOffers, reviews, nearOffers, getAllReviews, getOffers, changeFavorite, authStatus} = props;
+  const dispatch = useDispatch();
 
   let {id} = useParams();
   const offerId = Number(id);
 
   useEffect(() => {
-    getAllReviews(offerId);
-    getOffers(offerId);
+    dispatch(fetchReviews(offerId));
+    dispatch(fetchNearOffers(offerId));
   }, [id]);
 
-  const currentOffer = getFilteredOffersById(allOffers, offerId);
+  const currentOffer = getFilteredOffersById(offers, offerId);
 
   if (currentOffer === undefined) {
     return (
@@ -97,7 +95,7 @@ const RoomScreen = (props) => {
                   type="button"
                   onClick={() => {
                     setClick(!click);
-                    changeFavorite(offerId, (isFavorite ? 0 : 1));
+                    dispatch(setFavoriteStatus(offerId, (isFavorite ? 0 : 1)));
                   }}
                 >
                   <svg className="property__bookmark-icon" width="31" height="33">
@@ -147,7 +145,7 @@ const RoomScreen = (props) => {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <ReviewsList reviews={reviews}/>
+                <ReviewsList/>
                 {authStatus === AuthorizationStatus.AUTH ? <ReviewForm id={offerId}/> : null}
               </section>
             </div>
@@ -174,34 +172,4 @@ const RoomScreen = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  allOffers: getAllOffers(state),
-  reviews: getReviews(state),
-  nearOffers: getNearOffers(state),
-  authStatus: getAuthStatus(state)
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  getAllReviews(id) {
-    dispatch(fetchReviews(id));
-  },
-  getOffers(id) {
-    dispatch(fetchNearOffers(id));
-  },
-  changeFavorite(id, status) {
-    dispatch(setFavoriteStatus(id, status));
-  }
-});
-
-RoomScreen.propTypes = {
-  allOffers: PropTypes.arrayOf(Types.OFFER),
-  reviews: PropTypes.arrayOf(Types.REVIEW),
-  nearOffers: PropTypes.arrayOf(Types.OFFER),
-  getAllReviews: PropTypes.func,
-  getOffers: PropTypes.func,
-  changeFavorite: PropTypes.func,
-  authStatus: PropTypes.string.isRequired
-};
-
-export {RoomScreen};
-export default connect(mapStateToProps, mapDispatchToProps)(RoomScreen);
+export default RoomScreen;

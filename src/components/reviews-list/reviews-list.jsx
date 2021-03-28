@@ -1,11 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import ReviewsItem from '../reviews-item/reviews-item';
 import {getFilteredReviews} from '../../selectors';
+import {useSelector} from 'react-redux';
 
-const ReviewsList = (props) => {
-  const {reviews} = props;
+const ReviewsList = () => {
+  const {reviews} = useSelector((state) => state.ROOM);
 
   const filteredReviews = getFilteredReviews(reviews);
 
@@ -16,10 +16,6 @@ const ReviewsList = (props) => {
     </ul>
   </>
   );
-};
-
-ReviewsList.propTypes = {
-  reviews: PropTypes.array
 };
 
 export default ReviewsList;

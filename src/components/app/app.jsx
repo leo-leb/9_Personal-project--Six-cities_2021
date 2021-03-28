@@ -1,8 +1,7 @@
 import React, {useEffect} from 'react';
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
 import {Routes} from '../../consts';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useSelector, useDispatch} from 'react-redux';
 
 import LoadingScreen from '../loading-screen/loading-screen';
 import MainScreen from '../main-screen/main-screen';
@@ -14,20 +13,20 @@ import PrivateRoute from '../private-route/private-route';
 
 import {initApp} from "../../store/api-actions";
 import {fetchFavoriteOffers} from "../../store/api-actions";
-import {getAppStatus, getAuthStatus} from '../../store/root/selectors';
 
-const App = (props) => {
-  const {isAppReady, onInitApp, authStatus, getFavoriteOffers} = props;
+const App = () => {
+  const {isAppReady, authStatus} = useSelector((state) => state.ROOT);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!isAppReady) {
-      onInitApp();
+      dispatch(initApp());
     }
   }, [isAppReady]);
 
   useEffect(() => {
     if (authStatus) {
-      getFavoriteOffers();
+      dispatch(fetchFavoriteOffers());
     }
   }, [authStatus]);
 
@@ -54,26 +53,4 @@ const App = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isAppReady: getAppStatus(state),
-  authStatus: getAuthStatus(state)
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onInitApp() {
-    dispatch(initApp());
-  },
-  getFavoriteOffers() {
-    dispatch(fetchFavoriteOffers());
-  }
-});
-
-App.propTypes = {
-  isAppReady: PropTypes.bool.isRequired,
-  onInitApp: PropTypes.func.isRequired,
-  getFavoriteOffers: PropTypes.func.isRequired,
-  authStatus: PropTypes.string.isRequired
-};
-
-export {App};
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

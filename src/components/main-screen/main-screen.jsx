@@ -1,23 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
 
 import CitiesList from '../cities-list/cities-list';
 import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import SortForm from '../sort-form/sort-form';
-import Types from '../../types';
 import {Routes, settingsForCard, defaultStates, AuthorizationStatus} from '../../consts';
 import {getFilteredOffersByCity} from '../../selectors';
-import {getAllOffers} from '../../store/main-screen/selectors';
-import {getAuthStatus} from '../../store/root/selectors';
 
-const MainScreen = (props) => {
-  const {allOffers, authStatus} = props;
+const MainScreen = () => {
+  const {offers} = useSelector((state) => state.MAIN);
+  const {authStatus} = useSelector((state) => state.ROOT);
 
   const [city, setCity] = useState(defaultStates.MAIN);
-  let offersFilteredByCity = getFilteredOffersByCity(allOffers, city);
+  let offersFilteredByCity = getFilteredOffersByCity(offers, city);
   const [filterOffers, setFilteredOffers] = useState([]);
 
   useEffect(() => {
@@ -86,15 +83,4 @@ const MainScreen = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  allOffers: getAllOffers(state),
-  authStatus: getAuthStatus(state)
-});
-
-MainScreen.propTypes = {
-  allOffers: PropTypes.arrayOf(Types.OFFER),
-  authStatus: PropTypes.string.isRequired
-};
-
-export {MainScreen};
-export default connect(mapStateToProps, null)(MainScreen);
+export default MainScreen;

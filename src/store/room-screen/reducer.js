@@ -1,25 +1,18 @@
-import {ActionType} from './action';
+import {createReducer} from '@reduxjs/toolkit';
+import {loadReviews, loadNearOffers} from './action';
 
 const initialState = {
   reviews: [],
-  offers: []
+  nearOffers: []
 };
 
-const reducerRoom = (state = initialState, action) => {
-  switch (action.type) {
-    case ActionType.LOAD_REVIEWS:
-      return {
-        ...state,
-        reviews: action.payload
-      };
-    case ActionType.LOAD_OFFERS:
-      return {
-        ...state,
-        offers: action.payload
-      };
-    default:
-      return state;
-  }
-};
+const reducerRoom = createReducer(initialState, (builder) => {
+  builder.addCase(loadReviews, (state, action) => {
+    state.reviews = action.payload;
+  });
+  builder.addCase(loadNearOffers, (state, action) => {
+    state.nearOffers = action.payload;
+  });
+});
 
 export default reducerRoom;

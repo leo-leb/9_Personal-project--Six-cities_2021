@@ -1,15 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Routes} from '../../consts';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
 
 import FavoritesList from '../favorites-list/favorites-list';
-import Types from '../../types';
-import {getFavoriteOffers} from '../../store/favorite-screen/selectors';
 
-const FavoritesScreen = (props) => {
-  const {favoriteOffers} = props;
+const FavoritesScreen = () => {
+  const {offers} = useSelector((state) => state.FAVORITE);
 
   return (
     <div className="page">
@@ -41,7 +38,7 @@ const FavoritesScreen = (props) => {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList offers={favoriteOffers}/>
+            <FavoritesList offers={offers}/>
           </section>
         </div>
       </main>
@@ -50,13 +47,4 @@ const FavoritesScreen = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  favoriteOffers: getFavoriteOffers(state)
-});
-
-FavoritesScreen.propTypes = {
-  favoriteOffers: PropTypes.arrayOf(Types.OFFER)
-};
-
-export {FavoritesScreen};
-export default connect(mapStateToProps, null)(FavoritesScreen);
+export default FavoritesScreen;
