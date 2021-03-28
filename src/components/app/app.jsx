@@ -14,6 +14,7 @@ import PrivateRoute from '../private-route/private-route';
 
 import {initApp} from "../../store/api-actions";
 import {fetchFavoriteOffers} from "../../store/api-actions";
+import {getAppStatus, getAuthStatus} from '../../store/root/selectors';
 
 const App = (props) => {
   const {isAppReady, onInitApp, authStatus, getFavoriteOffers} = props;
@@ -53,9 +54,9 @@ const App = (props) => {
   );
 };
 
-const mapStateToProps = ({ROOT}) => ({
-  isAppReady: ROOT.isAppReady,
-  authStatus: ROOT.authStatus
+const mapStateToProps = (state) => ({
+  isAppReady: getAppStatus(state),
+  authStatus: getAuthStatus(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

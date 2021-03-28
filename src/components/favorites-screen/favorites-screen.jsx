@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import FavoritesList from '../favorites-list/favorites-list';
 import Types from '../../types';
+import {getFavoriteOffers} from '../../store/favorite-screen/selectors';
 
 const FavoritesScreen = (props) => {
   const {favoriteOffers} = props;
@@ -49,8 +50,8 @@ const FavoritesScreen = (props) => {
   );
 };
 
-const mapStateToProps = ({FAVORITE}) => ({
-  favoriteOffers: FAVORITE.offers
+const mapStateToProps = (state) => ({
+  favoriteOffers: getFavoriteOffers(state)
 });
 
 FavoritesScreen.propTypes = {

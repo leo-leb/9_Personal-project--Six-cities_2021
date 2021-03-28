@@ -10,17 +10,20 @@ import PropTypes from 'prop-types';
 import Map from '../map/map';
 import {Routes, settingsForCard, starsRate, AuthorizationStatus} from '../../consts';
 import {getFilteredOffersById} from '../../selectors';
-
 import {fetchReviews, fetchNearOffers, setFavoriteStatus} from "../../store/api-actions";
 
+import {getAllOffers} from '../../store/main-screen/selectors';
+import {getReviews, getNearOffers} from '../../store/room-screen/selectors';
+import {getAuthStatus} from '../../store/root/selectors';
+
 const RoomScreen = (props) => {
-  const {allOffers, reviews, nearOffers, getReviews, getOffers, changeFavorite, authStatus} = props;
+  const {allOffers, reviews, nearOffers, getAllReviews, getOffers, changeFavorite, authStatus} = props;
 
   let {id} = useParams();
   const offerId = Number(id);
 
   useEffect(() => {
-    getReviews(offerId);
+    getAllReviews(offerId);
     getOffers(offerId);
   }, [id]);
 
@@ -171,15 +174,15 @@ const RoomScreen = (props) => {
   );
 };
 
-const mapStateToProps = ({MAIN, ROOM, ROOT}) => ({
-  allOffers: MAIN.offers,
-  reviews: ROOM.reviews,
-  nearOffers: ROOM.offers,
-  authStatus: ROOT.authStatus
+const mapStateToProps = (state) => ({
+  allOffers: getAllOffers(state),
+  reviews: getReviews(state),
+  nearOffers: getNearOffers(state),
+  authStatus: getAuthStatus(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getReviews(id) {
+  getAllReviews(id) {
     dispatch(fetchReviews(id));
   },
   getOffers(id) {
@@ -194,7 +197,7 @@ RoomScreen.propTypes = {
   allOffers: PropTypes.arrayOf(Types.OFFER),
   reviews: PropTypes.arrayOf(Types.REVIEW),
   nearOffers: PropTypes.arrayOf(Types.OFFER),
-  getReviews: PropTypes.func,
+  getAllReviews: PropTypes.func,
   getOffers: PropTypes.func,
   changeFavorite: PropTypes.func,
   authStatus: PropTypes.string.isRequired

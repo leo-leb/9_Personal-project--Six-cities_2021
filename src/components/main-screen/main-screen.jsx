@@ -10,6 +10,8 @@ import SortForm from '../sort-form/sort-form';
 import Types from '../../types';
 import {Routes, settingsForCard, defaultStates, AuthorizationStatus} from '../../consts';
 import {getFilteredOffersByCity} from '../../selectors';
+import {getAllOffers} from '../../store/main-screen/selectors';
+import {getAuthStatus} from '../../store/root/selectors';
 
 const MainScreen = (props) => {
   const {allOffers, authStatus} = props;
@@ -84,9 +86,9 @@ const MainScreen = (props) => {
   );
 };
 
-const mapStateToProps = ({MAIN, ROOT}) => ({
-  allOffers: MAIN.offers,
-  authStatus: ROOT.authStatus
+const mapStateToProps = (state) => ({
+  allOffers: getAllOffers(state),
+  authStatus: getAuthStatus(state)
 });
 
 MainScreen.propTypes = {

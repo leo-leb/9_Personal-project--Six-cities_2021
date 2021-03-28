@@ -7,6 +7,8 @@ import Types from '../../types';
 import {settingsForCard, starsRate, AuthorizationStatus, Routes} from '../../consts';
 
 import {setFavoriteStatus} from "../../store/api-actions";
+import {getAuthStatus} from '../../store/root/selectors';
+
 
 const OfferCard = (props) => {
   const {offers, offer, setActiveCard, cardSet, authStatus, changeFavorite} = props;
@@ -85,8 +87,8 @@ const OfferCard = (props) => {
   );
 };
 
-const mapStateToProps = ({ROOT}) => ({
-  authStatus: ROOT.authStatus
+const mapStateToProps = (state) => ({
+  authStatus: getAuthStatus(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 
 import Types from '../../types';
 import "leaflet/dist/leaflet.css";
+import {getActiveOffer} from '../../store/root/selectors';
 
 const Map = (props) => {
   const {city, points, activePoint} = props;
@@ -100,8 +101,8 @@ const Map = (props) => {
   </>;
 };
 
-const mapStateToProps = ({ROOT}) => ({
-  activePoint: ROOT.activeOffer
+const mapStateToProps = (state) => ({
+  activePoint: getActiveOffer(state)
 });
 
 Map.propTypes = {

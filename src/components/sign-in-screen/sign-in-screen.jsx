@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {login} from "../../store/api-actions";
 
 import {Routes, AuthorizationStatus} from '../../consts';
+import {getAuthStatus} from '../../store/root/selectors';
 
 const SignInScreen = (props) => {
   const {onSubmit, authStatus} = props;
@@ -95,8 +96,8 @@ const SignInScreen = (props) => {
   );
 };
 
-const mapStateToProps = ({ROOT}) => ({
-  authStatus: ROOT.authStatus
+const mapStateToProps = (state) => ({
+  authStatus: getAuthStatus(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
