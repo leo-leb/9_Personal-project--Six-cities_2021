@@ -5,23 +5,34 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import Types from '../../types';
 import {settingsForCard, starsRate, AuthorizationStatus, Routes} from '../../consts';
-
 import {setFavoriteStatus} from "../../store/api-actions";
-import {setActiveOffer} from '../../store/root/action';
+import FavoriteButton from "../offer-card-button/offer-card-button";
 
 const OfferCard = (props) => {
-  const {offers, offer, cardSet} = props;
+  const {offer, cardSet, setActiveCard} = props;
   const {id, isPremium, isFavorite, previewImage, price, rating, title, type} = offer;
 
   const {authStatus} = useSelector((state) => state.ROOT);
   const dispatch = useDispatch();
 
-  const [activeCard, setActiveCard] = useState(null);
-  const [click, setClick] = useState(isFavorite);
+  const [click, setClick] = useState(null);
+  const [name, setName] = useState(isFavorite);
 
   useEffect(() => {
-    dispatch(setActiveOffer(offers, activeCard));
-  }, [activeCard]);
+    if (name !== isFavorite) {
+      dispatch(setFavoriteStatus(id, (isFavorite ? 0 : 1)));
+    }
+  }, [name]);
+
+  useEffect(() => {
+    return () => {
+      setName(isFavorite);
+    };
+  }, [offer]);
+
+  useEffect(() => {
+    setClick(!click);
+  }, [isFavorite]);
 
   if (click && authStatus !== AuthorizationStatus.AUTH) {
     return (
@@ -34,7 +45,6 @@ const OfferCard = (props) => {
       className={cardSet.screen + `__` + cardSet.card + ` place-card`}
       onMouseEnter={() => {
         setActiveCard(id);
-        dispatch(setActiveOffer(offers, activeCard));
       }}
     >
       {cardSet.screen === settingsForCard.MAIN.screen && isPremium && <div className="place-card__mark"><span>Premium</span></div>}
@@ -53,19 +63,7 @@ const OfferCard = (props) => {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button
-            className={`place-card__bookmark-button button` + (click ? ` place-card__bookmark-button--active` : ``)}
-            type="button"
-            onClick={() => {
-              setClick(!click);
-              dispatch(setFavoriteStatus(id, (isFavorite ? 0 : 1)));
-            }}
-          >
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <FavoriteButton name={name} setName={setName} isFavorite={isFavorite}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -90,10 +88,10 @@ const OfferCard = (props) => {
 };
 
 OfferCard.propTypes = {
+  offers: PropTypes.array,
   offer: Types.OFFER,
   setActiveCard: PropTypes.func,
-  cardSet: Types.CARD_SET,
-  offers: PropTypes.arrayOf(Types.OFFER),
+  cardSet: Types.CARD_SET
 };
 
 export default OfferCard;
