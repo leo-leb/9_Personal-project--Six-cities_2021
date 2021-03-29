@@ -15,7 +15,6 @@ const OfferCard = (props) => {
   const {authStatus} = useSelector((state) => state.ROOT);
   const dispatch = useDispatch();
 
-  const [click, setClick] = useState(null);
   const [name, setName] = useState(isFavorite);
 
   useEffect(() => {
@@ -30,11 +29,7 @@ const OfferCard = (props) => {
     };
   }, [offer]);
 
-  useEffect(() => {
-    setClick(!click);
-  }, [isFavorite]);
-
-  if (click && authStatus !== AuthorizationStatus.AUTH) {
+  if (name !== isFavorite && authStatus !== AuthorizationStatus.AUTH) {
     return (
       <Redirect to={Routes.SIGNIN} />
     );
@@ -88,7 +83,6 @@ const OfferCard = (props) => {
 };
 
 OfferCard.propTypes = {
-  offers: PropTypes.array,
   offer: Types.OFFER,
   setActiveCard: PropTypes.func,
   cardSet: Types.CARD_SET

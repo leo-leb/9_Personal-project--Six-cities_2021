@@ -20,7 +20,7 @@ const OffersList = (props) => {
   }, [activeCard]);
 
   return <>
-    {offers.map((offer, i) => <OfferCard offers={offers} offer={offer} cardSet={cardSet} setActiveCard={setActiveCard} key={i}/>)}
+    {offers.map((offer, i) => <OfferCard offer={offer} cardSet={cardSet} setActiveCard={setActiveCard} key={i}/>)}
   </>;
 };
 
