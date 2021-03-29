@@ -1,12 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 
 import CitiesList from '../cities-list/cities-list';
-import OffersList from '../offers-list/offers-list';
-import Map from '../map/map';
-import SortForm from '../sort-form/sort-form';
-import {Routes, settingsForCard, defaultStates, AuthorizationStatus} from '../../consts';
+import MainContent from '../main-content/main-content';
+import MainContentEmpty from '../main-content-empty/main-content-empty';
+import {Routes, defaultStates, AuthorizationStatus} from '../../consts';
 import {getFilteredOffersByCity} from '../../selectors';
 
 const MainScreen = () => {
@@ -14,12 +13,7 @@ const MainScreen = () => {
   const {authStatus} = useSelector((state) => state.ROOT);
 
   const [city, setCity] = useState(defaultStates.MAIN);
-  let offersFilteredByCity = getFilteredOffersByCity(offers, city);
-  const [filterOffers, setFilteredOffers] = useState([]);
-
-  useEffect(() => {
-    setFilteredOffers(offersFilteredByCity);
-  }, [city]);
+  const offersFilteredByCity = getFilteredOffersByCity(offers, city);
 
   return (
     <div className="page page--gray page--main">
@@ -50,7 +44,7 @@ const MainScreen = () => {
         </div>
       </header>
 
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index` + (offersFilteredByCity.length === 0 ? ` page__main--index-empty` : ``)}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
@@ -58,24 +52,10 @@ const MainScreen = () => {
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{filterOffers.length} places to stay in {city.name}</b>
-              <SortForm offers={offersFilteredByCity} onSortClick={setFilteredOffers}/>
-              <div className="cities__places-list places__list tabs__content">
-                <OffersList offers={filterOffers} cardSet={settingsForCard.MAIN}/>
-              </div>
-            </section>
-            <div className="cities__right-section">
-              <section className="cities__map map">
-                <Map
-                  city={city}
-                  points={filterOffers}
-                />
-              </section>
-            </div>
-          </div>
+          {offersFilteredByCity.length !== 0 ?
+            <MainContent city={city} offers={offersFilteredByCity}/> :
+            <MainContentEmpty city={city}/>
+          }
         </div>
       </main>
 
