@@ -1,8 +1,8 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 
 import ReviewsItem from '../reviews-item/reviews-item';
 import {getFilteredReviews} from '../../selectors';
-import {useSelector} from 'react-redux';
 
 const ReviewsList = () => {
   const {reviews} = useSelector((state) => state.ROOM);

@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 
 import Types from '../../types';
+
 import "leaflet/dist/leaflet.css";
 
 const Map = (props) => {
-  const {city, points} = props;
+  const {city, points, actualPoint} = props;
   const {activeOffer} = useSelector((state) => state.ROOT);
 
   const id = activeOffer ? activeOffer.id : null;
@@ -49,27 +50,7 @@ const Map = (props) => {
   useEffect(() => {
     const markers = [];
 
-    if (activeOffer) {
-      points.forEach((offer) => {
-        const icon = offer.id === activeOffer.id ? activeIcon : basicIcon;
-
-        markers.push(
-            leaflet
-              .marker({
-                lat: offer.location.latitude,
-                lng: offer.location.longitude
-              }, {icon})
-              .addTo(mapRef.current)
-              .bindPopup(offer.type)
-        );
-
-        const activeIconElement = document.querySelector(`img[src="img/pin-active.svg"]`);
-
-        if (activeIconElement) {
-          activeIconElement.style.zIndex = 1010;
-        }
-      });
-    } else {
+    if (actualPoint) {
       points.forEach((offer) => {
         const icon = basicIcon;
 
@@ -82,12 +63,32 @@ const Map = (props) => {
               .addTo(mapRef.current)
               .bindPopup(offer.type)
         );
+      });
 
-        const activeIconElement = document.querySelector(`img[src="img/pin-active.svg"]`);
+      const icon = activeIcon;
 
-        if (activeIconElement) {
-          activeIconElement.style.zIndex = 1010;
-        }
+      markers.push(
+          leaflet
+            .marker({
+              lat: actualPoint.location.latitude,
+              lng: actualPoint.location.longitude
+            }, {icon})
+            .addTo(mapRef.current)
+            .bindPopup(actualPoint.type)
+      );
+    } else {
+      points.forEach((offer) => {
+        const icon = offer.id === activeOffer.id ? activeIcon : basicIcon;
+
+        markers.push(
+            leaflet
+              .marker({
+                lat: offer.location.latitude,
+                lng: offer.location.longitude
+              }, {icon})
+              .addTo(mapRef.current)
+              .bindPopup(offer.type)
+        );
       });
     }
 
@@ -104,6 +105,7 @@ const Map = (props) => {
 Map.propTypes = {
   city: Types.CITY,
   points: PropTypes.arrayOf(Types.OFFER),
+  actualPoint: Types.OFFER
 };
 
 export default Map;

@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
 
+import Types from '../../types';
 import {stars} from '../../consts';
 import {postReview} from "../../store/api-actions";
-import Types from '../../types';
 
 const ReviewForm = (props) => {
   const {id} = props;

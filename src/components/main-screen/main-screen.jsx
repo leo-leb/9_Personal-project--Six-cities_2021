@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import CitiesList from '../cities-list/cities-list';
 import MainContent from '../main-content/main-content';
 import MainContentEmpty from '../main-content-empty/main-content-empty';
-import {Routes, defaultStates, AuthorizationStatus} from '../../consts';
+import {AppRoutes, defaultStates, AuthorizationStatus} from '../../consts';
 import {getFilteredOffersByCity} from '../../selectors';
 
 const MainScreen = () => {
@@ -29,7 +29,7 @@ const MainScreen = () => {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={authStatus === AuthorizationStatus.AUTH ? Routes.FAVORITES : Routes.SIGNIN}>
+                  <Link className="header__nav-link header__nav-link--profile" to={authStatus === AuthorizationStatus.AUTH ? AppRoutes.FAVORITES : AppRoutes.SIGNIN}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     {authStatus === AuthorizationStatus.AUTH ?

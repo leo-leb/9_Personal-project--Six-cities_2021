@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useParams, Redirect} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 
 import ReviewsList from '../reviews-list/reviews-list';
 import OffersList from '../offers-list/offers-list';
 import ReviewForm from '../review-form/review-form';
+import FavoriteButton from "../offer-card-button/offer-card-button";
 import Map from '../map/map';
-import {Routes, settingsForCard, starsRate, AuthorizationStatus} from '../../consts';
+import {AppRoutes, settingsForCard, starsRate, AuthorizationStatus, FavoriteButtonTypes} from '../../consts';
 import {getFilteredOffersById} from '../../selectors';
 import {fetchReviews, fetchNearOffers, setFavoriteStatus} from "../../store/api-actions";
+import {redirectToRoute} from "../../store/root/action";
 
 const RoomScreen = () => {
   const {offers} = useSelector((state) => state.MAIN);
@@ -28,14 +30,22 @@ const RoomScreen = () => {
   const currentOffer = getFilteredOffersById(offers, offerId);
 
   if (currentOffer === undefined) {
-    return (
-      <Redirect to={Routes.NOT_FOUND} />
-    );
+    dispatch(redirectToRoute(AppRoutes.NOT_FOUND));
   }
 
   const {isPremium, isFavorite, maxAdults, bedrooms, price, rating, type, title, description, goods, images, host, city} = currentOffer;
 
-  const [click, setClick] = useState(isFavorite);
+  const [name, setName] = useState(isFavorite);
+
+  useEffect(() => {
+    if (name !== isFavorite) {
+      dispatch(setFavoriteStatus(id, (isFavorite ? 0 : 1)));
+    }
+  }, [name]);
+
+  if (name !== isFavorite && authStatus !== AuthorizationStatus.AUTH) {
+    dispatch(redirectToRoute(AppRoutes.SIGNIN));
+  }
 
   return (
     <div className="page">
@@ -44,14 +54,14 @@ const RoomScreen = () => {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link header__logo-link--active" to={Routes.MAIN}>
+              <Link className="header__logo-link header__logo-link--active" to={AppRoutes.MAIN}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={authStatus === AuthorizationStatus.AUTH ? Routes.FAVORITES : Routes.SIGNIN}>
+                  <Link className="header__nav-link header__nav-link--profile" to={authStatus === AuthorizationStatus.AUTH ? AppRoutes.FAVORITES : AppRoutes.SIGNIN}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     {authStatus === AuthorizationStatus.AUTH ?
@@ -76,7 +86,7 @@ const RoomScreen = () => {
                     <img className="property__image" src={item} alt="Photo studio" />
                   </div>
                 );
-              })}
+              }).slice(0, 6)}
             </div>
           </div>
           <div className="property__container container">
@@ -90,19 +100,7 @@ const RoomScreen = () => {
               }
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
-                <button
-                  className={`property__bookmark-button button` + (click ? ` property__bookmark-button--active` : ``)}
-                  type="button"
-                  onClick={() => {
-                    setClick(!click);
-                    dispatch(setFavoriteStatus(offerId, (isFavorite ? 0 : 1)));
-                  }}
-                >
-                  <svg className="property__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <FavoriteButton name={name} setName={setName} type={FavoriteButtonTypes.ROOM_SCREEN} isFavorite={isFavorite}/>
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
@@ -154,6 +152,7 @@ const RoomScreen = () => {
             <Map
               city={city}
               points={nearOffers}
+              actualPoint={currentOffer}
             />
           </section>
         </section>

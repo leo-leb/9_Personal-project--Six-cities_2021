@@ -1,11 +1,21 @@
 import {getFilteredOffersByPriceIncrease, getFilteredOffersByPriceReduce, getFilteredOffersByRate} from './selectors';
 
-export const Routes = {
+export const AppRoutes = {
   MAIN: `/`,
   FAVORITES: `/favorites`,
   SIGNIN: `/login`,
   ROOM: `/offer/:id?`,
-  NOT_FOUND: `/404`
+  NOT_FOUND: `/page-not-found`,
+  BAD_REQUEST: `/bad-request`
+};
+
+export const ApiRoutes = {
+  LOGIN: `/login`,
+  LOGOUT: `/logout`,
+  ALL_OFFERS: `/hotels`,
+  FAVORITE_OFFERS: `/favorite`,
+  NEAR_OFFERS: `/nearby`,
+  REVIEWS: `/comments`
 };
 
 export const settingsForCard = {
@@ -139,4 +149,36 @@ export const defaultStates = {
 export const AuthorizationStatus = {
   AUTH: `AUTH`,
   NO_AUTH: `NO_AUTH`,
+};
+
+export const FavoriteButtonTypes = {
+  OFFER_CARD: {
+    name: `place-card`,
+    width: 18,
+    height: 19
+  },
+  ROOM_SCREEN: {
+    name: `property`,
+    width: 31,
+    height: 33
+  },
+};
+
+export const ApiCodes = {
+  BAD_REQUEST: {
+    number: 400,
+    description: `Bad request`
+  },
+  UNAUTHORIZED: {
+    number: 401,
+    description: `User is unauthorized`
+  },
+  NOT_FOUND: {
+    number: 404,
+    description: `Page not found`
+  },
+  NOT_AVAILABLE: {
+    number: 500,
+    description: `Server is not available`
+  }
 };

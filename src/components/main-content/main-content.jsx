@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import Types from '../../types';
 
+import Types from '../../types';
 import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import SortForm from '../sort-form/sort-form';

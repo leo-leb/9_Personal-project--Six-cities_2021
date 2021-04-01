@@ -1,9 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Routes} from '../../consts';
 import {useSelector} from 'react-redux';
 
-import FavoritesList from '../favorites-list/favorites-list';
+import FavoritesContent from '../favorites-content/favorites-content';
+import FavoritesContentEmpty from '../favorites-content-empty/favorites-content-empty';
+import {AppRoutes} from '../../consts';
 
 const FavoritesScreen = () => {
   const {offers} = useSelector((state) => state.FAVORITE);
@@ -15,7 +16,7 @@ const FavoritesScreen = () => {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link header__logo-link--active" to={Routes.MAIN}>
+              <Link className="header__logo-link header__logo-link--active" to={AppRoutes.MAIN}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>
@@ -34,14 +35,10 @@ const FavoritesScreen = () => {
         </div>
       </header>
 
-      <main className="page__main page__main--favorites">
-        <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList offers={offers}/>
-          </section>
-        </div>
-      </main>
+      {offers.length !== 0 ?
+        <FavoritesContent offers={offers}/> :
+        <FavoritesContentEmpty/>
+      }
 
     </div>
   );

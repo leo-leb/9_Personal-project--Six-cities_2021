@@ -9,9 +9,9 @@ import {setActiveOffer} from '../../store/root/action';
 const OffersList = (props) => {
   const {offers, cardSet} = props;
 
-  const [activeCard, setActiveCard] = useState(null);
-
   const dispatch = useDispatch();
+
+  const [activeCard, setActiveCard] = useState(null);
 
   useEffect(() => {
     if (activeCard !== null) {

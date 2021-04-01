@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Routes} from '../../consts';
+import {AppRoutes} from '../../consts';
 
 const NotFoundScreen = () => {
   return (
@@ -10,7 +10,7 @@ const NotFoundScreen = () => {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link header__logo-link--active" to={Routes.MAIN}>
+              <Link className="header__logo-link header__logo-link--active" to={AppRoutes.MAIN}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>
@@ -29,9 +29,10 @@ const NotFoundScreen = () => {
         </div>
       </header>
 
-      <section className="game__screen">
+      <main className="container">
         <h1>404. Page not found</h1>
-      </section>
+        <Link to={AppRoutes.MAIN}>Вернуться на главную</Link>
+      </main>
 
     </div>
   );

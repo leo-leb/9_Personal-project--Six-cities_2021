@@ -2,20 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const FavoriteButton = (props) => {
-  const {name, setName} = props;
+  const {name, setName, type} = props;
 
   return (
     <button
       className={name ?
-        `place-card__bookmark-button place-card__bookmark-button--active button` :
-        `place-card__bookmark-button button`
+        `${type.name}__bookmark-button ${type.name}__bookmark-button--active button` :
+        `${type.name}__bookmark-button button`
       }
       type="button"
       onClick={() => {
         setName(!name);
       }}
     >
-      <svg className="place-card__bookmark-icon" width="18" height="19">
+      <svg
+        className={type.name + `__bookmark-icon`}
+        width={type.width}
+        height={type.height}
+      >
         <use xlinkHref="#icon-bookmark"></use>
       </svg>
       <span className="visually-hidden">To bookmarks</span>
@@ -26,6 +30,7 @@ const FavoriteButton = (props) => {
 FavoriteButton.propTypes = {
   name: PropTypes.bool,
   setName: PropTypes.func,
+  type: PropTypes.object
 };
 
 export default FavoriteButton;

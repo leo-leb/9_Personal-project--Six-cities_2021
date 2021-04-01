@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import FavoritesItem from '../favorites-item/favorites-item';
 import Types from '../../types';
+import FavoritesItem from '../favorites-item/favorites-item';
 import {getCitiesFromOffers} from '../../selectors';
 
 const FavoritesList = (props) => {

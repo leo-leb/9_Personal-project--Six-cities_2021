@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {Link, Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {useSelector, useDispatch} from 'react-redux';
 
 import Types from '../../types';
-import {settingsForCard, starsRate, AuthorizationStatus, Routes} from '../../consts';
+import {settingsForCard, starsRate, AuthorizationStatus, AppRoutes, FavoriteButtonTypes} from '../../consts';
 import {setFavoriteStatus} from "../../store/api-actions";
+import {redirectToRoute} from "../../store/root/action";
 import FavoriteButton from "../offer-card-button/offer-card-button";
 
 const OfferCard = (props) => {
@@ -30,9 +31,7 @@ const OfferCard = (props) => {
   }, [offer]);
 
   if (name !== isFavorite && authStatus !== AuthorizationStatus.AUTH) {
-    return (
-      <Redirect to={Routes.SIGNIN} />
-    );
+    dispatch(redirectToRoute(AppRoutes.SIGNIN));
   }
 
   return (
@@ -58,7 +57,7 @@ const OfferCard = (props) => {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <FavoriteButton name={name} setName={setName} isFavorite={isFavorite}/>
+          <FavoriteButton name={name} setName={setName} type={FavoriteButtonTypes.OFFER_CARD} isFavorite={isFavorite}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

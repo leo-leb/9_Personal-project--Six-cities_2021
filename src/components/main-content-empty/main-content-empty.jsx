@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Types from '../../types';
 
 const MainContentEmpty = ({city}) => {

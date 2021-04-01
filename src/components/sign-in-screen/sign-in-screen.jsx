@@ -3,10 +3,11 @@ import {Link, Redirect} from 'react-router-dom';
 import {login} from "../../store/api-actions";
 import {useSelector, useDispatch} from 'react-redux';
 
-import {Routes, AuthorizationStatus} from '../../consts';
+import {AppRoutes, AuthorizationStatus} from '../../consts';
 
 const SignInScreen = () => {
   const {authStatus} = useSelector((state) => state.ROOT);
+
   const dispatch = useDispatch();
 
   const emailRef = useRef();
@@ -15,15 +16,26 @@ const SignInScreen = () => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    dispatch(login({
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-    }));
+    if (evt.target.checkValidity()) {
+      dispatch(login({
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+      }));
+    }
+  };
+
+  const onButtonClick = (evt) => {
+    if (evt.target.validity.patternMismatch) {
+      evt.target.setCustomValidity(`Email должен соответствовать формату x@x.xx`);
+    } else {
+      evt.target.setCustomValidity(``);
+    }
+    evt.target.reportValidity();
   };
 
   if (authStatus === AuthorizationStatus.AUTH) {
     return (
-      <Redirect to={Routes.MAIN} />
+      <Redirect to={AppRoutes.MAIN} />
     );
   }
 
@@ -34,7 +46,7 @@ const SignInScreen = () => {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link header__logo-link--active" to={Routes.MAIN}>
+              <Link className="header__logo-link header__logo-link--active" to={AppRoutes.MAIN}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>
@@ -52,25 +64,31 @@ const SignInScreen = () => {
               onSubmit={handleSubmit}
             >
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">E-mail</label>
+                <label className="visually-hidden" htmlFor="email">E-mail</label>
                 <input
                   ref={emailRef}
                   className="login__input form__input"
                   type="text"
                   name="email"
+                  id="email"
+                  data-testid="email"
                   placeholder="Email"
-                  required=""
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}"
+                  onChange={onButtonClick}
+                  required
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">Password</label>
+                <label className="visually-hidden" htmlFor="password">Password</label>
                 <input
                   ref={passwordRef}
                   className="login__input form__input"
                   type="text"
                   name="password"
+                  id="password"
+                  data-testid="password"
                   placeholder="Password"
-                  required=""
+                  required
                 />
               </div>
               <button
