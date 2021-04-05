@@ -1,10 +1,10 @@
 import React from 'react';
 import leaflet from 'leaflet';
-import {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
+import {useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
 
-import Types from '../../types';
+import {typeOffer, typeCity} from '../../types';
 
 import "leaflet/dist/leaflet.css";
 
@@ -103,9 +103,9 @@ const Map = (props) => {
 };
 
 Map.propTypes = {
-  city: Types.CITY,
-  points: PropTypes.arrayOf(Types.OFFER),
-  actualPoint: Types.OFFER
+  city: typeCity,
+  points: PropTypes.arrayOf(typeOffer),
+  actualPoint: typeOffer
 };
 
 export default Map;

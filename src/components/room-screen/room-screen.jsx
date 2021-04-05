@@ -7,8 +7,8 @@ import OffersList from '../offers-list/offers-list';
 import ReviewForm from '../review-form/review-form';
 import FavoriteButton from "../offer-card-button/offer-card-button";
 import Map from '../map/map';
-import {AppRoutes, settingsForCard, starsRate, AuthorizationStatus, FavoriteButtonTypes} from '../../consts';
-import {getFilteredOffersById} from '../../selectors';
+import {AppRoute, CardSetting, getRate, AuthorizationStatus, FavoriteButtonType} from '../../const';
+import {getOfferById} from '../../selectors';
 import {fetchReviews, fetchNearOffers, setFavoriteStatus} from "../../store/api-actions";
 import {redirectToRoute} from "../../store/root/action";
 
@@ -27,10 +27,10 @@ const RoomScreen = () => {
     dispatch(fetchNearOffers(offerId));
   }, [id]);
 
-  const currentOffer = getFilteredOffersById(offers, offerId);
+  const currentOffer = getOfferById(offers, offerId);
 
   if (currentOffer === undefined) {
-    dispatch(redirectToRoute(AppRoutes.NOT_FOUND));
+    dispatch(redirectToRoute(AppRoute.NOT_FOUND));
   }
 
   const {isPremium, isFavorite, maxAdults, bedrooms, price, rating, type, title, description, goods, images, host, city} = currentOffer;
@@ -44,7 +44,7 @@ const RoomScreen = () => {
   }, [name]);
 
   if (name !== isFavorite && authStatus !== AuthorizationStatus.AUTH) {
-    dispatch(redirectToRoute(AppRoutes.SIGNIN));
+    dispatch(redirectToRoute(AppRoute.SIGNIN));
   }
 
   return (
@@ -54,20 +54,16 @@ const RoomScreen = () => {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link header__logo-link--active" to={AppRoutes.MAIN}>
+              <Link className="header__logo-link header__logo-link--active" to={AppRoute.MAIN}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={authStatus === AuthorizationStatus.AUTH ? AppRoutes.FAVORITES : AppRoutes.SIGNIN}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    {authStatus === AuthorizationStatus.AUTH ?
-                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span> :
-                      <span className="header__login">Sign in</span>
-                    }
+                  <Link className="header__nav-link header__nav-link--profile" to={authStatus === AuthorizationStatus.AUTH ? AppRoute.FAVORITES : AppRoute.SIGNIN}>
+                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                    {authStatus === AuthorizationStatus.AUTH ? <span className="header__user-name user__name">Oliver.conner@gmail.com</span> : <span className="header__login">Sign in</span>}
                   </Link>
                 </li>
               </ul>
@@ -82,7 +78,7 @@ const RoomScreen = () => {
             <div className="property__gallery">
               {images.map((item, i) => {
                 return (
-                  <div className="property__image-wrapper" key={i}>
+                  <div className="property__image-wrapper" key={item + i}>
                     <img className="property__image" src={item} alt="Photo studio" />
                   </div>
                 );
@@ -100,11 +96,11 @@ const RoomScreen = () => {
               }
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
-                <FavoriteButton name={name} setName={setName} type={FavoriteButtonTypes.ROOM_SCREEN} isFavorite={isFavorite}/>
+                <FavoriteButton name={name} setName={setName} type={FavoriteButtonType.ROOM_SCREEN} isFavorite={isFavorite}/>
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: starsRate(Math.round(rating))}}></span>
+                  <span style={{width: getRate(Math.round(rating))}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{rating}</span>
@@ -160,7 +156,7 @@ const RoomScreen = () => {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <OffersList offers={nearOffers} cardSet={settingsForCard.ROOM}/>
+              <OffersList offers={nearOffers} cardSet={CardSetting.ROOM}/>
             </div>
           </section>
         </div>

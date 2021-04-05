@@ -1,13 +1,15 @@
+/* eslint-disable max-nested-callbacks */
 import MockAdapter from 'axios-mock-adapter';
 import {createAPI} from '../../services/api';
+import {loadReviews, loadNearOffers} from './action';
 import {ActionType} from './action';
 import reducerRoom from './reducer';
-import {fetchReviews, fetchNearOffers} from '../api-actions';
-import {ApiRoutes} from '../../consts';
+import {fetchReviews, fetchNearOffers, postReview} from '../api-actions';
+import {ApiRoute} from '../../const';
 
 const api = createAPI(() => {});
 
-const reviews = [
+const fakeReviews = [
   {
     "comment": `A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.`,
     "date": `2019-05-08T14:13:56.569Z`,
@@ -22,7 +24,7 @@ const reviews = [
   }
 ];
 
-const offers = [
+const fakeOffers = [
   {
     "bedrooms": 3,
     "city": {
@@ -72,24 +74,18 @@ describe(`Reducer 'reducerRoom' should work correctly`, () => {
 
   it(`UPDATE STATE: update reviews to new reviews`, () => {
     const state = {reviews: []};
-    const loadReviewsAction = {
-      type: ActionType.LOAD_REVIEWS,
-      payload: reviews
-    };
+    const action = loadReviews(fakeReviews);
+    const newState = reducerRoom(state, action);
 
-    expect(reducerRoom(state, loadReviewsAction))
-      .toEqual({reviews});
+    expect(newState).toEqual({reviews: fakeReviews});
   });
 
   it(`UPDATE STATE: update offers to new offers`, () => {
     const state = {nearOffers: []};
-    const loadOffersAction = {
-      type: ActionType.LOAD_NEAR_OFFERS,
-      payload: offers
-    };
+    const action = loadNearOffers(fakeOffers);
+    const newState = reducerRoom(state, action);
 
-    expect(reducerRoom(state, loadOffersAction))
-      .toEqual({nearOffers: offers});
+    expect(newState).toEqual({nearOffers: fakeOffers});
   });
 });
 
@@ -100,7 +96,7 @@ describe(`Async operation work correctly`, () => {
     const checkReviewsLoader = fetchReviews(id);
 
     apiMock
-      .onGet(ApiRoutes.REVIEWS + `/${id}`)
+      .onGet(ApiRoute.REVIEWS + `/${id}`)
       .reply(200, [{fake: true}]);
 
     return checkReviewsLoader(dispatch, () => {}, api)
@@ -120,7 +116,7 @@ describe(`Async operation work correctly`, () => {
     const checkOffersLoader = fetchNearOffers(id);
 
     apiMock
-      .onGet(ApiRoutes.ALL_OFFERS + `/${id}` + ApiRoutes.NEAR_OFFERS)
+      .onGet(ApiRoute.ALL_OFFERS + `/${id}` + ApiRoute.NEAR_OFFERS)
       .reply(200, [{fake: true}]);
 
     return checkOffersLoader(dispatch, () => {}, api)
@@ -131,6 +127,40 @@ describe(`Async operation work correctly`, () => {
           type: ActionType.LOAD_NEAR_OFFERS,
           payload: [{fake: true}]
         });
+      });
+  });
+
+  it(`CHECK API CALL:
+  -> post to /comments
+  -> get from /comments`, () => {
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+
+    const fakeId = 1;
+    const fakeReview = {
+      "comment": `bla-bla-bla`,
+      "rating": 4
+    };
+
+    const checkPostReview = postReview(fakeId, fakeReview);
+    const checkReviewsLoader = fetchReviews(fakeId);
+
+    apiMock
+      .onPost(ApiRoute.REVIEWS + `/${fakeId}`)
+      .reply(200, [{fake: true}])
+      .onGet(ApiRoute.REVIEWS + `/${fakeId}`)
+      .reply(200, [{fake: true}]);
+
+    return checkPostReview(dispatch, () => {}, api)
+      .then(() => {
+        checkReviewsLoader(dispatch, () => {}, api)
+          .then(() => {
+            expect(dispatch).toHaveBeenCalledTimes(2);
+            expect(dispatch).toHaveBeenNthCalledWith(2, {
+              type: ActionType.LOAD_REVIEWS,
+              payload: [{fake: true}]
+            });
+          });
       });
   });
 });

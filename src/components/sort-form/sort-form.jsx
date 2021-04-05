@@ -1,14 +1,20 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
-import Types from '../../types';
-import {filters} from '../../consts';
+import {typeOffer, typeCity} from '../../types';
+import {filters, DefaultState} from '../../const';
 
 const SortForm = (props) => {
-  const {onSortClick, offers} = props;
+  const {onSortClick, offers, city} = props;
+
+  const initialFilter = DefaultState.SORT_FORM;
 
   const [popup, setPopup] = useState(false);
-  const [activeFilter, setActiveFilter] = useState(`Popular`);
+  const [activeFilter, setActiveFilter] = useState(initialFilter);
+
+  useEffect(() => {
+    setActiveFilter(initialFilter);
+  }, [city]);
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -32,7 +38,7 @@ const SortForm = (props) => {
           <li
             className="places__option"
             tabIndex="0"
-            key={i}
+            key={filter + i}
             onClick={() => {
               onSortClick(filter.action(offers));
               setPopup(!popup);
@@ -48,8 +54,9 @@ const SortForm = (props) => {
 };
 
 SortForm.propTypes = {
-  offers: PropTypes.arrayOf(Types.OFFER),
-  onSortClick: PropTypes.func.isRequired
+  offers: PropTypes.arrayOf(typeOffer),
+  onSortClick: PropTypes.func.isRequired,
+  city: typeCity
 };
 
 export default SortForm;

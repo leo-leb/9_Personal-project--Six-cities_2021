@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ApiCodes} from "../consts";
+import {ApiCode} from "../const";
 
 const BASE_URL = `https://6.react.pages.academy/six-cities`;
 const TIMEOUT = 5000;
@@ -16,23 +16,28 @@ export const createAPI = (onProblem) => {
   const onFail = (err) => {
     const {response} = err;
 
-    if (response.status === ApiCodes.BAD_REQUEST.number) {
-      onProblem(ApiCodes.BAD_REQUEST.number);
+    if (response.status === ApiCode.UNAUTHORIZED.number) {
+      onProblem(ApiCode.UNAUTHORIZED.number);
       throw err;
     }
 
-    if (response.status === ApiCodes.UNAUTHORIZED.number) {
-      onProblem(ApiCodes.UNAUTHORIZED.number);
+    if (err.message === ApiCode.NETWORK_ERROR.name) {
+      onProblem(ApiCode.NETWORK_ERROR.name);
       throw err;
     }
 
-    if (response.status === ApiCodes.NOT_FOUND.number) {
-      onProblem(ApiCodes.NOT_FOUND.number);
+    if (response.status === ApiCode.BAD_REQUEST.number) {
+      onProblem(ApiCode.BAD_REQUEST.number);
       throw err;
     }
 
-    if (response.status === ApiCodes.NOT_AVAILABLE.number) {
-      onProblem(ApiCodes.NOT_AVAILABLE.number);
+    if (response.status === ApiCode.NOT_FOUND.number) {
+      onProblem(ApiCode.NOT_FOUND.number);
+      throw err;
+    }
+
+    if (response.status === ApiCode.NOT_AVAILABLE.number) {
+      onProblem(ApiCode.NOT_AVAILABLE.number);
       throw err;
     }
 

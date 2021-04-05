@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 
-import Types from '../../types';
-import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import SortForm from '../sort-form/sort-form';
-import {settingsForCard} from '../../consts';
+import OffersList from '../offers-list/offers-list';
+import {CardSetting} from '../../const';
+import {typeOffer, typeCity} from '../../types';
 
 const MainContent = ({city, offers}) => {
   const [filterOffers, setFilteredOffers] = useState([]);
@@ -19,9 +19,9 @@ const MainContent = ({city, offers}) => {
       <section className="cities__places places">
         <h2 className="visually-hidden">Places</h2>
         <b className="places__found">{filterOffers.length} places to stay in {city.name}</b>
-        <SortForm offers={offers} onSortClick={setFilteredOffers}/>
+        <SortForm offers={offers} onSortClick={setFilteredOffers} city={city}/>
         <div className="cities__places-list places__list tabs__content">
-          <OffersList offers={filterOffers} cardSet={settingsForCard.MAIN}/>
+          <OffersList offers={filterOffers} cardSet={CardSetting.MAIN}/>
         </div>
       </section>
       <div className="cities__right-section">
@@ -37,8 +37,8 @@ const MainContent = ({city, offers}) => {
 };
 
 MainContent.propTypes = {
-  city: Types.CITY,
-  offers: PropTypes.arrayOf(Types.OFFER)
+  city: typeCity,
+  offers: PropTypes.arrayOf(typeOffer)
 };
 
 

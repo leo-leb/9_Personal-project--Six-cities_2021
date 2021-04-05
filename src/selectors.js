@@ -1,36 +1,36 @@
-export const getFilteredOffersById = (offers, id) => {
+export const getOfferById = (offers, id) => {
   return offers.find((offer) => {
     return offer.id === id;
   });
 };
 
-export const getUpdatedOffer = (offers, id) => {
-  return offers.find((offer) => {
-    return offer.id === id;
-  });
-};
-
-export const getFilteredOffersByCity = (offers, city) => {
+export const getOffersByCity = (offers, city) => {
   return offers.filter((offer) => {
     return offer.city.name === city.name;
   });
 };
 
-export const getFilteredOffersByPriceIncrease = (offers) => {
-  return offers.sort((a, b) => {
-    return a.price - b.price;
+export const getFavoriteOffersByCity = (offers, city) => {
+  return offers.filter((offer) => {
+    return offer.city.name === city && offer.isFavorite;
   });
 };
 
-export const getFilteredOffersByPriceReduce = (offers) => {
-  return offers.sort((a, b) => {
-    return b.price - a.price;
+export const getOffersByPriceIncrease = (offers) => {
+  return offers.sort((firstItem, secondItem) => {
+    return firstItem.price - secondItem.price;
   });
 };
 
-export const getFilteredOffersByRate = (offers) => {
-  return offers.sort((a, b) => {
-    return b.rating - a.rating;
+export const getOffersByPriceDecrease = (offers) => {
+  return offers.sort((firstItem, secondItem) => {
+    return secondItem.price - firstItem.price;
+  });
+};
+
+export const getOffersByRate = (offers) => {
+  return offers.sort((firstItem, secondItem) => {
+    return secondItem.rating - firstItem.rating;
   });
 };
 
@@ -45,14 +45,8 @@ export const getCitiesFromOffers = (offers) => {
   return citiesList;
 };
 
-export const getFavoriteOffersByCity = (offers, city) => {
-  return offers.filter((offer) => {
-    return offer.city.name === city && offer.isFavorite;
-  });
-};
-
-export const getFilteredReviews = (array) => {
-  return array.slice().sort((a, b) => {
-    return new Date(b.date) - new Date(a.date);
+export const getTenReviewsByDateDecrease = (array) => {
+  return array.slice().sort((firstItem, secondItem) => {
+    return new Date(secondItem.date) - new Date(firstItem.date);
   }).slice(0, 10);
 };

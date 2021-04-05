@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
 
-import Types from '../../types';
-import {stars} from '../../consts';
+import {typeReview} from '../../types';
+import {stars} from '../../const';
 import {postReview} from "../../store/api-actions";
 
 const ReviewForm = (props) => {
@@ -21,7 +21,7 @@ const ReviewForm = (props) => {
     review: false
   });
 
-  const handleSubmit = (evt) => {
+  const handleButtonClick = (evt) => {
     evt.preventDefault();
 
     dispatch(postReview(id, {
@@ -121,8 +121,8 @@ const ReviewForm = (props) => {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={validity.rate && validity.review ? false : true}
-          onClick={handleSubmit}
+          disabled={validity.rate && validity.review}
+          onClick={handleButtonClick}
         >
           Submit
         </button>
@@ -133,7 +133,7 @@ const ReviewForm = (props) => {
 
 ReviewForm.propTypes = {
   id: PropTypes.number,
-  reviews: PropTypes.arrayOf(Types.REVIEW)
+  reviews: PropTypes.arrayOf(typeReview)
 };
 
 export default ReviewForm;

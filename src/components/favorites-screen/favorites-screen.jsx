@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux';
 
 import FavoritesContent from '../favorites-content/favorites-content';
 import FavoritesContentEmpty from '../favorites-content-empty/favorites-content-empty';
-import {AppRoutes} from '../../consts';
+import {AppRoute} from '../../const';
 
 const FavoritesScreen = () => {
   const {offers} = useSelector((state) => state.FAVORITE);
@@ -16,7 +16,7 @@ const FavoritesScreen = () => {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link header__logo-link--active" to={AppRoutes.MAIN}>
+              <Link className="header__logo-link header__logo-link--active" to={AppRoute.MAIN}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>

@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import OfferCard from '../offer-card/offer-card';
 import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
 
-import Types from '../../types';
+import OfferCard from '../offer-card/offer-card';
+import {typeOffer, typeCardSet} from '../../types';
 import {setActiveOffer} from '../../store/root/action';
 
 const OffersList = (props) => {
@@ -20,13 +20,13 @@ const OffersList = (props) => {
   }, [activeCard]);
 
   return <>
-    {offers.map((offer, i) => <OfferCard offer={offer} cardSet={cardSet} setActiveCard={setActiveCard} key={i}/>)}
+    {offers.map((offer, i) => <OfferCard offer={offer} cardSet={cardSet} setActiveCard={setActiveCard} key={offer + i}/>)}
   </>;
 };
 
 OffersList.propTypes = {
-  offers: PropTypes.arrayOf(Types.OFFER),
-  cardSet: Types.CARD_SET
+  offers: PropTypes.arrayOf(typeOffer),
+  cardSet: typeCardSet
 };
 
 export default OffersList;

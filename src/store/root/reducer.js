@@ -1,6 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {setAppReady, setAuthStatus, setActiveOffer} from './action';
-import {AuthorizationStatus} from '../../consts';
+import {AuthorizationStatus} from '../../const';
 
 const initialState = {
   isAppReady: false,

@@ -2,20 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router as BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import App from './components/app/app';
-import BadRequest from './components/bad-request/bad-request';
-import rootReducer from './store/root-reducer';
 import {configureStore} from '@reduxjs/toolkit';
-import {createAPI} from "./services/api";
-import {setAuthStatus, redirectToRoute} from './store/root/action';
-import {AuthorizationStatus, AppRoutes, ApiCodes} from "./consts";
-import {redirect} from "./store/middlewares/redirect";
+
 import browserHistory from "./browser-history";
+import App from './components/app/app';
+import ModalWindow from './components/modal-window/modal-window';
+import mainReducer from './store/main-reducer';
+import {createAPI} from "./services/api";
+import {redirect} from "./store/middlewares/redirect";
+import {setAuthStatus, redirectToRoute} from './store/root/action';
+import {AuthorizationStatus, AppRoute, ApiCode} from "./const";
 
 const reactByModalWindow = (code) => {
   ReactDOM.render(
       <BrowserRouter history={browserHistory}>
-        <BadRequest code={code}/>
+        <ModalWindow code={code}/>
       </BrowserRouter>,
       document.querySelector(`#modal`)
   );
@@ -24,24 +25,27 @@ const reactByModalWindow = (code) => {
 const api = createAPI(
     (parameter) => {
       switch (parameter) {
-        case ApiCodes.BAD_REQUEST.number:
-          reactByModalWindow(ApiCodes.BAD_REQUEST);
+        case ApiCode.BAD_REQUEST.number:
+          reactByModalWindow(ApiCode.BAD_REQUEST);
           break;
-        case ApiCodes.UNAUTHORIZED.number:
+        case ApiCode.UNAUTHORIZED.number:
           store.dispatch(setAuthStatus(AuthorizationStatus.NO_AUTH));
           break;
-        case ApiCodes.NOT_FOUND.number:
-          store.dispatch(redirectToRoute(AppRoutes.NOT_FOUND));
+        case ApiCode.NOT_FOUND.number:
+          store.dispatch(redirectToRoute(AppRoute.NOT_FOUND));
           break;
-        case ApiCodes.NOT_AVAILABLE.number:
-          reactByModalWindow(ApiCodes.NOT_AVAILABLE);
+        case ApiCode.NOT_AVAILABLE.number:
+          reactByModalWindow(ApiCode.NOT_AVAILABLE);
+          break;
+        case ApiCode.NETWORK_ERROR.name:
+          reactByModalWindow(ApiCode.NETWORK_ERROR);
           break;
       }
     }
 );
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: mainReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {

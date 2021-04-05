@@ -3,11 +3,11 @@ import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {useSelector, useDispatch} from 'react-redux';
 
-import Types from '../../types';
-import {settingsForCard, starsRate, AuthorizationStatus, AppRoutes, FavoriteButtonTypes} from '../../consts';
+import FavoriteButton from "../offer-card-button/offer-card-button";
+import {typeOffer, typeCardSet} from '../../types';
 import {setFavoriteStatus} from "../../store/api-actions";
 import {redirectToRoute} from "../../store/root/action";
-import FavoriteButton from "../offer-card-button/offer-card-button";
+import {AppRoute, CardSetting, getRate, AuthorizationStatus, FavoriteButtonType} from '../../const';
 
 const OfferCard = (props) => {
   const {offer, cardSet, setActiveCard} = props;
@@ -31,7 +31,7 @@ const OfferCard = (props) => {
   }, [offer]);
 
   if (name !== isFavorite && authStatus !== AuthorizationStatus.AUTH) {
-    dispatch(redirectToRoute(AppRoutes.SIGNIN));
+    dispatch(redirectToRoute(AppRoute.SIGNIN));
   }
 
   return (
@@ -41,7 +41,7 @@ const OfferCard = (props) => {
         setActiveCard(id);
       }}
     >
-      {cardSet.screen === settingsForCard.MAIN.screen && isPremium && <div className="place-card__mark"><span>Premium</span></div>}
+      {cardSet.screen === CardSetting.MAIN.screen && isPremium && <div className="place-card__mark"><span>Premium</span></div>}
       <div
         className={cardSet.screen + `__image-wrapper place-card__image-wrapper`}
       >
@@ -49,19 +49,17 @@ const OfferCard = (props) => {
           <img className="place-card__image" src={previewImage} width={cardSet.image.width} height={cardSet.image.height} alt="Place image" />
         </a>
       </div>
-      <div
-        className={cardSet.screen !== settingsForCard.FAVORITES.screen ? `place-card__info` : settingsForCard.FAVORITES.screen + `__card-info place-card__info`}
-      >
+      <div className={cardSet.screen !== CardSetting.FAVORITES.screen ? `place-card__info` : CardSetting.FAVORITES.screen + `__card-info place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <FavoriteButton name={name} setName={setName} type={FavoriteButtonTypes.OFFER_CARD} isFavorite={isFavorite}/>
+          <FavoriteButton name={name} setName={setName} type={FavoriteButtonType.OFFER_CARD} isFavorite={isFavorite}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: starsRate(Math.round(rating))}}></span>
+            <span style={{width: getRate(Math.round(rating))}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -82,9 +80,9 @@ const OfferCard = (props) => {
 };
 
 OfferCard.propTypes = {
-  offer: Types.OFFER,
+  offer: typeOffer,
   setActiveCard: PropTypes.func,
-  cardSet: Types.CARD_SET
+  cardSet: typeCardSet
 };
 
 export default OfferCard;

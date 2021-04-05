@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Types from '../../types';
+import {typeCity} from '../../types';
 
 const MainContentEmpty = ({city}) => {
   return (
@@ -17,7 +17,7 @@ const MainContentEmpty = ({city}) => {
 };
 
 MainContentEmpty.propTypes = {
-  city: Types.CITY
+  city: typeCity
 };
 
 export default MainContentEmpty;

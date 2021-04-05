@@ -1,8 +1,8 @@
 import React from 'react';
 import dayjs from 'dayjs';
 
-import Types from '../../types';
-import {starsRate} from '../../consts';
+import {typeReview} from '../../types';
+import {getRate} from '../../const';
 
 const ReviewsItem = (props) => {
   const {review} = props;
@@ -19,7 +19,7 @@ const ReviewsItem = (props) => {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: starsRate(rating)}}></span>
+            <span style={{width: getRate(rating)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -36,7 +36,7 @@ const ReviewsItem = (props) => {
 };
 
 ReviewsItem.propTypes = {
-  review: Types.REVIEW
+  review: typeReview
 };
 
 export default ReviewsItem;

@@ -1,6 +1,6 @@
-import {getFilteredOffersByPriceIncrease, getFilteredOffersByPriceReduce, getFilteredOffersByRate} from './selectors';
+import {getOffersByPriceIncrease, getOffersByPriceDecrease, getOffersByRate} from './selectors';
 
-export const AppRoutes = {
+export const AppRoute = {
   MAIN: `/`,
   FAVORITES: `/favorites`,
   SIGNIN: `/login`,
@@ -9,7 +9,7 @@ export const AppRoutes = {
   BAD_REQUEST: `/bad-request`
 };
 
-export const ApiRoutes = {
+export const ApiRoute = {
   LOGIN: `/login`,
   LOGOUT: `/logout`,
   ALL_OFFERS: `/hotels`,
@@ -18,7 +18,30 @@ export const ApiRoutes = {
   REVIEWS: `/comments`
 };
 
-export const settingsForCard = {
+export const ApiCode = {
+  BAD_REQUEST: {
+    number: 400,
+    description: `Bad request`
+  },
+  UNAUTHORIZED: {
+    number: 401,
+    description: `User is unauthorized`
+  },
+  NOT_FOUND: {
+    number: 404,
+    description: `Page not found`
+  },
+  NOT_AVAILABLE: {
+    number: 500,
+    description: `Server is not available`
+  },
+  NETWORK_ERROR: {
+    name: `Network Error`,
+    description: `Please, check your internet connection.`
+  },
+};
+
+export const CardSetting = {
   MAIN: {
     screen: `cities`,
     card: `place-card`,
@@ -47,7 +70,7 @@ export const settingsForCard = {
 
 export const stars = [`5`, `4`, `3`, `2`, `1`];
 
-export const starsRate = (rate) => {
+export const getRate = (rate) => {
   switch (rate) {
     case 5:
       return `100%`;
@@ -125,25 +148,26 @@ export const filters = [
   {
     name: `Price: low to high`,
     action: (offers) => {
-      return getFilteredOffersByPriceIncrease(offers);
+      return getOffersByPriceIncrease(offers);
     }
   },
   {
     name: `Price: high to low`,
     action: (offers) => {
-      return getFilteredOffersByPriceReduce(offers);
+      return getOffersByPriceDecrease(offers);
     }
   },
   {
     name: `Top rated first`,
     action: (offers) => {
-      return getFilteredOffersByRate(offers);
+      return getOffersByRate(offers);
     }
   }
 ];
 
-export const defaultStates = {
-  MAIN: cities[0]
+export const DefaultState = {
+  MAIN: cities[0],
+  SORT_FORM: filters[0].name
 };
 
 export const AuthorizationStatus = {
@@ -151,7 +175,7 @@ export const AuthorizationStatus = {
   NO_AUTH: `NO_AUTH`,
 };
 
-export const FavoriteButtonTypes = {
+export const FavoriteButtonType = {
   OFFER_CARD: {
     name: `place-card`,
     width: 18,
@@ -162,23 +186,4 @@ export const FavoriteButtonTypes = {
     width: 31,
     height: 33
   },
-};
-
-export const ApiCodes = {
-  BAD_REQUEST: {
-    number: 400,
-    description: `Bad request`
-  },
-  UNAUTHORIZED: {
-    number: 401,
-    description: `User is unauthorized`
-  },
-  NOT_FOUND: {
-    number: 404,
-    description: `Page not found`
-  },
-  NOT_AVAILABLE: {
-    number: 500,
-    description: `Server is not available`
-  }
 };

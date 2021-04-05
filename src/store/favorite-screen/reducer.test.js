@@ -1,13 +1,14 @@
 import MockAdapter from 'axios-mock-adapter';
 import {createAPI} from '../../services/api';
+import {loadFavoriteOffers} from './action';
 import {ActionType} from './action';
 import reducerFavorites from './reducer';
 import {fetchFavoriteOffers} from '../api-actions';
-import {ApiRoutes} from '../../consts';
+import {ApiRoute} from '../../const';
 
 const api = createAPI(() => {});
 
-const offers = [
+const fakeOffers = [
   {
     "bedrooms": 3,
     "city": {
@@ -52,13 +53,10 @@ describe(`Reducer 'reducerFavorites' should work correctly`, () => {
 
   it(`UPDATE STATE: update offers to new offers`, () => {
     const state = {offers: []};
-    const loadFavoriteOffersAction = {
-      type: ActionType.LOAD_OFFERS,
-      payload: offers
-    };
+    const action = loadFavoriteOffers(fakeOffers);
+    const newState = reducerFavorites(state, action);
 
-    expect(reducerFavorites(state, loadFavoriteOffersAction))
-      .toEqual({offers});
+    expect(newState).toEqual({offers: fakeOffers});
   });
 });
 
@@ -69,7 +67,7 @@ describe(`Async operation work correctly`, () => {
     const checkGetFavoriteOffers = fetchFavoriteOffers();
 
     apiMock
-      .onGet(ApiRoutes.FAVORITE_OFFERS)
+      .onGet(ApiRoute.FAVORITE_OFFERS)
       .reply(200, [{fake: true}]);
 
     return checkGetFavoriteOffers(dispatch, () => {}, api)

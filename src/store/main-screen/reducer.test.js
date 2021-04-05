@@ -1,13 +1,14 @@
 import MockAdapter from 'axios-mock-adapter';
 import {createAPI} from '../../services/api';
+import {loadAllOffers} from './action';
 import {ActionType} from './action';
 import reducerMain from './reducer';
 import {fetchAllOffers} from '../api-actions';
-import {ApiRoutes} from '../../consts';
+import {ApiRoute} from '../../const';
 
 const api = createAPI(() => {});
 
-const offers = [
+const fakeOffers = [
   {
     "bedrooms": 3,
     "city": {
@@ -52,13 +53,10 @@ describe(`Reducer 'reducerMain' should work correctly`, () => {
 
   it(`UPDATE STATE: update offers to new offers`, () => {
     const state = {offers: []};
-    const loadOffersAction = {
-      type: ActionType.LOAD_OFFERS,
-      payload: offers
-    };
+    const action = loadAllOffers(fakeOffers);
+    const newState = reducerMain(state, action);
 
-    expect(reducerMain(state, loadOffersAction))
-      .toEqual({offers});
+    expect(newState).toEqual({offers: fakeOffers});
   });
 });
 
@@ -69,7 +67,7 @@ describe(`Async operation work correctly`, () => {
     const checkGetOffers = fetchAllOffers();
 
     apiMock
-      .onGet(ApiRoutes.ALL_OFFERS)
+      .onGet(ApiRoute.ALL_OFFERS)
       .reply(200, [{fake: true}]);
 
     return checkGetOffers(dispatch, () => {}, api)

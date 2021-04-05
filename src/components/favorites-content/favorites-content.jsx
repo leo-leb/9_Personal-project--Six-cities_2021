@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Types from '../../types';
 import FavoritesList from '../favorites-list/favorites-list';
+import {typeOffer} from '../../types';
 
 const FavoritesContent = ({offers}) => {
   return (
@@ -18,7 +18,7 @@ const FavoritesContent = ({offers}) => {
 };
 
 FavoritesContent.propTypes = {
-  offers: PropTypes.arrayOf(Types.OFFER)
+  offers: PropTypes.arrayOf(typeOffer)
 };
 
 export default FavoritesContent;

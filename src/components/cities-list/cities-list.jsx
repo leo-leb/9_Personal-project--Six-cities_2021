@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Types from '../../types';
-import {cities} from '../../consts';
+import {typeCity} from '../../types';
+import {cities} from '../../const';
 
 const CitiesList = (props) => {
   const {activeCity, setActiveCity} = props;
@@ -31,7 +31,7 @@ const CitiesList = (props) => {
 };
 
 CitiesList.propTypes = {
-  activeCity: Types.CITY,
+  activeCity: typeCity,
   setActiveCity: PropTypes.func.isRequired
 };
 

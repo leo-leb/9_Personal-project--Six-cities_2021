@@ -1,9 +1,9 @@
 import React, {useRef} from 'react';
 import {Link, Redirect} from 'react-router-dom';
-import {login} from "../../store/api-actions";
 import {useSelector, useDispatch} from 'react-redux';
 
-import {AppRoutes, AuthorizationStatus} from '../../consts';
+import {login} from "../../store/api-actions";
+import {AppRoute, AuthorizationStatus} from '../../const';
 
 const SignInScreen = () => {
   const {authStatus} = useSelector((state) => state.ROOT);
@@ -13,7 +13,7 @@ const SignInScreen = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const handleSubmit = (evt) => {
+  const handleFormSubmit = (evt) => {
     evt.preventDefault();
 
     if (evt.target.checkValidity()) {
@@ -24,7 +24,7 @@ const SignInScreen = () => {
     }
   };
 
-  const onButtonClick = (evt) => {
+  const handleInputChange = (evt) => {
     if (evt.target.validity.patternMismatch) {
       evt.target.setCustomValidity(`Email должен соответствовать формату x@x.xx`);
     } else {
@@ -35,7 +35,7 @@ const SignInScreen = () => {
 
   if (authStatus === AuthorizationStatus.AUTH) {
     return (
-      <Redirect to={AppRoutes.MAIN} />
+      <Redirect to={AppRoute.MAIN} />
     );
   }
 
@@ -46,7 +46,7 @@ const SignInScreen = () => {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link header__logo-link--active" to={AppRoutes.MAIN}>
+              <Link className="header__logo-link header__logo-link--active" to={AppRoute.MAIN}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>
@@ -61,7 +61,7 @@ const SignInScreen = () => {
             <form
               className="login__form form"
               action=""
-              onSubmit={handleSubmit}
+              onSubmit={handleFormSubmit}
             >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden" htmlFor="email">E-mail</label>
@@ -74,7 +74,7 @@ const SignInScreen = () => {
                   data-testid="email"
                   placeholder="Email"
                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}"
-                  onChange={onButtonClick}
+                  onChange={handleInputChange}
                   required
                 />
               </div>
