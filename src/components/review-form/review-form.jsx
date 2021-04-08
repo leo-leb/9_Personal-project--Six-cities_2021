@@ -121,7 +121,7 @@ const ReviewForm = (props) => {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={validity.rate && validity.review}
+          disabled={!validity.rate && !validity.review}
           onClick={handleButtonClick}
         >
           Submit

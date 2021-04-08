@@ -16,13 +16,13 @@ export const createAPI = (onProblem) => {
   const onFail = (err) => {
     const {response} = err;
 
-    if (response.status === ApiCode.UNAUTHORIZED.number) {
-      onProblem(ApiCode.UNAUTHORIZED.number);
+    if (err.message === ApiCode.NETWORK_ERROR.name) {
+      onProblem(ApiCode.NETWORK_ERROR.name);
       throw err;
     }
 
-    if (err.message === ApiCode.NETWORK_ERROR.name) {
-      onProblem(ApiCode.NETWORK_ERROR.name);
+    if (response.status === ApiCode.UNAUTHORIZED.number) {
+      onProblem(ApiCode.UNAUTHORIZED.number);
       throw err;
     }
 
